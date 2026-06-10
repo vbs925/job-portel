@@ -1,0 +1,151 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  APPLICANT
+  MANAGER
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  passwordHash String
+  role         Role          @default(APPLICANT)
+  name               String?
+  education          Json?
+  experience         Json?
+  skills             Json?
+  certificates       Json?
+  portfolio          Json?
+  locationPreference String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  // Relations
+  jobsPosted         Job[]          @relation("ManagerJobs")
+  applications       Application[]
+  savedJobs          SavedJob[]
+  filterPresets      FilterPreset[] @relation("ManagerFilters")
+}
+
+model Job {
+  id          String        @id @default(uuid())
+  title       String
+  company     String
+  location    String
+  type        String        // e.g., Full-time, Part-time, Contract
+  salary      String?
+  description String?       // Overall description
+  aboutCompany String?      // About the company
+  keyResponsibilities String? // Key responsibilities
+  skillsNeeded String?      // Required skills
+  benefits    String?       // Why join us
+  status      String        @default("PUBLISHED") // DRAFT, PUBLISHED, CLOSED
+  hiringSteps Json?         // Array of stage names e.g. ["Screening", "Technical", "Offer"]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  managerId   String
+  manager     User          @relation("ManagerJobs", fields: [managerId], references: [id], onDelete: Cascade)
+  applications Application[]
+  savedBy      SavedJob[]
+  filterPresets FilterPreset[]
+}
+
+model Application {
+  id          String   @id @default(uuid())
+  status      String   @default("PENDING") // Legacy overall status
+  stage       String   @default("Applied") // Maps to Job.hiringSteps
+  rating      Int?     // 1-5 ranking
+  resumeUrl   String?
+  coverLetter String?
+  phone       String?
+  skills      String?
+  experience  String?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobId     String?  // Optional to support applying without an open role
+  job       Job?     @relation(fields: [jobId], references: [id])
+  
+  interviews InterviewSlot[]
+  messages   Message[]
+  activities ActivityLog[]
+
+  @@unique([userId, jobId]) // A user can only apply to a job once (if jobId is provided)
+}
+
+model SavedJob {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  // Relations
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id])
+
+  @@unique([userId, jobId]) // Can only save a job once
+}
+
+model InterviewSlot {
+  id            String   @id @default(uuid())
+  startTime     DateTime
+  endTime       DateTime
+  status        String   @default("PROPOSED") // PROPOSED, BOOKED, COMPLETED, CANCELLED
+  meetingLink   String?
+  feedback      String?  // Notes after the interview
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id])
+}
+
+model Message {
+  id            String   @id @default(uuid())
+  content       String
+  isFromManager Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  // Relations
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id])
+}
+
+model ActivityLog {
+  id            String   @id @default(uuid())
+  action        String   // e.g. "Moved to Technical", "Rated 4 stars"
+  createdAt     DateTime @default(now())
+  
+  // Relations
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id])
+  actorId       String   // ID of the User who did it
+}
+
+model FilterPreset {
+  id            String   @id @default(uuid())
+  name          String
+  criteria      Json     // The saved filter state
+  createdAt     DateTime @default(now())
+
+  // Relations
+  managerId     String
+  manager       User     @relation("ManagerFilters", fields: [managerId], references: [id], onDelete: Cascade)
+  jobId         String?  // Nullable if it's a global preset
+  job           Job?     @relation(fields: [jobId], references: [id])
+}

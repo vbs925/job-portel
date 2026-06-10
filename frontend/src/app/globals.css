@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  /* Professional Corporate Blue Theme */
+  --color-primary: #2563eb; /* Blue 600 */
+  --color-primary-hover: #1d4ed8; /* Blue 700 */
+  --color-secondary: #dbeafe; /* Blue 100 */
+  --color-accent: #0ea5e9; /* Sky 500 */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+
+

@@ -7,7 +7,7 @@ import { GoogleGenAI } from '@google/genai';
 // Get all jobs (with optional search/filters)
 router.get('/', async (req: any, res: any) => {
   try {
-    const { search, location, type } = req.query;
+    const { search, location, mode, city, type } = req.query;
     
     let andClauses: any[] = [];
     
@@ -25,6 +25,24 @@ router.get('/', async (req: any, res: any) => {
       andClauses.push({
         OR: locations.map(loc => ({
           location: { contains: loc, mode: 'insensitive' }
+        }))
+      });
+    }
+
+    if (mode) {
+      const modes = String(mode).split(',');
+      andClauses.push({
+        OR: modes.map(m => ({
+          location: { contains: m, mode: 'insensitive' }
+        }))
+      });
+    }
+
+    if (city) {
+      const cities = String(city).split(',');
+      andClauses.push({
+        OR: cities.map(c => ({
+          location: { contains: c, mode: 'insensitive' }
         }))
       });
     }

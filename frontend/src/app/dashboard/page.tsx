@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [savedJobs, setSavedJobs] = useState<any[]>([]);
   const [suggestedJobs, setSuggestedJobs] = useState<any[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
 
   // Filter States
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,9 +55,8 @@ export default function Dashboard() {
         const params = new URLSearchParams();
         if (debouncedSearch.trim()) params.append('search', debouncedSearch.trim());
         if (selectedTypes.length > 0) params.append('type', selectedTypes.join(','));
-        
-        const allLocations = [...selectedLocationModes, ...selectedCities];
-        if (allLocations.length > 0) params.append('location', allLocations.join(','));
+        if (selectedLocationModes.length > 0) params.append('mode', selectedLocationModes.join(','));
+        if (selectedCities.length > 0) params.append('city', selectedCities.join(','));
         
         const allJobs = await API.get(`/jobs?${params.toString()}`);
         setJobs(allJobs);
@@ -125,6 +125,8 @@ export default function Dashboard() {
 
   const firstName = user.name?.split(" ")[0] || "there";
 
+  const selectedJob = jobs.find(j => j.id === selectedJobId) || suggestedJobs.find(j => j.id === selectedJobId) || savedJobs.find(j => j.id === selectedJobId) || jobs[0] || null;
+
   return (
     <>
       <style>{`
@@ -151,8 +153,8 @@ export default function Dashboard() {
       <div className={`min-h-screen relative transition-opacity duration-300 ${mounted ? "opacity-100" : "opacity-0"} overflow-hidden bg-transparent`}>
 
       {/* Hero Banner */}
-      <div className="relative z-10 db-hero pt-28 pb-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 db-hero pt-8 pb-4">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-4">
           <div className="flex flex-col gap-2">
             <p className="text-slate-800 text-[14px] font-bold tracking-wider uppercase flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-slate-800 animate-pulse"></span>
@@ -170,7 +172,7 @@ export default function Dashboard() {
       </div>
         
         {/* Tabs */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-4">
           <div className="db-tabs flex gap-6 border-b border-foreground/10 pt-8">
             <button 
               onClick={() => setActiveTab("discover")}
@@ -193,7 +195,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-      <div className="db-body max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+      <div className="db-body max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-4 py-4 flex flex-col lg:flex-row-reverse gap-8">
         
         {/* Main Content Area */}
         <div className="flex-1">
@@ -214,7 +216,7 @@ export default function Dashboard() {
               </div>
 
               {/* Job Feed */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="flex flex-col gap-4">
                 {loadingJobs ? (
                   <div className="col-span-full py-12 text-center text-foreground/50">Loading jobs...</div>
                 ) : jobs.length > 0 ? (
@@ -225,6 +227,8 @@ export default function Dashboard() {
                         {...job} 
                         isSaved={savedJobs.some(sj => sj.id === job.id)}
                         onSaveToggle={handleSaveToggle}
+                        onSelect={(id) => setSelectedJobId(id)}
+                        selected={selectedJobId ? selectedJobId === job.id : index === 0 && !selectedJobId}
                       />
                     </div>
                   ))
@@ -245,7 +249,7 @@ export default function Dashboard() {
                 </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="flex flex-col gap-4">
                 {loadingSuggestions ? (
                   <div className="col-span-full py-12 text-center text-foreground/50 font-medium animate-pulse">Analyzing your profile & finding the best matches...</div>
                 ) : suggestedJobs.length > 0 ? (
@@ -256,6 +260,8 @@ export default function Dashboard() {
                         {...job} 
                         isSaved={savedJobs.some(sj => sj.id === job.id)}
                         onSaveToggle={handleSaveToggle}
+                        onSelect={(id) => setSelectedJobId(id)}
+                        selected={selectedJobId ? selectedJobId === job.id : index === 0 && !selectedJobId}
                       />
                     </div>
                   ))
@@ -281,6 +287,8 @@ export default function Dashboard() {
                       {...job} 
                       isSaved={true}
                       onSaveToggle={handleSaveToggle}
+                      onSelect={(id) => setSelectedJobId(id)}
+                      selected={selectedJobId ? selectedJobId === job.id : index === 0 && !selectedJobId}
                     />
                   </div>
                 ))

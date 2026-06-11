@@ -11,6 +11,17 @@ router.post('/', authenticate, upload.single('resume'), async (req: any, res: an
     const { jobId, phone, coverLetter, skills, experience } = req.body;
     const userId = req.user.id;
     const file = req.file;
+    let resumeUrl = null;
+    if (file) {
+      const document = await prisma.document.create({
+        data: {
+          filename: file.originalname,
+          mimetype: file.mimetype,
+          data: file.buffer
+        }
+      });
+      resumeUrl = `/api/files/${document.id}`;
+    }
     
     // Create application
     const application = await prisma.application.create({
@@ -21,7 +32,7 @@ router.post('/', authenticate, upload.single('resume'), async (req: any, res: an
         coverLetter: coverLetter || null,
         skills: skills || null,
         experience: experience || null,
-        resumeUrl: file ? `/uploads/${file.filename}` : null
+        resumeUrl
       },
       include: {
         user: true,

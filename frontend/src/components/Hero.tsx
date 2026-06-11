@@ -17,7 +17,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/5 text-foreground/80 font-semibold text-xs tracking-wide uppercase mb-8 border border-foreground/10"
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/5 text-foreground/80 font-semibold text-[12px] tracking-wide uppercase mb-8 border border-foreground/10"
         >
           <Zap className="w-3.5 h-3.5" /> A New Standard
         </motion.div>
@@ -26,7 +26,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-5xl font-semibold tracking-tight text-foreground sm:text-7xl leading-[1.1]"
+          className="text-[48px] font-semibold tracking-tight text-foreground sm:text-[72px] leading-[1.1]"
         >
           Find work that <br className="hidden sm:block" />
           <span className="text-foreground/40 font-normal">matters.</span>
@@ -36,7 +36,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-6 max-w-2xl text-lg text-foreground/60 font-normal leading-relaxed"
+          className="mt-6 max-w-2xl text-[18px] text-foreground/60 font-normal leading-relaxed"
         >
           A minimalist board for premium roles. No noise, no spam. Just direct connections between top-tier talent and innovative companies.
         </motion.p>
@@ -52,7 +52,7 @@ export default function Hero() {
               <Search className="h-5 w-5 text-foreground/40" />
               <input
                 type="text"
-                className="w-full bg-transparent border-0 focus:ring-0 p-3 text-base outline-none text-foreground placeholder-foreground/40"
+                className="w-full bg-transparent border-0 focus:ring-0 p-3 text-[16px] outline-none text-foreground placeholder-foreground/40"
                 placeholder="Job title or keyword"
               />
             </div>
@@ -61,15 +61,15 @@ export default function Hero() {
               <Briefcase className="h-5 w-5 text-foreground/40" />
               <input
                 type="text"
-                className="w-full bg-transparent border-0 focus:ring-0 p-3 text-base outline-none text-foreground placeholder-foreground/40"
+                className="w-full bg-transparent border-0 focus:ring-0 p-3 text-[16px] outline-none text-foreground placeholder-foreground/40"
                 placeholder="Location or remote"
               />
             </div>
-            <button className="w-full sm:w-auto mt-2 sm:mt-0 bg-foreground text-background px-6 py-3 rounded-xl font-semibold hover:bg-foreground/90 transition-colors text-sm">
+            <button className="w-full sm:w-auto mt-2 sm:mt-0 bg-foreground text-background px-6 py-3 rounded-xl font-semibold hover:bg-foreground/90 transition-colors text-[14px]">
               Search
             </button>
           </div>
-          <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm text-foreground/50">
+          <div className="mt-6 flex flex-wrap justify-center gap-3 text-[14px] text-foreground/50">
             <span>Popular:</span>
             <button className="hover:text-foreground transition-colors">Frontend Developer</button>
             <span>&middot;</span>

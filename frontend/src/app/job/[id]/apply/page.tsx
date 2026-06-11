@@ -102,8 +102,8 @@ export default function ApplyPage() {
           <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8">
             <CheckCircle2 className="w-12 h-12" />
           </div>
-          <h1 className="text-4xl font-black text-foreground mb-4">Application Submitted!</h1>
-          <p className="text-lg text-foreground/70 mb-8 max-w-lg mx-auto">
+          <h1 className="text-[36px] font-black text-foreground mb-4">Application Submitted!</h1>
+          <p className="text-[18px] text-foreground/70 mb-8 max-w-lg mx-auto">
             Thank you for applying to the <strong>{job.title}</strong> role. We have received your resume and details. 
             <br/><br/>
             An automated confirmation email has been sent to <strong>{user.email}</strong>.
@@ -132,10 +132,10 @@ export default function ApplyPage() {
         </button>
 
         <div className="mb-10">
-          <h1 className="text-3xl font-black text-foreground tracking-tight mb-2">
+          <h1 className="text-[30px] font-black text-foreground tracking-tight mb-2">
             Submit Your Application
           </h1>
-          <p className="text-foreground/70 font-medium text-lg">
+          <p className="text-foreground/70 font-medium text-[18px]">
             Applying for <strong>{job.title}</strong> at {job.company}
           </p>
         </div>
@@ -145,7 +145,7 @@ export default function ApplyPage() {
           {/* Personal Info Readonly */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-bold text-foreground/50 mb-2">Full Name</label>
+              <label className="block text-[14px] font-bold text-foreground/50 mb-2">Full Name</label>
               <input 
                 type="text"
                 value={user.name || ''}
@@ -154,7 +154,7 @@ export default function ApplyPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-foreground/50 mb-2">Email Address</label>
+              <label className="block text-[14px] font-bold text-foreground/50 mb-2">Email Address</label>
               <input 
                 type="email"
                 value={user.email || ''}
@@ -169,7 +169,7 @@ export default function ApplyPage() {
           {/* Contact & Professional Info */}
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-bold text-foreground mb-2">Phone Number <span className="text-red-500">*</span></label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Phone Number <span className="text-red-500">*</span></label>
               <input 
                 type="tel"
                 value={phone}
@@ -181,7 +181,7 @@ export default function ApplyPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-foreground mb-2">Top Skills <span className="text-red-500">*</span></label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Top Skills <span className="text-red-500">*</span></label>
               <input 
                 type="text"
                 value={skills}
@@ -190,11 +190,11 @@ export default function ApplyPage() {
                 placeholder="e.g. React, Node.js, TypeScript, SQL"
                 required
               />
-              <p className="text-xs text-foreground/50 mt-1 font-medium">Comma separated list of your best skills.</p>
+              <p className="text-[12px] text-foreground/50 mt-1 font-medium">Comma separated list of your best skills.</p>
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-foreground mb-2">Years of Experience (Optional)</label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Years of Experience (Optional)</label>
               <input 
                 type="text"
                 value={experience}
@@ -210,7 +210,7 @@ export default function ApplyPage() {
           {/* Documents */}
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-bold text-foreground mb-2">Resume Document <span className="text-red-500">*</span></label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Resume Document <span className="text-red-500">*</span></label>
               <div className="relative group cursor-pointer">
                 <input 
                   type="file"
@@ -227,14 +227,14 @@ export default function ApplyPage() {
                   {resume ? (
                     <>
                       <FileText className="w-10 h-10 text-primary mb-3" />
-                      <span className="text-sm font-bold text-primary text-center px-4 truncate w-full max-w-xs">{resume.name}</span>
-                      <span className="text-xs font-medium text-foreground/50 mt-1">{(resume.size / 1024 / 1024).toFixed(2)} MB</span>
+                      <span className="text-[14px] font-bold text-primary text-center px-4 truncate w-full max-w-xs">{resume.name}</span>
+                      <span className="text-[12px] font-medium text-foreground/50 mt-1">{(resume.size / 1024 / 1024).toFixed(2)} MB</span>
                     </>
                   ) : (
                     <>
                       <Upload className="w-10 h-10 text-foreground/40 mb-3 group-hover:text-primary/50 transition-colors" />
-                      <span className="text-base font-bold text-foreground/70">Click to upload or drag & drop</span>
-                      <span className="text-sm font-medium text-foreground/40 mt-1">PDF, DOC, DOCX up to 5MB</span>
+                      <span className="text-[16px] font-bold text-foreground/70">Click to upload or drag & drop</span>
+                      <span className="text-[14px] font-medium text-foreground/40 mt-1">PDF, DOC, DOCX up to 5MB</span>
                     </>
                   )}
                 </div>
@@ -242,7 +242,7 @@ export default function ApplyPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-foreground mb-2">Cover Letter (Optional)</label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Cover Letter (Optional)</label>
               <textarea 
                 rows={5}
                 value={coverLetter}
@@ -254,7 +254,7 @@ export default function ApplyPage() {
           </div>
 
           {error && (
-            <div className="p-4 bg-red-500/10 text-red-600 border border-red-500/20 rounded-xl text-sm font-bold">
+            <div className="p-4 bg-red-500/10 text-red-600 border border-red-500/20 rounded-xl text-[14px] font-bold">
               {error}
             </div>
           )}
@@ -263,13 +263,13 @@ export default function ApplyPage() {
             <button 
               type="submit"
               disabled={submitting}
-              className="w-full py-4 bg-foreground text-background font-bold text-lg rounded-xl hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg"
+              className="w-full py-4 bg-foreground text-background font-bold text-[18px] rounded-xl hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg"
             >
               {submitting ? "Submitting Application..." : (
                 <>Submit Application <Send className="w-5 h-5" /></>
               )}
             </button>
-            <p className="text-center text-xs font-medium text-foreground/40 mt-4">
+            <p className="text-center text-[12px] font-medium text-foreground/40 mt-4">
               By submitting, you agree to our Terms of Service and Privacy Policy.
             </p>
           </div>

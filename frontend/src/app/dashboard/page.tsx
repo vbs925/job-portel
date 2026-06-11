@@ -112,6 +112,9 @@ export default function Dashboard() {
     }
   };
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setMounted(true), 50); return () => clearTimeout(t); }, []);
+
   if (isLoading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -120,41 +123,77 @@ export default function Dashboard() {
     );
   }
 
+  const firstName = user.name?.split(" ")[0] || "there";
+
   return (
-    <div className="min-h-screen bg-background">
-      {/* Dashboard Top Area */}
-      <div className="pt-24 pb-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-end">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground tracking-tight">Discover Opportunities</h1>
-            <p className="text-foreground/60 mt-1 font-medium">Find and apply for your next great role.</p>
+    <>
+      <style>{`
+        @keyframes db-slide-down  { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes db-slide-up    { from { opacity:0; transform:translateY(24px); }  to { opacity:1; transform:translateY(0); } }
+        @keyframes db-fade-in     { from { opacity:0; }                               to { opacity:1; } }
+        @keyframes db-shimmer     {
+          0%   { background-position:-400px 0; }
+          100% { background-position:400px 0; }
+        }
+        .db-hero  { animation: db-slide-down 0.55s cubic-bezier(.25,.46,.45,.94) both; }
+        .db-tabs  { animation: db-slide-up   0.45s ease 0.1s both; }
+        .db-body  { animation: db-fade-in    0.5s  ease 0.2s both; }
+        .db-card-0 { animation: db-slide-up 0.4s ease 0.05s both; }
+        .db-card-1 { animation: db-slide-up 0.4s ease 0.12s both; }
+        .db-card-2 { animation: db-slide-up 0.4s ease 0.19s both; }
+        .db-card-3 { animation: db-slide-up 0.4s ease 0.26s both; }
+        .db-card-4 { animation: db-slide-up 0.4s ease 0.33s both; }
+        .db-card-5 { animation: db-slide-up 0.4s ease 0.40s both; }
+        .db-card-6 { animation: db-slide-up 0.4s ease 0.47s both; }
+        .db-card-7 { animation: db-slide-up 0.4s ease 0.54s both; }
+      `}</style>
+
+      <div className={`min-h-screen relative transition-opacity duration-300 ${mounted ? "opacity-100" : "opacity-0"} overflow-hidden bg-transparent`}>
+
+      {/* Hero Banner */}
+      <div className="relative z-10 db-hero pt-28 pb-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-2">
+            <p className="text-slate-800 text-[14px] font-bold tracking-wider uppercase flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-slate-800 animate-pulse"></span>
+              Welcome back
+            </p>
+            <h1 className="text-[36px] sm:text-[48px] font-black text-slate-900 leading-tight">
+              Hey, {firstName}!<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-700">
+                Let's find your next role.
+              </span>
+            </h1>
+            <p className="text-slate-600 mt-2 font-medium max-w-lg">Browse curated opportunities or let AI match you with the perfect fit.</p>
           </div>
         </div>
+      </div>
         
         {/* Tabs */}
-        <div className="flex gap-6 mt-8 border-b border-foreground/10">
-          <button 
-            onClick={() => setActiveTab("discover")}
-            className={`pb-3 font-bold text-sm transition-colors border-b-2 ${activeTab === "discover" ? "border-primary text-primary" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
-          >
-            Discover Roles
-          </button>
-          <button 
-            onClick={() => setActiveTab("suggested")}
-            className={`pb-3 font-bold text-sm transition-colors border-b-2 ${activeTab === "suggested" ? "border-primary text-primary" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
-          >
-            AI Suggestions ✨
-          </button>
-          <button 
-            onClick={() => setActiveTab("saved")}
-            className={`pb-3 font-bold text-sm transition-colors border-b-2 ${activeTab === "saved" ? "border-primary text-primary" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
-          >
-            Saved Jobs ({savedJobs.length})
-          </button>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="db-tabs flex gap-6 border-b border-foreground/10 pt-8">
+            <button 
+              onClick={() => setActiveTab("discover")}
+              className={`pb-3 font-bold text-[14px] transition-colors border-b-2 ${activeTab === "discover" ? "border-primary text-primary" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
+            >
+              Discover Roles
+            </button>
+            <button 
+              onClick={() => setActiveTab("suggested")}
+              className={`pb-3 font-bold text-[14px] transition-colors border-b-2 ${activeTab === "suggested" ? "border-primary text-primary" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
+            >
+              AI Suggestions ✨
+            </button>
+            <button 
+              onClick={() => setActiveTab("saved")}
+              className={`pb-3 font-bold text-[14px] transition-colors border-b-2 ${activeTab === "saved" ? "border-primary text-primary" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
+            >
+              Saved Jobs ({savedJobs.length})
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8">
+      <div className="db-body max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
         
         {/* Main Content Area */}
         <div className="flex-1">
@@ -169,84 +208,90 @@ export default function Dashboard() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-11 pr-4 py-4 border border-foreground/20 rounded-xl bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-lg"
+                  className="block w-full pl-11 pr-4 py-4 border border-foreground/20 rounded-xl bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-[18px]"
                   placeholder="Search for job titles, companies, or keywords..."
                 />
               </div>
 
               {/* Job Feed */}
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {loadingJobs ? (
-                  <div className="py-12 text-center text-foreground/50">Loading jobs...</div>
+                  <div className="col-span-full py-12 text-center text-foreground/50">Loading jobs...</div>
                 ) : jobs.length > 0 ? (
-                  jobs.map((job) => (
-                    <JobCard 
-                      key={job.id} 
-                      id={job.id} 
-                      {...job} 
-                      isSaved={savedJobs.some(sj => sj.id === job.id)}
-                      onSaveToggle={handleSaveToggle}
-                    />
+                  jobs.map((job, index) => (
+                    <div key={job.id} className={`db-card-${Math.min(index, 7)}`}>
+                      <JobCard 
+                        id={job.id} 
+                        {...job} 
+                        isSaved={savedJobs.some(sj => sj.id === job.id)}
+                        onSaveToggle={handleSaveToggle}
+                      />
+                    </div>
                   ))
                 ) : (
-                  <div className="py-12 text-center text-foreground/50">No jobs found matching your filters.</div>
+                  <div className="col-span-full py-12 text-center text-foreground/50">No jobs found matching your filters.</div>
                 )}
               </div>
             </>
           )}
 
           {activeTab === "suggested" && (
-            <div className="space-y-4">
-              <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20 flex items-center gap-3">
-                <span className="text-2xl">✨</span>
+            <div className="space-y-5">
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-3 shadow-sm">
+                <span className="text-[24px]">✨</span>
                 <div>
-                  <h3 className="font-bold text-foreground">AI Job Suggestions</h3>
-                  <p className="text-sm text-foreground/70">These roles were matched specifically to your skills, experience, and portfolio.</p>
+                  <h3 className="font-bold text-teal-900">AI Job Suggestions</h3>
+                  <p className="text-[14px] text-slate-800">These roles were matched specifically to your skills, experience, and portfolio.</p>
                 </div>
               </div>
-              {loadingSuggestions ? (
-                <div className="py-12 text-center text-foreground/50 font-medium animate-pulse">Analyzing your profile & finding the best matches...</div>
-              ) : suggestedJobs.length > 0 ? (
-                suggestedJobs.map((job) => (
-                  <JobCard 
-                    key={job.id} 
-                    id={job.id} 
-                    {...job} 
-                    isSaved={savedJobs.some(sj => sj.id === job.id)}
-                    onSaveToggle={handleSaveToggle}
-                  />
-                ))
-              ) : (
-                <div className="text-center py-20 border border-foreground/10 border-dashed rounded-xl">
-                  <h3 className="text-xl font-bold text-foreground">No perfect matches yet</h3>
-                  <p className="text-foreground/60 mt-2">Try updating your profile with more skills and projects.</p>
-                </div>
-              )}
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {loadingSuggestions ? (
+                  <div className="col-span-full py-12 text-center text-foreground/50 font-medium animate-pulse">Analyzing your profile & finding the best matches...</div>
+                ) : suggestedJobs.length > 0 ? (
+                  suggestedJobs.map((job, index) => (
+                    <div key={job.id} className={`db-card-${Math.min(index, 7)}`}>
+                      <JobCard 
+                        id={job.id} 
+                        {...job} 
+                        isSaved={savedJobs.some(sj => sj.id === job.id)}
+                        onSaveToggle={handleSaveToggle}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-span-full text-center py-20 border border-foreground/10 border-dashed rounded-xl">
+                    <h3 className="text-[20px] font-bold text-foreground">No perfect matches yet</h3>
+                    <p className="text-foreground/60 mt-2">Try updating your profile with more skills and projects.</p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
           {activeTab === "saved" && (
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {loadingJobs ? (
-                <div className="py-12 text-center text-foreground/50">Loading saved jobs...</div>
+                <div className="col-span-full py-12 text-center text-foreground/50">Loading saved jobs...</div>
               ) : savedJobs.length > 0 ? (
-                savedJobs.map((job) => (
-                  <JobCard 
-                    key={job.id} 
-                    id={job.id} 
-                    {...job} 
-                    isSaved={true}
-                    onSaveToggle={handleSaveToggle}
-                  />
+                savedJobs.map((job, index) => (
+                  <div key={job.id} className={`db-card-${Math.min(index, 7)}`}>
+                    <JobCard 
+                      id={job.id} 
+                      {...job} 
+                      isSaved={true}
+                      onSaveToggle={handleSaveToggle}
+                    />
+                  </div>
                 ))
               ) : (
-                <div className="text-center py-20 border border-foreground/10 border-dashed rounded-xl">
+                <div className="col-span-full text-center py-20 border border-foreground/10 border-dashed rounded-xl">
                   <Bookmark className="w-12 h-12 text-foreground/20 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-foreground">No saved jobs yet</h3>
+                  <h3 className="text-[20px] font-bold text-foreground">No saved jobs yet</h3>
                   <p className="text-foreground/60 mt-2">Roles you bookmark will appear here for easy access.</p>
                   <button 
                     onClick={() => setActiveTab("discover")}
-                    className="mt-6 px-6 py-2 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary-hover transition-colors"
+                    className="mt-6 bg-slate-900 text-white font-bold text-[14px] px-[24px] py-[12px] rounded-[12px] hover:bg-black transition-colors"
                   >
                     Explore Roles
                   </button>
@@ -260,12 +305,12 @@ export default function Dashboard() {
         {activeTab === "discover" && (
           <div className="w-80 hidden lg:block">
             <div className="bg-background border border-foreground/10 rounded-xl p-6 sticky top-24">
-              <h3 className="font-bold text-lg text-foreground mb-6">Filter Options</h3>
+              <h3 className="font-bold text-[18px] text-foreground mb-6">Filter Options</h3>
               
               <div className="space-y-8">
                 {/* Job Type */}
                 <div>
-                  <h4 className="text-sm font-bold text-foreground/70 mb-3 flex items-center gap-2">
+                  <h4 className="text-[14px] font-bold text-foreground/70 mb-3 flex items-center gap-2">
                     <Briefcase className="w-4 h-4" /> Job Type
                   </h4>
                   <div className="space-y-2.5">
@@ -277,7 +322,7 @@ export default function Dashboard() {
                           onChange={() => toggleArrayItem(selectedTypes, setSelectedTypes, type)}
                           className="rounded border-foreground/30 text-primary focus:ring-primary w-4 h-4 transition-colors" 
                         />
-                        <span className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors">{type}</span>
+                        <span className="text-[14px] font-medium text-foreground/80 group-hover:text-foreground transition-colors">{type}</span>
                       </label>
                     ))}
                   </div>
@@ -285,7 +330,7 @@ export default function Dashboard() {
 
                 {/* Location Mode */}
                 <div>
-                  <h4 className="text-sm font-bold text-foreground/70 mb-3 flex items-center gap-2">
+                  <h4 className="text-[14px] font-bold text-foreground/70 mb-3 flex items-center gap-2">
                     <MapPin className="w-4 h-4" /> Location Mode
                   </h4>
                   <div className="space-y-2.5">
@@ -297,7 +342,7 @@ export default function Dashboard() {
                           onChange={() => toggleArrayItem(selectedLocationModes, setSelectedLocationModes, type)}
                           className="rounded border-foreground/30 text-primary focus:ring-primary w-4 h-4 transition-colors" 
                         />
-                        <span className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors">{type}</span>
+                        <span className="text-[14px] font-medium text-foreground/80 group-hover:text-foreground transition-colors">{type}</span>
                       </label>
                     ))}
                   </div>
@@ -305,7 +350,7 @@ export default function Dashboard() {
 
                 {/* Cities */}
                 <div>
-                  <h4 className="text-sm font-bold text-foreground/70 mb-3 flex items-center gap-2">
+                  <h4 className="text-[14px] font-bold text-foreground/70 mb-3 flex items-center gap-2">
                     <Building2 className="w-4 h-4" /> Indian Cities
                   </h4>
                   <div className="space-y-2.5">
@@ -317,7 +362,7 @@ export default function Dashboard() {
                           onChange={() => toggleArrayItem(selectedCities, setSelectedCities, city)}
                           className="rounded border-foreground/30 text-primary focus:ring-primary w-4 h-4 transition-colors" 
                         />
-                        <span className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors">{city}</span>
+                        <span className="text-[14px] font-medium text-foreground/80 group-hover:text-foreground transition-colors">{city}</span>
                       </label>
                     ))}
                   </div>
@@ -328,6 +373,7 @@ export default function Dashboard() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

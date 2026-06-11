@@ -43,13 +43,13 @@ export default function ApplicantLogin() {
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-background">
       <div className="w-full max-w-md border border-foreground/10 p-8 rounded-xl bg-background shadow-sm">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">Welcome back</h1>
+          <h1 className="text-[30px] font-bold text-foreground tracking-tight">Welcome back</h1>
           <p className="text-foreground/60 mt-2 font-medium">Sign in to continue your job search</p>
         </div>
 
         <form className="space-y-5" onSubmit={handleLogin}>
           <div>
-            <label className="block text-sm font-bold text-foreground mb-1.5" htmlFor="email">
+            <label className="block text-[14px] font-bold text-foreground mb-1.5" htmlFor="email">
               Email Address
             </label>
             <div className="relative">
@@ -70,10 +70,10 @@ export default function ApplicantLogin() {
 
           <div>
             <div className="flex justify-between items-center mb-1.5">
-              <label className="block text-sm font-bold text-foreground" htmlFor="password">
+              <label className="block text-[14px] font-bold text-foreground" htmlFor="password">
                 Password
               </label>
-              <Link href="/forgot-password" className="text-sm font-semibold text-primary hover:text-primary-hover transition-colors">
+              <Link href="/forgot-password" className="text-[14px] font-semibold text-primary hover:text-primary-hover transition-colors">
                 Forgot password?
               </Link>
             </div>
@@ -94,7 +94,7 @@ export default function ApplicantLogin() {
           </div>
 
           {message && (
-            <div className="text-sm font-medium p-3 rounded-lg bg-secondary text-foreground text-center">
+            <div className="text-[14px] font-medium p-3 rounded-lg bg-secondary text-foreground text-center">
               {message}
             </div>
           )}
@@ -102,7 +102,7 @@ export default function ApplicantLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-background bg-foreground hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground transition-all gap-2 disabled:opacity-50"
+            className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-[14px] font-bold text-background bg-foreground hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground transition-all gap-2 disabled:opacity-50"
           >
             {loading ? "Connecting..." : "Sign In"} <ArrowRight className="w-4 h-4" />
           </button>
@@ -110,7 +110,7 @@ export default function ApplicantLogin() {
 
 
 
-        <p className="mt-8 text-center text-sm text-foreground/60 font-medium">
+        <p className="mt-8 text-center text-[14px] text-foreground/60 font-medium">
           Don't have an account?{" "}
           <Link href="/register" className="font-bold text-primary hover:text-primary-hover transition-colors">
             Sign up

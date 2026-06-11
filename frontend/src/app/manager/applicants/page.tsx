@@ -59,12 +59,12 @@ function ApplicantsContent() {
     <div className="min-h-screen bg-background pb-20">
       <div className="border-b border-foreground/10 bg-background/50 backdrop-blur-md sticky top-16 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Link href="/manager/dashboard" className="inline-flex items-center gap-2 text-sm font-bold text-foreground/50 hover:text-foreground mb-4 transition-colors">
+          <Link href="/manager/dashboard" className="inline-flex items-center gap-2 text-[14px] font-bold text-foreground/50 hover:text-foreground mb-4 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Dashboard
           </Link>
           <div className="flex justify-between items-end">
             <div>
-              <h1 className="text-3xl font-bold text-foreground tracking-tight">{title}</h1>
+              <h1 className="text-[30px] font-bold text-foreground tracking-tight">{title}</h1>
               <p className="text-foreground/60 mt-1 font-medium">Review and manage candidate profiles.</p>
             </div>
           </div>
@@ -84,43 +84,43 @@ function ApplicantsContent() {
               <div key={app.id} className="p-6 border border-foreground/10 rounded-xl bg-background shadow-sm hover:border-primary/30 transition-colors flex flex-col gap-4">
                 <div className="flex justify-between items-start">
                   <div className="pr-4">
-                    <h4 className="font-bold text-xl text-foreground truncate">{app.user.name || "Applicant"}</h4>
-                    <div className="text-sm text-foreground/60 flex items-center gap-2 font-medium mt-1 truncate">
+                    <h4 className="font-bold text-[20px] text-foreground truncate">{app.user.name || "Applicant"}</h4>
+                    <div className="text-[14px] text-foreground/60 flex items-center gap-2 font-medium mt-1 truncate">
                        <UserIcon className="w-4 h-4 flex-shrink-0" /> <span className="truncate">{app.user.email}</span>
                     </div>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4 pt-2 border-t border-foreground/5">
-                  <div className="text-sm">
-                    <span className="font-bold text-foreground/50 text-xs uppercase tracking-wider">Applied For</span>
+                  <div className="text-[14px]">
+                    <span className="font-bold text-foreground/50 text-[12px] uppercase tracking-wider">Applied For</span>
                     <div className="font-bold text-foreground mt-1 truncate">{app.job?.title}</div>
                   </div>
-                  <div className="text-sm">
-                    <span className="font-bold text-foreground/50 text-xs uppercase tracking-wider">Current Stage</span>
+                  <div className="text-[14px]">
+                    <span className="font-bold text-foreground/50 text-[12px] uppercase tracking-wider">Current Stage</span>
                     <div className="font-bold text-primary mt-1">{app.stage}</div>
                   </div>
                 </div>
 
                 <div className="mt-2 space-y-1.5 p-4 bg-secondary/50 rounded-lg border border-foreground/5 flex-1">
                   {app.user.locationPreference && (
-                    <div className="text-sm text-foreground/70 truncate"><span className="font-bold text-foreground/50 uppercase text-xs mr-2">Location</span> {app.user.locationPreference}</div>
+                    <div className="text-[14px] text-foreground/70 truncate"><span className="font-bold text-foreground/50 uppercase text-[12px] mr-2">Location</span> {app.user.locationPreference}</div>
                   )}
                   {app.user.experience && app.user.experience.length > 0 && (
-                    <div className="text-sm text-foreground/70 truncate"><span className="font-bold text-foreground/50 uppercase text-xs mr-2">Experience</span> {app.user.experience[0].role} at {app.user.experience[0].company}</div>
+                    <div className="text-[14px] text-foreground/70 truncate"><span className="font-bold text-foreground/50 uppercase text-[12px] mr-2">Experience</span> {app.user.experience[0].role} at {app.user.experience[0].company}</div>
                   )}
                   {app.user.skills && app.user.skills.length > 0 && (
-                    <div className="text-sm text-foreground/70 truncate"><span className="font-bold text-foreground/50 uppercase text-xs mr-2">Skills</span> {Array.isArray(app.user.skills) ? app.user.skills.join(', ') : app.user.skills}</div>
+                    <div className="text-[14px] text-foreground/70 truncate"><span className="font-bold text-foreground/50 uppercase text-[12px] mr-2">Skills</span> {Array.isArray(app.user.skills) ? app.user.skills.join(', ') : app.user.skills}</div>
                   )}
                   {(!app.user.locationPreference && (!app.user.experience || app.user.experience.length === 0) && (!app.user.skills || app.user.skills.length === 0)) && (
-                     <div className="text-sm text-foreground/50 italic">No profile details provided.</div>
+                     <div className="text-[14px] text-foreground/50 italic">No profile details provided.</div>
                   )}
                 </div>
 
                 <div className="pt-2 border-t border-foreground/5">
                   <Link 
                     href={`/manager/applicant/${app.id}`}
-                    className="w-full text-center block px-4 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary-hover transition-colors text-sm shadow-sm"
+                    className="w-full text-center block px-4 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary-hover transition-colors text-[14px] shadow-sm"
                   >
                     View Full Profile
                   </Link>

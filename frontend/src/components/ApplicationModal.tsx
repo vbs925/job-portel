@@ -65,8 +65,8 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
         {/* Header (Mobile Only or Global Close) */}
         <div className="px-6 py-4 border-b border-foreground/10 flex justify-between items-center bg-secondary/30 shrink-0">
           <div>
-            <h2 className="text-xl font-bold text-foreground">{jobTitle}</h2>
-            <p className="text-sm font-medium text-foreground/70 mt-1">{company}</p>
+            <h2 className="text-[20px] font-bold text-foreground">{jobTitle}</h2>
+            <p className="text-[14px] font-medium text-foreground/70 mt-1">{company}</p>
           </div>
           <button 
             onClick={onClose}
@@ -81,12 +81,12 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
           
           {/* Left Side: Job Details */}
           <div className="w-full md:w-1/2 p-6 md:p-8 overflow-y-auto border-b md:border-b-0 md:border-r border-foreground/10 bg-secondary/10">
-            <h3 className="text-lg font-bold text-foreground mb-4">Job Details</h3>
+            <h3 className="text-[18px] font-bold text-foreground mb-4">Job Details</h3>
             
             <div className="flex flex-wrap gap-2 mb-6">
-              <span className="px-3 py-1 bg-secondary text-foreground text-sm font-medium rounded-md">{location}</span>
-              <span className="px-3 py-1 bg-secondary text-foreground text-sm font-medium rounded-md">{type}</span>
-              <span className="px-3 py-1 bg-primary/10 text-primary font-bold text-sm rounded-md">{salary}</span>
+              <span className="px-3 py-1 bg-secondary text-foreground text-[14px] font-medium rounded-md">{location}</span>
+              <span className="px-3 py-1 bg-secondary text-foreground text-[14px] font-medium rounded-md">{type}</span>
+              <span className="px-3 py-1 bg-primary/10 text-primary font-bold text-[14px] rounded-md">{salary}</span>
             </div>
 
             <div className="prose prose-sm md:prose-base prose-p:text-foreground/80 prose-headings:text-foreground prose-li:text-foreground/80 max-w-none">
@@ -100,11 +100,11 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
 
           {/* Right Side: Application Form */}
           <div className="w-full md:w-1/2 p-6 md:p-8 overflow-y-auto bg-background">
-            <h3 className="text-lg font-bold text-foreground mb-6">Apply for this role</h3>
+            <h3 className="text-[18px] font-bold text-foreground mb-6">Apply for this role</h3>
             
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-bold text-foreground mb-2">Phone Number</label>
+                <label className="block text-[14px] font-bold text-foreground mb-2">Phone Number</label>
                 <input 
                   type="tel"
                   value={phone}
@@ -116,7 +116,7 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-foreground mb-2">Cover Letter / Message</label>
+                <label className="block text-[14px] font-bold text-foreground mb-2">Cover Letter / Message</label>
                 <textarea 
                   rows={4}
                   value={coverLetter}
@@ -127,7 +127,7 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-foreground mb-2">Resume (PDF or Word)</label>
+                <label className="block text-[14px] font-bold text-foreground mb-2">Resume (PDF or Word)</label>
                 <div className="relative group cursor-pointer">
                   <input 
                     type="file"
@@ -144,14 +144,14 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
                     {resume ? (
                       <>
                         <FileText className="w-8 h-8 text-primary mb-2" />
-                        <span className="text-sm font-bold text-primary text-center px-4 truncate w-full">{resume.name}</span>
-                        <span className="text-xs font-medium text-foreground/50 mt-1">{(resume.size / 1024 / 1024).toFixed(2)} MB</span>
+                        <span className="text-[14px] font-bold text-primary text-center px-4 truncate w-full">{resume.name}</span>
+                        <span className="text-[12px] font-medium text-foreground/50 mt-1">{(resume.size / 1024 / 1024).toFixed(2)} MB</span>
                       </>
                     ) : (
                       <>
                         <Upload className="w-8 h-8 text-foreground/40 mb-2" />
-                        <span className="text-sm font-bold text-foreground/70">Click to upload or drag & drop</span>
-                        <span className="text-xs font-medium text-foreground/40 mt-1">PDF, DOC, DOCX up to 5MB</span>
+                        <span className="text-[14px] font-bold text-foreground/70">Click to upload or drag & drop</span>
+                        <span className="text-[12px] font-medium text-foreground/40 mt-1">PDF, DOC, DOCX up to 5MB</span>
                       </>
                     )}
                   </div>
@@ -159,7 +159,7 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
               </div>
 
               {error && (
-                <div className="p-3 bg-red-500/10 text-red-600 border border-red-500/20 rounded-lg text-sm font-bold">
+                <div className="p-3 bg-red-500/10 text-red-600 border border-red-500/20 rounded-lg text-[14px] font-bold">
                   {error}
                 </div>
               )}

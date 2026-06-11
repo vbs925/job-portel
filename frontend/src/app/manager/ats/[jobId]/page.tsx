@@ -119,25 +119,25 @@ export default function ATSKanbanBoard() {
     <div className="min-h-screen bg-background flex flex-col">
       <div className="border-b border-foreground/10 bg-background/50 backdrop-blur-md sticky top-16 z-10">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Link href="/manager/dashboard" className="inline-flex items-center gap-2 text-sm font-bold text-foreground/50 hover:text-foreground mb-4 transition-colors">
+          <Link href="/manager/dashboard" className="inline-flex items-center gap-2 text-[14px] font-bold text-foreground/50 hover:text-foreground mb-4 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Dashboard
           </Link>
           <div className="flex justify-between items-end">
             <div>
-              <h1 className="text-3xl font-bold text-foreground tracking-tight">{job.title}</h1>
+              <h1 className="text-[30px] font-bold text-foreground tracking-tight">{job.title}</h1>
               <p className="text-foreground/60 mt-1 font-medium">Applicant Tracking Pipeline</p>
             </div>
             {selectedApps.length > 0 && (
               <div className="flex items-center gap-4 bg-secondary px-6 py-2 rounded-lg border border-foreground/10">
-                <span className="font-bold text-sm text-foreground">{selectedApps.length} Selected</span>
+                <span className="font-bold text-[14px] text-foreground">{selectedApps.length} Selected</span>
                 <span className="text-foreground/30">|</span>
-                <span className="text-sm font-bold text-foreground/60 mr-2">Move to:</span>
+                <span className="text-[14px] font-bold text-foreground/60 mr-2">Move to:</span>
                 <select 
                   onChange={(e) => {
                     if(e.target.value) handleBulkMove(e.target.value);
                     e.target.value = ""; // reset
                   }}
-                  className="px-3 py-1.5 rounded-md border border-foreground/20 text-sm font-bold bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="px-3 py-1.5 rounded-md border border-foreground/20 text-[14px] font-bold bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="">Select Stage...</option>
                   {pipelineSteps.map((step: string) => (
@@ -166,7 +166,7 @@ export default function ATSKanbanBoard() {
               >
                 <div className="p-4 flex justify-between items-center border-b border-foreground/10 bg-background/50 rounded-t-xl">
                   <h3 className="font-bold text-foreground">{step}</h3>
-                  <span className="px-2.5 py-1 bg-secondary text-foreground text-xs font-bold rounded-full border border-foreground/10">
+                  <span className="px-2.5 py-1 bg-secondary text-foreground text-[12px] font-bold rounded-full border border-foreground/10">
                     {appsInStage.length}
                   </span>
                 </div>
@@ -192,28 +192,28 @@ export default function ATSKanbanBoard() {
                       </div>
                       
                       <div className="flex flex-col gap-2">
-                        <div className="text-sm text-foreground/60 font-medium truncate flex items-center gap-2">
+                        <div className="text-[14px] text-foreground/60 font-medium truncate flex items-center gap-2">
                           <UserIcon className="w-4 h-4 flex-shrink-0" /> <span className="truncate">{app.user.email}</span>
                         </div>
 
                         {/* Candidate Profile Snippet */}
                         <div className="mt-1 space-y-1 p-2 bg-secondary/50 rounded-md border border-foreground/5">
                           {app.user.locationPreference && (
-                            <div className="text-xs text-foreground/70 truncate"><span className="font-bold">Loc:</span> {app.user.locationPreference}</div>
+                            <div className="text-[12px] text-foreground/70 truncate"><span className="font-bold">Loc:</span> {app.user.locationPreference}</div>
                           )}
                           {app.user.experience && app.user.experience.length > 0 && (
-                            <div className="text-xs text-foreground/70 truncate"><span className="font-bold">Exp:</span> {app.user.experience[0].role} at {app.user.experience[0].company}</div>
+                            <div className="text-[12px] text-foreground/70 truncate"><span className="font-bold">Exp:</span> {app.user.experience[0].role} at {app.user.experience[0].company}</div>
                           )}
                           {app.user.skills && app.user.skills.length > 0 && (
-                            <div className="text-xs text-foreground/70 truncate"><span className="font-bold">Skills:</span> {Array.isArray(app.user.skills) ? app.user.skills.slice(0, 3).join(', ') + (app.user.skills.length > 3 ? '...' : '') : app.user.skills}</div>
+                            <div className="text-[12px] text-foreground/70 truncate"><span className="font-bold">Skills:</span> {Array.isArray(app.user.skills) ? app.user.skills.slice(0, 3).join(', ') + (app.user.skills.length > 3 ? '...' : '') : app.user.skills}</div>
                           )}
                         </div>
 
                         <div className="flex justify-between items-center mt-2 pt-3 border-t border-foreground/5">
-                          <span className="text-xs font-bold text-foreground/40">{new Date(app.createdAt).toLocaleDateString()}</span>
+                          <span className="text-[12px] font-bold text-foreground/40">{new Date(app.createdAt).toLocaleDateString()}</span>
                           <Link 
                             href={`/manager/applicant/${app.id}`}
-                            className="text-xs font-bold text-primary hover:text-primary-hover bg-primary/10 px-3 py-1 rounded-md"
+                            className="text-[12px] font-bold text-primary hover:text-primary-hover bg-primary/10 px-3 py-1 rounded-md"
                           >
                             View Profile
                           </Link>
@@ -234,7 +234,7 @@ export default function ATSKanbanBoard() {
           >
             <div className="p-4 flex justify-between items-center border-b border-red-500/10 bg-background/50 rounded-t-xl">
               <h3 className="font-bold text-red-700">Rejected</h3>
-              <span className="px-2.5 py-1 bg-red-500/10 text-red-700 text-xs font-bold rounded-full border border-red-500/20">
+              <span className="px-2.5 py-1 bg-red-500/10 text-red-700 text-[12px] font-bold rounded-full border border-red-500/20">
                 {applications.filter(app => app.stage === 'Rejected').length}
               </span>
             </div>
@@ -256,20 +256,20 @@ export default function ATSKanbanBoard() {
                   <div className="flex items-center gap-2 mb-3">
                     <h4 className="font-bold text-foreground truncate">{app.user.name || "Applicant"}</h4>
                   </div>
-                  <div className="text-sm text-foreground/60 font-medium truncate flex items-center gap-2 mb-2">
+                  <div className="text-[14px] text-foreground/60 font-medium truncate flex items-center gap-2 mb-2">
                     <UserIcon className="w-4 h-4 flex-shrink-0" /> <span className="truncate">{app.user.email}</span>
                   </div>
                   
                   {/* Candidate Profile Snippet */}
                   <div className="mt-1 space-y-1 p-2 bg-secondary/50 rounded-md border border-foreground/5">
                     {app.user.locationPreference && (
-                      <div className="text-xs text-foreground/70 truncate"><span className="font-bold">Loc:</span> {app.user.locationPreference}</div>
+                      <div className="text-[12px] text-foreground/70 truncate"><span className="font-bold">Loc:</span> {app.user.locationPreference}</div>
                     )}
                     {app.user.experience && app.user.experience.length > 0 && (
-                      <div className="text-xs text-foreground/70 truncate"><span className="font-bold">Exp:</span> {app.user.experience[0].role} at {app.user.experience[0].company}</div>
+                      <div className="text-[12px] text-foreground/70 truncate"><span className="font-bold">Exp:</span> {app.user.experience[0].role} at {app.user.experience[0].company}</div>
                     )}
                     {app.user.skills && app.user.skills.length > 0 && (
-                      <div className="text-xs text-foreground/70 truncate"><span className="font-bold">Skills:</span> {Array.isArray(app.user.skills) ? app.user.skills.slice(0, 3).join(', ') + (app.user.skills.length > 3 ? '...' : '') : app.user.skills}</div>
+                      <div className="text-[12px] text-foreground/70 truncate"><span className="font-bold">Skills:</span> {Array.isArray(app.user.skills) ? app.user.skills.slice(0, 3).join(', ') + (app.user.skills.length > 3 ? '...' : '') : app.user.skills}</div>
                     )}
                   </div>
                 </div>

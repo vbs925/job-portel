@@ -139,11 +139,11 @@ export default function SingleApplicant() {
       {showScheduleModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
           <div className="bg-background border border-foreground/10 rounded-2xl p-8 max-w-md w-full shadow-2xl">
-            <h2 className="text-2xl font-black text-foreground mb-6">Schedule Interview</h2>
+            <h2 className="text-[24px] font-black text-foreground mb-6">Schedule Interview</h2>
             
             <div className="space-y-4 mb-8">
               <div>
-                <label className="block text-sm font-bold text-foreground/60 mb-2">Select Date</label>
+                <label className="block text-[14px] font-bold text-foreground/60 mb-2">Select Date</label>
                 <input 
                   type="date"
                   value={scheduleDate}
@@ -153,7 +153,7 @@ export default function SingleApplicant() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-foreground/60 mb-2">Time</label>
+                  <label className="block text-[14px] font-bold text-foreground/60 mb-2">Time</label>
                   <input 
                     type="time"
                     value={scheduleTime}
@@ -162,7 +162,7 @@ export default function SingleApplicant() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-foreground/60 mb-2">Duration</label>
+                  <label className="block text-[14px] font-bold text-foreground/60 mb-2">Duration</label>
                   <select 
                     value={scheduleDuration}
                     onChange={(e) => setScheduleDuration(e.target.value)}
@@ -198,7 +198,7 @@ export default function SingleApplicant() {
 
       <div className="border-b border-foreground/10 bg-background/50 backdrop-blur-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Link href={`/manager/ats/${app.jobId}`} className="inline-flex items-center gap-2 text-sm font-bold text-foreground/50 hover:text-foreground mb-6 transition-colors">
+          <Link href={`/manager/ats/${app.jobId}`} className="inline-flex items-center gap-2 text-[14px] font-bold text-foreground/50 hover:text-foreground mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to ATS Pipeline
           </Link>
           
@@ -208,8 +208,8 @@ export default function SingleApplicant() {
                 <UserIcon className="w-10 h-10 text-foreground/40" />
               </div>
               <div>
-                <h1 className="text-3xl font-black text-foreground tracking-tight">{app.user.name || "Applicant"}</h1>
-                <p className="text-foreground/60 mt-1 font-medium text-lg">
+                <h1 className="text-[30px] font-black text-foreground tracking-tight">{app.user.name || "Applicant"}</h1>
+                <p className="text-foreground/60 mt-1 font-medium text-[18px]">
                   {app.user.email} <span className="opacity-50 mx-2">•</span> Applied for <span className="font-bold text-foreground">{app.job?.title || "General Role"}</span>
                 </p>
               </div>
@@ -220,19 +220,19 @@ export default function SingleApplicant() {
                 <button 
                   onClick={handleReject}
                   disabled={actionLoading}
-                  className="px-4 py-2.5 bg-red-500/10 text-red-600 font-bold rounded-xl hover:bg-red-500/20 transition-colors text-sm disabled:opacity-50 border border-red-500/20"
+                  className="px-4 py-2.5 bg-red-500/10 text-red-600 font-bold rounded-xl hover:bg-red-500/20 transition-colors text-[14px] disabled:opacity-50 border border-red-500/20"
                 >
                   Reject Candidate
                 </button>
               )}
               
               <div className="flex items-center gap-2 px-4 py-2 bg-secondary rounded-xl border border-foreground/10 shadow-sm">
-                <span className="text-sm font-bold text-foreground/60">Stage:</span>
+                <span className="text-[14px] font-bold text-foreground/60">Stage:</span>
                 <select 
                   value={app.stage}
                   onChange={handleStageChange}
                   disabled={actionLoading || app.stage === 'Rejected'}
-                  className="bg-transparent text-sm font-black text-primary focus:outline-none cursor-pointer disabled:opacity-50"
+                  className="bg-transparent text-[14px] font-black text-primary focus:outline-none cursor-pointer disabled:opacity-50"
                 >
                   {pipelineSteps.map((step: string) => (
                     <option key={step} value={step} className="text-foreground">{step}</option>
@@ -267,46 +267,46 @@ export default function SingleApplicant() {
         <div className="lg:col-span-2 space-y-8">
           
           <div className="p-8 border border-foreground/10 rounded-2xl bg-background shadow-sm">
-            <h2 className="text-xl font-black text-foreground mb-8 flex items-center gap-3">
+            <h2 className="text-[20px] font-black text-foreground mb-8 flex items-center gap-3">
               <FileText className="w-6 h-6 text-primary" /> Application Details
             </h2>
             
             <div className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-foreground/10 pb-8">
                 <div className="bg-secondary/50 p-6 rounded-xl border border-foreground/5">
-                  <div className="text-sm font-bold text-foreground/50 mb-2 uppercase tracking-wider">Phone Number</div>
-                  <div className="text-foreground font-bold text-lg">{app.phone || 'Not provided'}</div>
+                  <div className="text-[14px] font-bold text-foreground/50 mb-2 uppercase tracking-wider">Phone Number</div>
+                  <div className="text-foreground font-bold text-[18px]">{app.phone || 'Not provided'}</div>
                 </div>
                 <div className="bg-secondary/50 p-6 rounded-xl border border-foreground/5">
-                  <div className="text-sm font-bold text-foreground/50 mb-2 uppercase tracking-wider">Experience</div>
-                  <div className="text-foreground font-bold text-lg">{app.experience || 'Not provided'}</div>
+                  <div className="text-[14px] font-bold text-foreground/50 mb-2 uppercase tracking-wider">Experience</div>
+                  <div className="text-foreground font-bold text-[18px]">{app.experience || 'Not provided'}</div>
                 </div>
               </div>
 
               <div className="border-b border-foreground/10 pb-8">
-                <div className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">Top Skills</div>
+                <div className="text-[14px] font-bold text-foreground/50 mb-4 uppercase tracking-wider">Top Skills</div>
                 <div className="flex flex-wrap gap-2">
                   {app.skills ? (
                     app.skills.split(',').map((skill: string, idx: number) => (
-                      <span key={idx} className="px-4 py-2 bg-primary/10 text-primary font-bold text-sm rounded-lg border border-primary/20 shadow-sm">
+                      <span key={idx} className="px-4 py-2 bg-primary/10 text-primary font-bold text-[14px] rounded-lg border border-primary/20 shadow-sm">
                         {skill.trim()}
                       </span>
                     ))
                   ) : (
-                    <span className="text-foreground/50 font-medium text-sm">No skills provided</span>
+                    <span className="text-foreground/50 font-medium text-[14px]">No skills provided</span>
                   )}
                 </div>
               </div>
 
               <div>
-                <div className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">Cover Letter</div>
-                <div className="p-6 bg-secondary/50 rounded-xl text-foreground text-sm leading-relaxed border border-foreground/10 shadow-inner">
+                <div className="text-[14px] font-bold text-foreground/50 mb-4 uppercase tracking-wider">Cover Letter</div>
+                <div className="p-6 bg-secondary/50 rounded-xl text-foreground text-[14px] leading-relaxed border border-foreground/10 shadow-inner">
                   {app.coverLetter || 'No cover letter provided.'}
                 </div>
               </div>
 
               <div>
-                <div className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">Resume Document</div>
+                <div className="text-[14px] font-bold text-foreground/50 mb-4 uppercase tracking-wider">Resume Document</div>
                 {app.resumeUrl ? (
                   <a 
                     href={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5001'}${app.resumeUrl}`} 
@@ -318,8 +318,8 @@ export default function SingleApplicant() {
                       <FileText className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <div className="font-bold text-foreground group-hover:text-primary transition-colors text-lg">View Attached Resume</div>
-                      <div className="text-sm font-medium text-foreground/50 mt-1 flex items-center gap-2">
+                      <div className="font-bold text-foreground group-hover:text-primary transition-colors text-[18px]">View Attached Resume</div>
+                      <div className="text-[14px] font-medium text-foreground/50 mt-1 flex items-center gap-2">
                         PDF/Doc format <span className="w-1 h-1 rounded-full bg-foreground/20"></span> Opens in new tab
                       </div>
                     </div>
@@ -338,100 +338,100 @@ export default function SingleApplicant() {
 
           {/* Candidate Profile Details */}
           <div className="p-8 border border-foreground/10 rounded-2xl bg-background shadow-sm">
-            <h2 className="text-xl font-black text-foreground mb-8 flex items-center gap-3">
+            <h2 className="text-[20px] font-black text-foreground mb-8 flex items-center gap-3">
               <UserIcon className="w-6 h-6 text-primary" /> Candidate Profile Details
             </h2>
             
             <div className="space-y-8">
               {app.user.locationPreference && (
                 <div className="border-b border-foreground/10 pb-8">
-                  <div className="text-sm font-bold text-foreground/50 mb-2 uppercase tracking-wider">Location Preference</div>
-                  <div className="text-foreground font-bold text-lg">{app.user.locationPreference}</div>
+                  <div className="text-[14px] font-bold text-foreground/50 mb-2 uppercase tracking-wider">Location Preference</div>
+                  <div className="text-foreground font-bold text-[18px]">{app.user.locationPreference}</div>
                 </div>
               )}
 
               <div className="border-b border-foreground/10 pb-8">
-                <div className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">Profile Skills</div>
+                <div className="text-[14px] font-bold text-foreground/50 mb-4 uppercase tracking-wider">Profile Skills</div>
                 <div className="flex flex-wrap gap-2">
                   {app.user.skills && app.user.skills.length > 0 ? (
                     app.user.skills.map((skill: string, idx: number) => (
-                      <span key={idx} className="px-4 py-2 bg-secondary/80 text-foreground font-bold text-sm rounded-lg border border-foreground/10 shadow-sm">
+                      <span key={idx} className="px-4 py-2 bg-secondary/80 text-foreground font-bold text-[14px] rounded-lg border border-foreground/10 shadow-sm">
                         {skill}
                       </span>
                     ))
                   ) : (
-                    <span className="text-foreground/50 font-medium text-sm">No profile skills provided</span>
+                    <span className="text-foreground/50 font-medium text-[14px]">No profile skills provided</span>
                   )}
                 </div>
               </div>
 
               <div className="border-b border-foreground/10 pb-8">
-                <div className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">Education Background</div>
+                <div className="text-[14px] font-bold text-foreground/50 mb-4 uppercase tracking-wider">Education Background</div>
                 {app.user.education && app.user.education.length > 0 ? (
                   <div className="space-y-4">
                     {app.user.education.map((ed: any, idx: number) => (
                       <div key={idx} className="bg-secondary/30 p-5 rounded-xl border border-foreground/5 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                          <div className="font-bold text-foreground text-lg">{ed.degree}</div>
+                          <div className="font-bold text-foreground text-[18px]">{ed.degree}</div>
                           <div className="text-foreground/70 font-medium">{ed.institution}</div>
                         </div>
-                        <div className="text-foreground/50 font-bold bg-background px-4 py-2 rounded-lg border border-foreground/10 text-sm">
+                        <div className="text-foreground/50 font-bold bg-background px-4 py-2 rounded-lg border border-foreground/10 text-[14px]">
                           {ed.year}
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <span className="text-foreground/50 font-medium text-sm">No education details provided</span>
+                  <span className="text-foreground/50 font-medium text-[14px]">No education details provided</span>
                 )}
               </div>
 
               <div>
-                <div className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">Work Experience</div>
+                <div className="text-[14px] font-bold text-foreground/50 mb-4 uppercase tracking-wider">Work Experience</div>
                 {app.user.experience && app.user.experience.length > 0 ? (
                   <div className="space-y-4">
                     {app.user.experience.map((exp: any, idx: number) => (
                       <div key={idx} className="bg-secondary/30 p-5 rounded-xl border border-foreground/5 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                          <div className="font-bold text-foreground text-lg">{exp.role}</div>
+                          <div className="font-bold text-foreground text-[18px]">{exp.role}</div>
                           <div className="text-foreground/70 font-medium">{exp.company}</div>
                         </div>
-                        <div className="text-foreground/50 font-bold bg-background px-4 py-2 rounded-lg border border-foreground/10 text-sm">
+                        <div className="text-foreground/50 font-bold bg-background px-4 py-2 rounded-lg border border-foreground/10 text-[14px]">
                           {exp.duration}
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <span className="text-foreground/50 font-medium text-sm">No work experience provided</span>
+                  <span className="text-foreground/50 font-medium text-[14px]">No work experience provided</span>
                 )}
               </div>
 
               <div>
-                <div className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">Portfolio Projects</div>
+                <div className="text-[14px] font-bold text-foreground/50 mb-4 uppercase tracking-wider">Portfolio Projects</div>
                 {app.user.portfolio && app.user.portfolio.length > 0 ? (
                   <div className="space-y-4">
                     {app.user.portfolio.map((proj: any, idx: number) => (
                       <div key={idx} className="bg-secondary/30 p-5 rounded-xl border border-foreground/5 flex flex-col gap-2">
                         <div className="flex items-center justify-between">
-                          <div className="font-bold text-foreground text-lg">{proj.title}</div>
+                          <div className="font-bold text-foreground text-[18px]">{proj.title}</div>
                           {proj.link && (
-                            <a href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-700 text-sm font-bold">
+                            <a href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-700 text-[14px] font-bold">
                               View Project &rarr;
                             </a>
                           )}
                         </div>
-                        <div className="text-foreground/70 font-medium text-sm mt-1">{proj.description}</div>
+                        <div className="text-foreground/70 font-medium text-[14px] mt-1">{proj.description}</div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <span className="text-foreground/50 font-medium text-sm">No portfolio projects provided</span>
+                  <span className="text-foreground/50 font-medium text-[14px]">No portfolio projects provided</span>
                 )}
               </div>
 
               <div>
-                <div className="text-sm font-bold text-foreground/50 mb-4 uppercase tracking-wider">Certificates</div>
+                <div className="text-[14px] font-bold text-foreground/50 mb-4 uppercase tracking-wider">Certificates</div>
                 {app.user.certificates && app.user.certificates.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {app.user.certificates.map((cert: any, idx: number) => (
@@ -449,7 +449,7 @@ export default function SingleApplicant() {
                           <div className="font-bold text-foreground group-hover:text-emerald-600 transition-colors truncate">
                             {cert.originalName || `Certificate File ${idx + 1}`}
                           </div>
-                          <div className="text-sm font-medium text-foreground/50 mt-1 flex items-center gap-2">
+                          <div className="text-[14px] font-medium text-foreground/50 mt-1 flex items-center gap-2">
                             PDF/Doc <span className="w-1 h-1 rounded-full bg-foreground/20"></span> View Document
                           </div>
                         </div>
@@ -457,14 +457,14 @@ export default function SingleApplicant() {
                     ))}
                   </div>
                 ) : (
-                  <span className="text-foreground/50 font-medium text-sm">No certificates uploaded</span>
+                  <span className="text-foreground/50 font-medium text-[14px]">No certificates uploaded</span>
                 )}
               </div>
             </div>
           </div>
 
           <div className="p-8 border border-foreground/10 rounded-2xl bg-background shadow-sm">
-            <h2 className="text-xl font-black text-foreground mb-6 flex items-center gap-3">
+            <h2 className="text-[20px] font-black text-foreground mb-6 flex items-center gap-3">
               <Star className="w-6 h-6 text-amber-400" /> Manager Rating & Internal Notes
             </h2>
             <div className="flex items-center gap-2 mb-6">
@@ -490,7 +490,7 @@ export default function SingleApplicant() {
         <div className="space-y-8">
           
           <div className="p-8 border border-foreground/10 rounded-2xl bg-background shadow-sm sticky top-32">
-            <h2 className="text-xl font-black text-foreground mb-8 flex items-center gap-3">
+            <h2 className="text-[20px] font-black text-foreground mb-8 flex items-center gap-3">
               <Clock className="w-6 h-6 text-foreground/40" /> Timeline History
             </h2>
             
@@ -500,15 +500,15 @@ export default function SingleApplicant() {
                   <div key={act.id} className="relative pl-10">
                     <div className="absolute left-0 top-1.5 w-5 h-5 rounded-full border-[4px] border-background bg-primary shadow-sm" />
                     <div className="p-5 rounded-xl border border-foreground/10 bg-secondary/50 shadow-sm hover:border-primary/30 transition-colors">
-                      <div className="font-bold text-foreground text-sm leading-snug">{act.action}</div>
-                      <time className="text-xs font-bold text-foreground/40 mt-2 block uppercase tracking-wider">
+                      <div className="font-bold text-foreground text-[14px] leading-snug">{act.action}</div>
+                      <time className="text-[12px] font-bold text-foreground/40 mt-2 block uppercase tracking-wider">
                         {new Date(act.createdAt).toLocaleString()}
                       </time>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="text-sm font-medium text-foreground/50 text-center py-4 relative z-10 bg-background">
+                <div className="text-[14px] font-medium text-foreground/50 text-center py-4 relative z-10 bg-background">
                   No recent activity
                 </div>
               )}
@@ -517,8 +517,8 @@ export default function SingleApplicant() {
               <div className="relative pl-10">
                 <div className="absolute left-0 top-1.5 w-5 h-5 rounded-full border-[4px] border-background bg-foreground/20 shadow-sm" />
                 <div className="p-5 rounded-xl border border-foreground/10 bg-secondary/50 shadow-sm opacity-80">
-                  <div className="font-bold text-foreground text-sm leading-snug">Initial Application Received</div>
-                  <time className="text-xs font-bold text-foreground/40 mt-2 block uppercase tracking-wider">
+                  <div className="font-bold text-foreground text-[14px] leading-snug">Initial Application Received</div>
+                  <time className="text-[12px] font-bold text-foreground/40 mt-2 block uppercase tracking-wider">
                     {new Date(app.createdAt).toLocaleString()}
                   </time>
                 </div>

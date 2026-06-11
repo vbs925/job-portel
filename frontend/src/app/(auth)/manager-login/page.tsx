@@ -43,13 +43,13 @@ export default function ManagerLogin() {
           <div className="mx-auto w-12 h-12 bg-secondary text-foreground rounded-xl flex items-center justify-center mb-4">
             <Building className="w-6 h-6" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">Employer Portal</h1>
+          <h1 className="text-[30px] font-bold text-foreground tracking-tight">Employer Portal</h1>
           <p className="text-foreground/60 mt-2 font-medium">Sign in to manage your job postings</p>
         </div>
 
         <form className="space-y-5" onSubmit={handleLogin}>
           <div>
-            <label className="block text-sm font-bold text-foreground mb-1.5" htmlFor="work-email">
+            <label className="block text-[14px] font-bold text-foreground mb-1.5" htmlFor="work-email">
               Work Email
             </label>
             <div className="relative">
@@ -70,10 +70,10 @@ export default function ManagerLogin() {
 
           <div>
             <div className="flex justify-between items-center mb-1.5">
-              <label className="block text-sm font-bold text-foreground" htmlFor="password">
+              <label className="block text-[14px] font-bold text-foreground" htmlFor="password">
                 Password
               </label>
-              <Link href="/employer-forgot-password" className="text-sm font-semibold text-primary hover:text-primary-hover transition-colors">
+              <Link href="/employer-forgot-password" className="text-[14px] font-semibold text-primary hover:text-primary-hover transition-colors">
                 Forgot password?
               </Link>
             </div>
@@ -94,7 +94,7 @@ export default function ManagerLogin() {
           </div>
 
           {message && (
-            <div className="text-sm font-medium p-3 rounded-lg bg-secondary text-foreground text-center">
+            <div className="text-[14px] font-medium p-3 rounded-lg bg-secondary text-foreground text-center">
               {message}
             </div>
           )}
@@ -102,13 +102,13 @@ export default function ManagerLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-background bg-foreground hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground transition-all gap-2 disabled:opacity-50"
+            className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-[14px] font-bold text-background bg-foreground hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground transition-all gap-2 disabled:opacity-50"
           >
             {loading ? "Connecting..." : "Access Dashboard"} <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <p className="mt-8 text-center text-sm text-foreground/60 font-medium">
+        <p className="mt-8 text-center text-[14px] text-foreground/60 font-medium">
           Want to hire with us?{" "}
           <Link href="/contact-sales" className="font-bold text-primary hover:text-primary-hover transition-colors underline decoration-primary/30 underline-offset-2">
             Contact Sales

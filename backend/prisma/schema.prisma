@@ -149,3 +149,12 @@ model FilterPreset {
   jobId         String?  // Nullable if it's a global preset
   job           Job?     @relation(fields: [jobId], references: [id])
 }
+
+model Document {
+  id        String   @id @default(uuid())
+  filename  String
+  mimetype  String
+  data      Bytes    // The binary content of the file
+  createdAt DateTime @default(now())
+}
+

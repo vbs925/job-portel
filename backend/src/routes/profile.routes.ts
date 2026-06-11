@@ -135,7 +135,16 @@ router.post('/me/certificates/upload', upload.single('certificate'), async (req:
       return res.status(400).json({ message: 'No file uploaded' });
     }
     
-    const fileUrl = `/uploads/${file.filename}`;
+    // Save to database
+    const document = await prisma.document.create({
+      data: {
+        filename: file.originalname,
+        mimetype: file.mimetype,
+        data: file.buffer
+      }
+    });
+    
+    const fileUrl = `/api/files/${document.id}`;
     
     res.json({ message: 'Certificate uploaded successfully', fileUrl });
   } catch (error) {

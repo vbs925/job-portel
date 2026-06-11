@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { API } from "@/lib/api";
 import { ArrowLeft, Plus, X, Save, Send } from "lucide-react";
 import Link from "next/link";
 
-export default function CreateJob() {
+function CreateJobForm() {
   const { user, isLoading, token } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -117,12 +117,12 @@ export default function CreateJob() {
     <div className="min-h-screen bg-background pb-20">
       <div className="border-b border-foreground/10 bg-background/50 backdrop-blur-md sticky top-16 z-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Link href="/manager/dashboard" className="inline-flex items-center gap-2 text-sm font-bold text-foreground/50 hover:text-foreground mb-4 transition-colors">
+          <Link href="/manager/dashboard" className="inline-flex items-center gap-2 text-[14px] font-bold text-foreground/50 hover:text-foreground mb-4 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Dashboard
           </Link>
           <div className="flex justify-between items-end">
             <div>
-              <h1 className="text-3xl font-bold text-foreground tracking-tight">
+              <h1 className="text-[30px] font-bold text-foreground tracking-tight">
                 {jobId ? 'Edit Job Listing' : 'Create New Job'}
               </h1>
             </div>
@@ -150,10 +150,10 @@ export default function CreateJob() {
         
         {/* Basic Info */}
         <div className="p-8 border border-foreground/10 rounded-xl bg-background shadow-sm">
-          <h2 className="text-xl font-bold text-foreground mb-6">Basic Information</h2>
+          <h2 className="text-[20px] font-bold text-foreground mb-6">Basic Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
-              <label className="block text-sm font-bold text-foreground mb-2">Job Title</label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Job Title</label>
               <input 
                 name="title"
                 value={formData.title}
@@ -163,7 +163,7 @@ export default function CreateJob() {
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-foreground mb-2">Company Name</label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Company Name</label>
               <input 
                 name="company"
                 value={formData.company}
@@ -173,7 +173,7 @@ export default function CreateJob() {
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-foreground mb-2">Location</label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Location</label>
               <input 
                 name="location"
                 value={formData.location}
@@ -183,7 +183,7 @@ export default function CreateJob() {
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-foreground mb-2">Job Type</label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Job Type</label>
               <select 
                 name="type"
                 value={formData.type}
@@ -197,7 +197,7 @@ export default function CreateJob() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-bold text-foreground mb-2">Salary Range</label>
+              <label className="block text-[14px] font-bold text-foreground mb-2">Salary Range</label>
               <input 
                 name="salary"
                 value={formData.salary}
@@ -211,10 +211,10 @@ export default function CreateJob() {
 
         {/* Job Description & Details */}
         <div className="p-8 border border-foreground/10 rounded-xl bg-background shadow-sm space-y-6">
-          <h2 className="text-xl font-bold text-foreground mb-6">Job Description & Details</h2>
+          <h2 className="text-[20px] font-bold text-foreground mb-6">Job Description & Details</h2>
           
           <div>
-            <label className="block text-sm font-bold text-foreground mb-2">About the Company</label>
+            <label className="block text-[14px] font-bold text-foreground mb-2">About the Company</label>
             <textarea 
               name="aboutCompany"
               value={formData.aboutCompany}
@@ -226,7 +226,7 @@ export default function CreateJob() {
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-foreground mb-2">Job Overview</label>
+            <label className="block text-[14px] font-bold text-foreground mb-2">Job Overview</label>
             <textarea 
               name="description"
               value={formData.description}
@@ -238,7 +238,7 @@ export default function CreateJob() {
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-foreground mb-2">Key Responsibilities</label>
+            <label className="block text-[14px] font-bold text-foreground mb-2">Key Responsibilities</label>
             <textarea 
               name="keyResponsibilities"
               value={formData.keyResponsibilities}
@@ -250,7 +250,7 @@ export default function CreateJob() {
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-foreground mb-2">Skills Needed</label>
+            <label className="block text-[14px] font-bold text-foreground mb-2">Skills Needed</label>
             <textarea 
               name="skillsNeeded"
               value={formData.skillsNeeded}
@@ -262,7 +262,7 @@ export default function CreateJob() {
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-foreground mb-2">Why Join Us (Benefits)</label>
+            <label className="block text-[14px] font-bold text-foreground mb-2">Why Join Us (Benefits)</label>
             <textarea 
               name="benefits"
               value={formData.benefits}
@@ -278,8 +278,8 @@ export default function CreateJob() {
         <div className="p-8 border border-foreground/10 rounded-xl bg-background shadow-sm">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h2 className="text-xl font-bold text-foreground">Hiring Pipeline Steps</h2>
-              <p className="text-sm text-foreground/60 font-medium mt-1">Define the custom stages an applicant will go through.</p>
+              <h2 className="text-[20px] font-bold text-foreground">Hiring Pipeline Steps</h2>
+              <p className="text-[14px] text-foreground/60 font-medium mt-1">Define the custom stages an applicant will go through.</p>
             </div>
           </div>
 
@@ -315,5 +315,13 @@ export default function CreateJob() {
 
       </div>
     </div>
+  );
+}
+
+export default function CreateJob() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background pb-20 p-8 flex items-center justify-center">Loading...</div>}>
+      <CreateJobForm />
+    </Suspense>
   );
 }

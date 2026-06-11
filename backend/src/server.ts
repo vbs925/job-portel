@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 5001;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 import authRoutes from './routes/auth.routes';
 import jobsRoutes from './routes/jobs.routes';
@@ -20,6 +19,8 @@ import managerJobsRoutes from './routes/manager.jobs.routes';
 import managerAtsRoutes from './routes/manager.ats.routes';
 import managerActionsRoutes from './routes/manager.actions.routes';
 import profileRoutes from './routes/profile.routes';
+import filesRoutes from './routes/files.routes';
+import onboardingRoutes from './routes/onboarding.routes';
 
 // Routes
 app.get('/api/health', (req: Request, res: Response) => {
@@ -33,6 +34,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobsRoutes);
 app.use('/api/applications', applicationsRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/files', filesRoutes);
+app.use('/api/onboarding', onboardingRoutes);
 
 // Manager Routes
 app.use('/api/manager/jobs', managerJobsRoutes);

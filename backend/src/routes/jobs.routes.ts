@@ -55,7 +55,7 @@ router.get('/suggested', authenticate, async (req: any, res: any) => {
   try {
     const userId = req.user.id;
     const user = await prisma.user.findUnique({ where: { id: userId } });
-    
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -67,40 +67,54 @@ router.get('/suggested', authenticate, async (req: any, res: any) => {
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return res.json(jobs.slice(0, 4)); // Fallback if no API key
-    }
-
-    const ai = new GoogleGenAI({ apiKey });
-    const prompt = `You are an AI job matcher.
-Candidate Profile:
-Skills: ${JSON.stringify(user.skills)}
-Experience: ${JSON.stringify(user.experience)}
-Education: ${JSON.stringify(user.education)}
-Portfolio: ${JSON.stringify(user.portfolio)}
-
-Available Jobs:
-${jobs.map(j => `ID: ${j.id}, Title: ${j.title}, Company: ${j.company}, Skills: ${j.skillsNeeded}, Desc: ${j.description}`).join('\n\n')}
-
-Return ONLY a JSON array of the 4 best matching job IDs. Example: ["id1", "id2"]. No markdown, no explanations.`;
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt
-    });
-    
-    const text = response.text || "[]";
-    let matchedIds: string[] = [];
-    try {
-      matchedIds = JSON.parse(text.replace(/```json/g, '').replace(/```/g, '').trim());
-    } catch (e) {
-      console.error("Failed to parse Gemini response:", text);
       return res.json(jobs.slice(0, 4));
     }
 
-    const matchedJobs = jobs.filter(j => matchedIds.includes(j.id));
-    res.json(matchedJobs.length > 0 ? matchedJobs : jobs.slice(0, 4));
+    // ── Gemini matching — graceful fallback if AI fails ─────────────────────
+    try {
+      const ai = new GoogleGenAI({ apiKey });
+
+      // Pull profile data from portfolio field (saved during onboarding)
+      const profileMeta = (user.portfolio && typeof user.portfolio === 'object' && !Array.isArray(user.portfolio))
+        ? user.portfolio as Record<string, any>
+        : {};
+
+      const prompt = `You are an AI job matcher.
+Candidate Profile:
+- Target Role: ${profileMeta.targetRole || 'Not specified'}
+- Experience Level: ${profileMeta.experienceLevel || 'Not specified'}
+- Skills: ${JSON.stringify(user.skills || [])}
+- Interests: ${JSON.stringify(profileMeta.interests || [])}
+
+Available Jobs:
+${jobs.map(j => `ID: ${j.id} | Title: ${j.title} | Company: ${j.company} | Skills Needed: ${j.skillsNeeded || ''}`).join('\n')}
+
+Return ONLY a JSON array of the 4 best matching job IDs. Example: ["id1","id2","id3","id4"]. No markdown, no explanations.`;
+
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+      });
+
+      const text = (response.text || '').trim();
+      let matchedIds: string[] = [];
+
+      try {
+        matchedIds = JSON.parse(text.replace(/```json/g, '').replace(/```/g, '').trim());
+      } catch {
+        console.warn('Failed to parse Gemini suggestions response, using fallback');
+        matchedIds = [];
+      }
+
+      const matchedJobs = jobs.filter(j => matchedIds.includes(j.id));
+      return res.json(matchedJobs.length > 0 ? matchedJobs : jobs.slice(0, 4));
+    } catch (aiError) {
+      // AI failed — return most recent jobs as a non-error fallback
+      console.error('Gemini suggestions error (non-fatal):', aiError);
+      return res.json(jobs.slice(0, 4));
+    }
   } catch (error) {
-    console.error(error);
+    console.error('Suggested jobs unexpected error:', error);
     res.status(500).json({ message: 'Server error generating suggestions' });
   }
 });

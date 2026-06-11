@@ -31,8 +31,8 @@ export default function ApplicantRegister() {
       // Save to AuthContext
       login(response.user, response.token);
       
-      // Redirect to dashboard
-      router.push('/dashboard');
+      // Redirect to AI onboarding flow
+      router.push('/onboarding');
     } catch (error: any) {
       setMessage(error.message || "Error connecting to the backend to create account.");
       console.error(error);
@@ -45,14 +45,14 @@ export default function ApplicantRegister() {
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-background">
       <div className="w-full max-w-md border border-foreground/10 p-8 rounded-xl bg-background shadow-sm mt-8 mb-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">Create an Account</h1>
+          <h1 className="text-[30px] font-bold text-foreground tracking-tight">Create an Account</h1>
           <p className="text-foreground/60 mt-2 font-medium">Join us and find your dream job</p>
         </div>
 
         <form className="space-y-5" onSubmit={handleRegister}>
           
           <div>
-            <label className="block text-sm font-bold text-foreground mb-1.5" htmlFor="name">
+            <label className="block text-[14px] font-bold text-foreground mb-1.5" htmlFor="name">
               Full Name
             </label>
             <div className="relative">
@@ -72,7 +72,7 @@ export default function ApplicantRegister() {
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-foreground mb-1.5" htmlFor="email">
+            <label className="block text-[14px] font-bold text-foreground mb-1.5" htmlFor="email">
               Email Address
             </label>
             <div className="relative">
@@ -92,7 +92,7 @@ export default function ApplicantRegister() {
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-foreground mb-1.5" htmlFor="password">
+            <label className="block text-[14px] font-bold text-foreground mb-1.5" htmlFor="password">
               Password
             </label>
             <div className="relative">
@@ -110,11 +110,11 @@ export default function ApplicantRegister() {
                 minLength={6}
               />
             </div>
-            <p className="mt-1.5 text-xs text-foreground/50 font-medium">Must be at least 6 characters long</p>
+            <p className="mt-1.5 text-[12px] text-foreground/50 font-medium">Must be at least 6 characters long</p>
           </div>
 
           {message && (
-            <div className={`text-sm font-medium p-3 rounded-lg text-center ${message.includes('Success') ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-secondary text-foreground'}`}>
+            <div className={`text-[14px] font-medium p-3 rounded-lg text-center ${message.includes('Success') ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-secondary text-foreground'}`}>
               {message}
             </div>
           )}
@@ -122,7 +122,7 @@ export default function ApplicantRegister() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-background bg-foreground hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground transition-all gap-2 disabled:opacity-50"
+            className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-[14px] font-bold text-background bg-foreground hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground transition-all gap-2 disabled:opacity-50"
           >
             {loading ? "Creating Account..." : "Sign Up"} <ArrowRight className="w-4 h-4" />
           </button>
@@ -130,7 +130,7 @@ export default function ApplicantRegister() {
 
 
 
-        <p className="mt-8 text-center text-sm text-foreground/60 font-medium">
+        <p className="mt-8 text-center text-[14px] text-foreground/60 font-medium">
           Already have an account?{" "}
           <Link href="/login" className="font-bold text-primary hover:text-primary-hover transition-colors">
             Sign in

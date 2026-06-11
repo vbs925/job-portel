@@ -32,17 +32,17 @@ export default function Home() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 border-b border-foreground/5 pb-6">
           <div>
-            <h2 className="text-2xl font-semibold text-foreground tracking-tight">Featured Opportunities</h2>
-            <p className="mt-2 text-foreground/50 text-sm font-medium">Curated roles from top engineering and design teams.</p>
+            <h2 className="text-[24px] font-semibold text-foreground tracking-tight">Featured Opportunities</h2>
+            <p className="mt-2 text-foreground/50 text-[14px] font-medium">Curated roles from top engineering and design teams.</p>
           </div>
-          <Link href="/jobs" className="mt-4 sm:mt-0 text-foreground/60 hover:text-foreground text-sm font-medium transition-colors">
+          <Link href="/jobs" className="mt-4 sm:mt-0 text-foreground/60 hover:text-foreground text-[14px] font-medium transition-colors">
             View all jobs &rarr;
           </Link>
         </div>
         
         <div className="grid grid-cols-1 gap-4">
           {loading ? (
-            <div className="text-center text-foreground/40 py-12 font-medium animate-pulse text-sm">
+            <div className="text-center text-foreground/40 py-12 font-medium animate-pulse text-[14px]">
               Loading featured roles...
             </div>
           ) : featuredJobs.map((job, index) => (
@@ -71,8 +71,8 @@ export default function Home() {
       {/* Hiring Promise Section - Minimalist Redesign */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full border-t border-foreground/5">
         <div className="mb-16">
-          <h2 className="text-2xl font-semibold text-foreground tracking-tight mb-4">Why we built this.</h2>
-          <p className="max-w-2xl text-lg text-foreground/60 font-normal leading-relaxed">
+          <h2 className="text-[24px] font-semibold text-foreground tracking-tight mb-4">Why we built this.</h2>
+          <p className="max-w-2xl text-[18px] text-foreground/60 font-normal leading-relaxed">
             The hiring market is broken. We wanted to create a platform that respects both the candidate's time and the company's needs. A clean interface, transparent salaries, and zero spam.
           </p>
         </div>
@@ -93,9 +93,9 @@ export default function Home() {
             }
           ].map((feature, idx) => (
             <div key={idx} className="flex flex-col">
-              <div className="text-xs font-mono text-foreground/40 mb-4">0{idx + 1}</div>
-              <h3 className="text-base font-semibold mb-2 text-foreground">{feature.title}</h3>
-              <p className="text-foreground/60 text-sm leading-relaxed">{feature.desc}</p>
+              <div className="text-[12px] font-mono text-foreground/40 mb-4">0{idx + 1}</div>
+              <h3 className="text-[16px] font-semibold mb-2 text-foreground">{feature.title}</h3>
+              <p className="text-foreground/60 text-[14px] leading-relaxed">{feature.desc}</p>
             </div>
           ))}
         </div>

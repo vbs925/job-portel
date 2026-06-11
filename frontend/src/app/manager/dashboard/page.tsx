@@ -63,7 +63,7 @@ export default function ManagerDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-end">
             <div>
-              <h1 className="text-3xl font-bold text-foreground tracking-tight">Employer Dashboard</h1>
+              <h1 className="text-[30px] font-bold text-foreground tracking-tight">Employer Dashboard</h1>
               <p className="text-foreground/60 mt-1 font-medium">Manage your job postings and applicants.</p>
             </div>
             <Link 
@@ -85,8 +85,8 @@ export default function ManagerDashboard() {
               <Briefcase className="w-6 h-6 text-foreground/70" />
             </div>
             <div>
-              <p className="text-sm font-bold text-foreground/60">Active Listings</p>
-              <p className="text-2xl font-bold text-foreground">{jobs.filter(j => j.status === 'PUBLISHED').length}</p>
+              <p className="text-[14px] font-bold text-foreground/60">Active Listings</p>
+              <p className="text-[24px] font-bold text-foreground">{jobs.filter(j => j.status === 'PUBLISHED').length}</p>
             </div>
           </div>
           <Link 
@@ -98,8 +98,8 @@ export default function ManagerDashboard() {
                 <Users className="w-6 h-6 text-foreground/70 group-hover:text-primary transition-colors" />
               </div>
               <div>
-                <p className="text-sm font-bold text-foreground/60 group-hover:text-primary transition-colors">Active Applicants</p>
-                <p className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                <p className="text-[14px] font-bold text-foreground/60 group-hover:text-primary transition-colors">Active Applicants</p>
+                <p className="text-[24px] font-bold text-foreground group-hover:text-primary transition-colors">
                   {jobs.reduce((acc, job) => acc + (job.applications?.filter((a: any) => !['Rejected', 'Offer', 'Hired'].includes(a.stage)).length || 0), 0)}
                 </p>
               </div>
@@ -110,8 +110,8 @@ export default function ManagerDashboard() {
               <FileText className="w-6 h-6 text-foreground/70" />
             </div>
             <div>
-              <p className="text-sm font-bold text-foreground/60">Drafts</p>
-              <p className="text-2xl font-bold text-foreground">{jobs.filter(j => j.status === 'DRAFT').length}</p>
+              <p className="text-[14px] font-bold text-foreground/60">Drafts</p>
+              <p className="text-[24px] font-bold text-foreground">{jobs.filter(j => j.status === 'DRAFT').length}</p>
             </div>
           </div>
           <Link 
@@ -123,8 +123,8 @@ export default function ManagerDashboard() {
                 <Briefcase className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <p className="text-sm font-bold text-primary/80 group-hover:text-primary transition-colors">Offers Extended</p>
-                <p className="text-2xl font-bold text-primary group-hover:text-primary transition-colors">
+                <p className="text-[14px] font-bold text-primary/80 group-hover:text-primary transition-colors">Offers Extended</p>
+                <p className="text-[24px] font-bold text-primary group-hover:text-primary transition-colors">
                   {jobs.reduce((acc, job) => acc + (job.applications?.filter((a: any) => a.stage === 'Offer' || a.stage === 'Hired').length || 0), 0)}
                 </p>
               </div>
@@ -133,7 +133,7 @@ export default function ManagerDashboard() {
         </div>
 
         {/* Job Listings */}
-        <h2 className="text-xl font-bold text-foreground mb-6">Your Job Postings</h2>
+        <h2 className="text-[20px] font-bold text-foreground mb-6">Your Job Postings</h2>
         
         <div className="space-y-4">
           {loadingJobs ? (
@@ -143,8 +143,8 @@ export default function ManagerDashboard() {
               <div key={job.id} className="border border-foreground/10 rounded-xl p-6 bg-background hover:border-foreground/30 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 group">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-xl font-bold text-foreground">{job.title}</h3>
-                    <span className={`px-2.5 py-1 text-xs font-bold rounded-md ${
+                    <h3 className="text-[20px] font-bold text-foreground">{job.title}</h3>
+                    <span className={`px-2.5 py-1 text-[12px] font-bold rounded-md ${
                       job.status === 'PUBLISHED' ? 'bg-emerald-500/10 text-emerald-600' :
                       job.status === 'DRAFT' ? 'bg-amber-500/10 text-amber-600' :
                       'bg-foreground/10 text-foreground/60'
@@ -152,7 +152,7 @@ export default function ManagerDashboard() {
                       {job.status}
                     </span>
                   </div>
-                  <div className="flex items-center gap-4 text-sm font-medium text-foreground/60">
+                  <div className="flex items-center gap-4 text-[14px] font-medium text-foreground/60">
                     <span>{job.location}</span>
                     <span>•</span>
                     <span>{job.type}</span>
@@ -188,7 +188,7 @@ export default function ManagerDashboard() {
           ) : (
             <div className="text-center py-20 border border-foreground/10 border-dashed rounded-xl">
               <LayoutDashboard className="w-12 h-12 text-foreground/20 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-foreground">No jobs posted yet</h3>
+              <h3 className="text-[20px] font-bold text-foreground">No jobs posted yet</h3>
               <p className="text-foreground/60 mt-2">Create your first job listing to start receiving applications.</p>
               <Link 
                 href="/manager/jobs/create"

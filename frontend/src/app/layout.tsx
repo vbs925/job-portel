@@ -15,6 +15,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import Footer from "@/components/Footer";
+
 export const metadata: Metadata = {
   title: "Job Portal | Find Your Dream Role",
   description: "A premium job portal matching top talent with amazing companies.",
@@ -37,6 +39,7 @@ export default function RootLayout({
           <main className="flex-grow pt-16">
             {children}
           </main>
+          <Footer />
         </AuthProvider>
       </body>
     </html>

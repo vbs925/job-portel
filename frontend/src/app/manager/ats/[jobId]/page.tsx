@@ -119,8 +119,8 @@ export default function ATSKanbanBoard() {
     <div className="min-h-screen bg-background flex flex-col">
       <div className="border-b border-foreground/10 bg-background/50 backdrop-blur-md sticky top-16 z-10">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Link href="/manager/dashboard" className="inline-flex items-center gap-2 text-[14px] font-bold text-foreground/50 hover:text-foreground mb-4 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+          <Link href={`/manager/applicants?jobId=${jobId}`} className="inline-flex items-center gap-2 text-[14px] font-bold text-foreground/50 hover:text-foreground mb-4 transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Back to Candidate List
           </Link>
           <div className="flex justify-between items-end">
             <div>

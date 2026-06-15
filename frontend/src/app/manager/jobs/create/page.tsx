@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { API } from "@/lib/api";
-import { ArrowLeft, Plus, X, Save, Send } from "lucide-react";
+import { ArrowLeft, Plus, X, Save, Send, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 function CreateJobForm() {
@@ -30,6 +30,36 @@ function CreateJobForm() {
 
   const [newStep, setNewStep] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
+
+  const handleEnhanceJD = async () => {
+    if (!token) return;
+    setIsEnhancing(true);
+    try {
+      const enhanced = await API.post('/ai/enhance-jd', formData, token);
+      
+      setFormData(prev => ({
+        ...prev,
+        description: enhanced.description || prev.description,
+        keyResponsibilities: Array.isArray(enhanced.keyResponsibilities)
+          ? enhanced.keyResponsibilities.join('\n') 
+          : enhanced.keyResponsibilities || prev.keyResponsibilities,
+        skillsNeeded: Array.isArray(enhanced.skillsNeeded)
+          ? enhanced.skillsNeeded.join('\n') 
+          : enhanced.skillsNeeded || prev.skillsNeeded,
+        aboutCompany: enhanced.aboutCompany || prev.aboutCompany,
+        benefits: Array.isArray(enhanced.benefits)
+          ? enhanced.benefits.join('\n') 
+          : enhanced.benefits || prev.benefits,
+      }));
+      
+    } catch (err) {
+      console.error(err);
+      alert("Failed to enhance JD with AI.");
+    } finally {
+      setIsEnhancing(false);
+    }
+  };
 
   useEffect(() => {
     if (!isLoading && (!user || user.role !== 'MANAGER')) {
@@ -211,7 +241,17 @@ function CreateJobForm() {
 
         {/* Job Description & Details */}
         <div className="p-8 border border-foreground/10 rounded-xl bg-background shadow-sm space-y-6">
-          <h2 className="text-[20px] font-bold text-foreground mb-6">Job Description & Details</h2>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <h2 className="text-[20px] font-bold text-foreground">Job Description & Details</h2>
+            <button
+              onClick={handleEnhanceJD}
+              disabled={isEnhancing}
+              className="px-4 py-2 bg-indigo-50 text-indigo-600 border border-indigo-200 font-bold rounded-lg hover:bg-indigo-100 transition-colors flex items-center gap-2 disabled:opacity-50 shadow-sm"
+            >
+              <Sparkles className="w-4 h-4" /> 
+              {isEnhancing ? "Enhancing..." : "Enhance with AI"}
+            </button>
+          </div>
           
           <div>
             <label className="block text-[14px] font-bold text-foreground mb-2">About the Company</label>

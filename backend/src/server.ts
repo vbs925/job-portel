@@ -21,6 +21,7 @@ import managerActionsRoutes from './routes/manager.actions.routes';
 import profileRoutes from './routes/profile.routes';
 import filesRoutes from './routes/files.routes';
 import onboardingRoutes from './routes/onboarding.routes';
+import aiRoutes from './routes/ai.routes';
 
 // Routes
 app.get('/api/health', (req: Request, res: Response) => {
@@ -41,6 +42,7 @@ app.use('/api/onboarding', onboardingRoutes);
 app.use('/api/manager/jobs', managerJobsRoutes);
 app.use('/api/manager/ats', managerAtsRoutes);
 app.use('/api/manager/actions', managerActionsRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Global error handler (catches Multer file errors and other crashes)
 app.use((err: any, req: Request, res: Response, next: any) => {

@@ -152,25 +152,7 @@ export default function Dashboard() {
 
       <div className={`min-h-screen relative transition-opacity duration-300 ${mounted ? "opacity-100" : "opacity-0"} overflow-hidden bg-transparent`}>
 
-      {/* Hero Banner */}
-      <div className="relative z-10 db-hero pt-8 pb-4">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-4">
-          <div className="flex flex-col gap-2">
-            <p className="text-slate-800 text-[14px] font-bold tracking-wider uppercase flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-slate-800 animate-pulse"></span>
-              Welcome back
-            </p>
-            <h1 className="text-[36px] sm:text-[48px] font-black text-slate-900 leading-tight">
-              Hey, {firstName}!<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-700">
-                Let's find your next role.
-              </span>
-            </h1>
-            <p className="text-slate-600 mt-2 font-medium max-w-lg">Browse curated opportunities or let AI match you with the perfect fit.</p>
-          </div>
-        </div>
-      </div>
-        
+
         {/* Tabs */}
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-4">
           <div className="db-tabs flex gap-6 border-b border-foreground/10 pt-8">
@@ -227,7 +209,7 @@ export default function Dashboard() {
                         {...job} 
                         isSaved={savedJobs.some(sj => sj.id === job.id)}
                         onSaveToggle={handleSaveToggle}
-                        onSelect={(id) => setSelectedJobId(id)}
+                        onSelect={(id: string) => setSelectedJobId(id)}
                         selected={selectedJobId ? selectedJobId === job.id : index === 0 && !selectedJobId}
                       />
                     </div>
@@ -260,7 +242,7 @@ export default function Dashboard() {
                         {...job} 
                         isSaved={savedJobs.some(sj => sj.id === job.id)}
                         onSaveToggle={handleSaveToggle}
-                        onSelect={(id) => setSelectedJobId(id)}
+                        onSelect={(id: string) => setSelectedJobId(id)}
                         selected={selectedJobId ? selectedJobId === job.id : index === 0 && !selectedJobId}
                       />
                     </div>
@@ -287,7 +269,7 @@ export default function Dashboard() {
                       {...job} 
                       isSaved={true}
                       onSaveToggle={handleSaveToggle}
-                      onSelect={(id) => setSelectedJobId(id)}
+                      onSelect={(id: string) => setSelectedJobId(id)}
                       selected={selectedJobId ? selectedJobId === job.id : index === 0 && !selectedJobId}
                     />
                   </div>

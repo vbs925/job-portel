@@ -57,8 +57,7 @@ export default function JobDetailsPage() {
     const fetchJob = async () => {
       try {
         const id = params.id as string;
-        const allJobs = await API.get('/jobs');
-        const found = allJobs.find((j: any) => j.id === id);
+        const found = await API.get(`/jobs/${id}`);
         if (found) {
           setJob(found);
         } else {
@@ -143,37 +142,70 @@ export default function JobDetailsPage() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="text-center max-w-4xl mx-auto flex flex-col items-center w-full mt-10"
           >
-            <p className="text-slate-500 font-medium mb-3">Imagine yourself at {job.company} as:</p>
+            <p className="text-slate-500 font-medium mb-3">Imagine yourself at <span className="font-bold text-slate-800">{job.company}</span> as:</p>
             
-            <h1 className="text-[60px] sm:text-[72px] md:text-[5.5rem] font-medium tracking-tight mb-8 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-600 to-slate-900">
+            <h1 className="text-[40px] sm:text-[48px] md:text-[3.5rem] font-bold tracking-tight mb-8 leading-tight text-slate-900">
               {job.title}
             </h1>
             
-            <p className="text-[18px] sm:text-[20px] text-slate-600 mb-10 max-w-3xl leading-relaxed">
-              {displayDescription?.substring(0, 200)}...
-              <br />
-              <span className="text-[14px] text-slate-900 mt-2 inline-block">Source: Internal</span>
-            </p>
-            
-            <div className="flex flex-wrap justify-center gap-4 mb-20">
-              <div className="flex items-center gap-2 text-[14px] font-bold text-slate-700 bg-white border border-slate-200 px-5 py-2.5 rounded-full shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+            {/* Quick Stats Pills */}
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              <div className="flex items-center gap-2 text-[14px] font-medium text-slate-700 bg-white border border-slate-200 px-4 py-2 rounded-full shadow-sm">
                 <MapPin className="w-4 h-4 text-slate-400" /> {job.location}
               </div>
-              <div className="flex items-center gap-2 text-[14px] font-bold text-slate-700 bg-white border border-slate-200 px-5 py-2.5 rounded-full shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+              <div className="flex items-center gap-2 text-[14px] font-medium text-slate-700 bg-white border border-slate-200 px-4 py-2 rounded-full shadow-sm">
                 <Briefcase className="w-4 h-4 text-slate-400" /> {job.type}
               </div>
-              <div className="flex items-center gap-2 text-[14px] font-bold text-slate-700 bg-white border border-slate-200 px-5 py-2.5 rounded-full shadow-[0_2px_10px_rgb(0,0,0,0.02)]">
+              <div className="flex items-center gap-2 text-[14px] font-medium text-slate-700 bg-white border border-slate-200 px-4 py-2 rounded-full shadow-sm">
                 <Clock className="w-4 h-4 text-slate-400" /> {job.salary || "Competitive Salary"}
               </div>
             </div>
+
+            {/* Hero Information Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 max-w-4xl w-full text-left">
+              {displayAboutCompany && (
+                <div className="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                  <h3 className="text-[13px] font-bold text-slate-800 mb-4 uppercase tracking-wider flex items-center gap-2">
+                    🏢 About {job.company}
+                  </h3>
+                  <ul className="space-y-3">
+                    {displayAboutCompany.split('. ').filter(Boolean).slice(0, 3).map((point: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2.5 text-[14px] text-slate-600 leading-relaxed">
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0 mt-2" />
+                        <span>{point.trim()}{point.endsWith('.') ? '' : '.'}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {(displayResponsibilities || displaySkills) && (
+                <div className="bg-slate-50 border border-slate-200/60 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                  <h3 className="text-[13px] font-bold text-slate-800 mb-4 uppercase tracking-wider flex items-center gap-2">
+                    ⭐ Key Requirements
+                  </h3>
+                  <ul className="space-y-3">
+                    {(displayResponsibilities || displaySkills).split('\n').filter((line: string) => line.trim()).slice(0, 3).map((line: string, i: number) => {
+                      const cleanLine = line.replace(/^- /, '').replace(/^\* /, '');
+                      return (
+                        <li key={i} className="flex items-start gap-2.5 text-[14px] text-slate-600 leading-relaxed">
+                          <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-2" />
+                          <span>{cleanLine}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+            </div>
             
-            <p className="text-[12px] text-slate-400 mb-6 max-w-md mx-auto">
-              Salary information and role details are subject to change. This role represents a general outline of responsibilities.
+            <p className="text-[16px] sm:text-[18px] text-slate-600 mb-8 max-w-3xl leading-relaxed text-center">
+              {displayDescription?.substring(0, 150)}...
             </p>
-            
+
             <button 
               onClick={scrollToNext}
-              className="w-12 h-12 rounded-full bg-slate-700 hover:bg-slate-900 text-white flex items-center justify-center transition-colors shadow-lg shadow-slate-700/20"
+              className="w-12 h-12 rounded-full bg-slate-800 hover:bg-slate-900 text-white flex items-center justify-center transition-colors shadow-lg shadow-slate-800/20"
             >
               <ArrowDown className="w-5 h-5" />
             </button>

@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { API } from "@/lib/api";
-import { ArrowLeft, User as UserIcon } from "lucide-react";
+import { ArrowLeft, User as UserIcon, CheckSquare } from "lucide-react";
 import Link from "next/link";
 
 function ApplicantsContent() {
@@ -12,9 +12,17 @@ function ApplicantsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filter = searchParams.get("filter") || "all";
+  const jobId = searchParams.get("jobId");
 
   const [apps, setApps] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCandidates, setSelectedCandidates] = useState<string[]>([]);
+
+  const toggleSelection = (appId: string) => {
+    setSelectedCandidates(prev => 
+      prev.includes(appId) ? prev.filter(id => id !== appId) : [...prev, appId]
+    );
+  };
 
   useEffect(() => {
     if (!isLoading && (!user || user.role !== 'MANAGER')) {
@@ -27,7 +35,9 @@ function ApplicantsContent() {
       if (!token) return;
       try {
         setLoading(true);
-        const data = await API.get('/manager/ats', token);
+        // If jobId is provided, pass it to the backend to get apps only for that job
+        const endpoint = jobId ? `/manager/ats?jobId=${jobId}` : '/manager/ats';
+        const data = await API.get(endpoint, token);
         let filtered = data;
         if (filter === 'active') {
           filtered = data.filter((a: any) => !['Rejected', 'Offer', 'Hired'].includes(a.stage));
@@ -43,7 +53,7 @@ function ApplicantsContent() {
     };
     
     fetchApplicants();
-  }, [token, filter]);
+  }, [token, filter, jobId]);
 
   if (isLoading || !user || user.role !== 'MANAGER') {
     return (
@@ -53,7 +63,7 @@ function ApplicantsContent() {
     );
   }
 
-  const title = filter === 'active' ? 'Active Applicants' : filter === 'offers' ? 'Offers Extended' : 'All Applicants';
+  const title = jobId ? 'Candidates for Job' : filter === 'active' ? 'Active Applicants' : filter === 'offers' ? 'Offers Extended' : 'All Applicants';
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -67,6 +77,14 @@ function ApplicantsContent() {
               <h1 className="text-[30px] font-bold text-foreground tracking-tight">{title}</h1>
               <p className="text-foreground/60 mt-1 font-medium">Review and manage candidate profiles.</p>
             </div>
+            {jobId && (
+              <Link 
+                href={`/manager/ats/${jobId}`}
+                className="px-6 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary-hover transition-colors flex items-center gap-2 shadow-sm"
+              >
+                Go to Pipeline View
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -81,9 +99,19 @@ function ApplicantsContent() {
             </div>
           ) : (
             apps.map(app => (
-              <div key={app.id} className="p-6 border border-foreground/10 rounded-xl bg-background shadow-sm hover:border-primary/30 transition-colors flex flex-col gap-4">
+              <div 
+                key={app.id} 
+                className={`relative p-6 border rounded-xl bg-background shadow-sm transition-colors flex flex-col gap-4 ${selectedCandidates.includes(app.id) ? 'border-primary ring-2 ring-primary/20' : 'border-foreground/10 hover:border-primary/30'}`}
+              >
+                <button 
+                  onClick={() => toggleSelection(app.id)}
+                  className={`absolute top-4 right-4 z-10 transition-colors ${selectedCandidates.includes(app.id) ? 'text-primary' : 'text-foreground/20 hover:text-primary/60'}`}
+                >
+                  <CheckSquare className="w-6 h-6" fill={selectedCandidates.includes(app.id) ? "currentColor" : "none"} />
+                </button>
+
                 <div className="flex justify-between items-start">
-                  <div className="pr-4">
+                  <div className="pr-12">
                     <h4 className="font-bold text-[20px] text-foreground truncate">{app.user.name || "Applicant"}</h4>
                     <div className="text-[14px] text-foreground/60 flex items-center gap-2 font-medium mt-1 truncate">
                        <UserIcon className="w-4 h-4 flex-shrink-0" /> <span className="truncate">{app.user.email}</span>
@@ -130,6 +158,20 @@ function ApplicantsContent() {
           )}
         </div>
       </div>
+
+      {selectedCandidates.length > 1 && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-foreground text-background px-6 py-4 rounded-full shadow-xl border border-foreground/10 flex items-center gap-6 z-50 animate-in slide-in-from-bottom-10 fade-in duration-300">
+          <div className="font-bold">
+            <span className="text-primary">{selectedCandidates.length}</span> Candidates Selected
+          </div>
+          <Link 
+            href={`/manager/compare?ids=${selectedCandidates.join(',')}&jobTitle=${encodeURIComponent(apps[0]?.job?.title || 'Job Role')}`}
+            className="px-6 py-2 bg-primary text-primary-foreground font-bold rounded-full hover:bg-primary-hover transition-colors shadow-sm"
+          >
+            Compare Candidates
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

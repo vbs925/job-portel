@@ -56,9 +56,12 @@ router.get('/', async (req: any, res: any) => {
     
     const whereClause = andClauses.length > 0 ? { AND: andClauses } : {};
     
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+    
     const jobs = await prisma.job.findMany({
       where: whereClause,
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      take: limit
     });
     
     res.json(jobs);
@@ -67,6 +70,7 @@ router.get('/', async (req: any, res: any) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 // Get AI suggested jobs
 router.get('/suggested', authenticate, async (req: any, res: any) => {
@@ -182,6 +186,22 @@ router.get('/saved', authenticate, async (req: any, res: any) => {
     });
     
     res.json(savedJobs.map((sj: any) => sj.job));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get a single job by ID (catch-all for IDs)
+router.get('/:id', async (req: any, res: any) => {
+  try {
+    const job = await prisma.job.findUnique({
+      where: { id: req.params.id }
+    });
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+    res.json(job);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });

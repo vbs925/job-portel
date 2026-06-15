@@ -86,19 +86,24 @@ export default function SingleApplicant() {
     }
   };
 
-  const handleStageChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newStage = e.target.value;
-    if (!newStage || newStage === app.stage) return;
+  const handleAdvanceStage = async () => {
+    const pipelineSteps = (app?.job?.hiringSteps as string[]) || ["Applied", "Screening", "Interview", "Offer"];
+    const currentIndex = pipelineSteps.indexOf(app.stage);
+    
+    if (currentIndex === -1 || currentIndex === pipelineSteps.length - 1 || app.stage === 'Rejected') {
+      return;
+    }
+    
+    const newStage = pipelineSteps[currentIndex + 1];
     
     if (!confirm(`Are you sure you want to move the candidate to the ${newStage} stage? An email update will be sent.`)) {
-      e.target.value = app.stage;
       return;
     }
 
     setActionLoading(true);
     try {
       await API.post(`/manager/actions/${id}/stage`, { stage: newStage }, token || '');
-      alert("Stage updated and email dispatched!");
+      alert(`Stage updated to ${newStage} and email dispatched!`);
       await fetchApp();
     } catch (err: any) {
       alert("Failed to change stage: " + err.message);
@@ -202,61 +207,70 @@ export default function SingleApplicant() {
             <ArrowLeft className="w-4 h-4" /> Back to ATS Pipeline
           </Link>
           
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 w-full">
             <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full bg-secondary flex items-center justify-center border border-foreground/10 shadow-sm">
+              <div className="w-20 h-20 rounded-full bg-secondary flex items-center justify-center border border-foreground/10 shadow-sm flex-shrink-0">
                 <UserIcon className="w-10 h-10 text-foreground/40" />
               </div>
               <div>
                 <h1 className="text-[30px] font-black text-foreground tracking-tight">{app.user.name || "Applicant"}</h1>
-                <p className="text-foreground/60 mt-1 font-medium text-[18px]">
+                <p className="text-foreground/60 mt-1 font-medium text-[16px] md:text-[18px]">
                   {app.user.email} <span className="opacity-50 mx-2">•</span> Applied for <span className="font-bold text-foreground">{app.job?.title || "General Role"}</span>
                 </p>
               </div>
             </div>
             
-            <div className="flex flex-wrap items-center gap-3">
-              {app.stage !== 'Rejected' && (
-                <button 
-                  onClick={handleReject}
-                  disabled={actionLoading}
-                  className="px-4 py-2.5 bg-red-500/10 text-red-600 font-bold rounded-xl hover:bg-red-500/20 transition-colors text-[14px] disabled:opacity-50 border border-red-500/20"
-                >
-                  Reject Candidate
-                </button>
-              )}
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 w-full xl:w-auto mt-4 xl:mt-0">
               
-              <div className="flex items-center gap-2 px-4 py-2 bg-secondary rounded-xl border border-foreground/10 shadow-sm">
-                <span className="text-[14px] font-bold text-foreground/60">Stage:</span>
-                <select 
-                  value={app.stage}
-                  onChange={handleStageChange}
-                  disabled={actionLoading || app.stage === 'Rejected'}
-                  className="bg-transparent text-[14px] font-black text-primary focus:outline-none cursor-pointer disabled:opacity-50"
-                >
-                  {pipelineSteps.map((step: string) => (
-                    <option key={step} value={step} className="text-foreground">{step}</option>
-                  ))}
-                  {app.stage === 'Rejected' && <option value="Rejected" className="text-red-500">Rejected</option>}
-                </select>
+              {/* Current Stage Indicator */}
+              <div className="flex items-center gap-2 px-4 py-2 bg-secondary/30 border border-foreground/10 rounded-lg shadow-sm flex-grow sm:flex-grow-0 cursor-default">
+                <span className="text-[13px] font-medium text-foreground/60 whitespace-nowrap">Stage:</span>
+                <span className={`text-[13px] font-bold ${app.stage === 'Rejected' ? 'text-red-600' : 'text-primary'}`}>
+                  {app.stage}
+                </span>
               </div>
 
-              <div className="h-8 w-px bg-foreground/10 hidden sm:block mx-1"></div>
+              <div className="h-6 w-px bg-foreground/10 hidden xl:block mx-1"></div>
 
-              <button 
-                onClick={() => setShowScheduleModal(true)}
-                disabled={actionLoading}
-                className="px-5 py-2.5 border border-foreground/20 text-foreground font-bold rounded-xl hover:bg-secondary transition-colors flex items-center gap-2 disabled:opacity-50 shadow-sm"
-              >
-                <Calendar className="w-4 h-4" /> Schedule
-              </button>
-              <button 
-                onClick={handleMessage}
-                disabled={actionLoading}
-                className="px-5 py-2.5 bg-foreground text-background font-bold rounded-xl hover:bg-foreground/90 transition-colors flex items-center gap-2 disabled:opacity-50 shadow-lg"
-              >
-                <MessageSquare className="w-4 h-4" /> Message
-              </button>
+              {/* Action Buttons */}
+              <div className="flex items-center gap-3 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
+                {app.stage !== 'Rejected' && pipelineSteps.indexOf(app.stage) !== -1 && pipelineSteps.indexOf(app.stage) < pipelineSteps.length - 1 && (
+                  <button 
+                    onClick={handleAdvanceStage}
+                    disabled={actionLoading}
+                    className="whitespace-nowrap flex-1 sm:flex-none px-4 py-2 bg-primary text-primary-foreground text-[13px] font-bold rounded-lg hover:bg-primary-hover transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm"
+                  >
+                    Move to {pipelineSteps[pipelineSteps.indexOf(app.stage) + 1]}
+                  </button>
+                )}
+                <button 
+                  onClick={handleMessage}
+                  disabled={actionLoading}
+                  className="whitespace-nowrap flex-1 sm:flex-none px-4 py-2 bg-background border border-foreground/20 text-foreground text-[13px] font-medium rounded-lg hover:bg-secondary transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 text-foreground/70" /> Message
+                </button>
+
+                {!['Offer', 'Hired', 'Rejected'].includes(app.stage) && (
+                  <button 
+                    onClick={() => setShowScheduleModal(true)}
+                    disabled={actionLoading}
+                    className="whitespace-nowrap flex-1 sm:flex-none px-4 py-2 bg-background border border-foreground/20 text-foreground text-[13px] font-medium rounded-lg hover:bg-secondary transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm"
+                  >
+                    <Calendar className="w-3.5 h-3.5 text-foreground/70" /> Schedule
+                  </button>
+                )}
+
+                {app.stage !== 'Rejected' && (
+                  <button 
+                    onClick={handleReject}
+                    disabled={actionLoading}
+                    className="whitespace-nowrap flex-1 sm:flex-none px-4 py-2 bg-background border border-foreground/20 text-foreground text-[13px] font-medium rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm"
+                  >
+                    Reject
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

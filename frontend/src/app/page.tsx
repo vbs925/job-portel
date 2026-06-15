@@ -14,8 +14,8 @@ export default function Home() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const jobs = await API.get('/jobs');
-        setFeaturedJobs(jobs.slice(0, 4));
+        const jobs = await API.get('/jobs?limit=4');
+        setFeaturedJobs(jobs);
       } catch (err) {
         console.error("Failed to fetch featured jobs", err);
       } finally {

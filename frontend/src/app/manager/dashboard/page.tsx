@@ -177,7 +177,7 @@ export default function ManagerDashboard() {
                     <Edit className="w-5 h-5" />
                   </Link>
                   <Link 
-                    href={`/manager/ats/${job.id}`}
+                    href={`/manager/applicants?jobId=${job.id}`}
                     className="px-4 py-2 bg-primary/10 text-primary font-bold rounded-lg hover:bg-primary/20 transition-colors flex items-center gap-2"
                   >
                     <Users className="w-4 h-4" /> View Active Applicants ({job.applications?.filter((a: any) => !['Rejected', 'Offer', 'Hired'].includes(a.stage)).length || 0})

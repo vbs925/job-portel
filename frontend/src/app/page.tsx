@@ -6,10 +6,24 @@ import JobCard from "@/components/JobCard";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { API } from "@/lib/api";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [featuredJobs, setFeaturedJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      if (user.role === 'MANAGER') {
+        router.push('/manager/dashboard');
+      } else {
+        router.push('/dashboard');
+      }
+    }
+  }, [user, isLoading, router]);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -24,6 +38,14 @@ export default function Home() {
     };
     fetchJobs();
   }, []);
+
+  if (isLoading || user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-pulse text-foreground/50 font-medium">Redirecting...</div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col min-h-screen bg-background selection:bg-foreground selection:text-background">
       <Hero />

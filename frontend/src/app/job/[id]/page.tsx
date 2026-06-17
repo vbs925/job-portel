@@ -144,9 +144,17 @@ export default function JobDetailsPage() {
           >
             <p className="text-slate-500 font-medium mb-3">Imagine yourself at <span className="font-bold text-slate-800">{job.company}</span> as:</p>
             
-            <h1 className="text-[40px] sm:text-[48px] md:text-[3.5rem] font-bold tracking-tight mb-8 leading-tight text-slate-900">
-              {job.title}
-            </h1>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8">
+              <h1 className="text-[40px] sm:text-[48px] md:text-[3.5rem] font-bold tracking-tight leading-tight text-slate-900 m-0">
+                {job.title}
+              </h1>
+              <button 
+                onClick={() => router.push(`/job/${job.id}/apply`)}
+                className="bg-slate-900 text-white font-medium px-6 py-3 rounded-full hover:bg-black transition-all hover:scale-105 active:scale-95 shadow-md text-[16px] flex items-center justify-center gap-2"
+              >
+                Apply <ExternalLink className="w-4 h-4" />
+              </button>
+            </div>
             
             {/* Quick Stats Pills */}
             <div className="flex flex-wrap justify-center gap-3 mb-8">

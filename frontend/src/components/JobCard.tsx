@@ -98,7 +98,18 @@ export default function JobCard({ id, title, company, location, type, salary, po
         </div>
         <div className="flex items-center justify-between mt-3">
           <span className="text-[12px] font-medium text-slate-400">Posted {postedAt}</span>
-          <span className="text-[12px] font-bold text-slate-900 group-hover:underline">View details →</span>
+          <div className="flex items-center gap-4">
+            <span className="text-[12px] font-bold text-slate-900 group-hover:underline hidden sm:block">View details →</span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                if (id) router.push(`/job/${id}/apply`);
+              }}
+              className="bg-foreground text-background px-4 py-1.5 rounded-lg text-[13px] font-bold hover:bg-foreground/90 transition-colors shadow-sm"
+            >
+              Apply
+            </button>
+          </div>
         </div>
       </div>
     </div>

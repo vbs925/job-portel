@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { API } from "@/lib/api";
-import { Plus, Briefcase, Users, FileText, Copy, Edit, LayoutDashboard, User as UserIcon } from "lucide-react";
+import { Plus, Briefcase, Users, FileText, Copy, Edit, LayoutDashboard, Search, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function ManagerDashboard() {
   const { user, isLoading, token } = useAuth();
   const router = useRouter();
   const [jobs, setJobs] = useState<any[]>([]);
   const [loadingJobs, setLoadingJobs] = useState(true);
+  const [statusFilter, setStatusFilter] = useState<'ALL' | 'PUBLISHED' | 'DRAFT'>('ALL');
 
   useEffect(() => {
     if (!isLoading) {
@@ -38,7 +40,8 @@ export default function ManagerDashboard() {
     fetchJobs();
   }, [token]);
 
-  const handleDuplicate = async (id: string) => {
+  const handleDuplicate = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
     if (!token) return;
     try {
       const data = await API.post(`/manager/jobs/${id}/duplicate`, {}, token);
@@ -48,154 +51,231 @@ export default function ManagerDashboard() {
     }
   };
 
+  const handlePublish = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    if (!token) return;
+    try {
+      await API.put(`/manager/jobs/${id}`, { status: 'PUBLISHED' }, token);
+      setJobs(jobs.map(j => j.id === id ? { ...j, status: 'PUBLISHED' } : j));
+    } catch (err) {
+      alert("Failed to publish job");
+    }
+  };
+
   if (isLoading || !user || user.role !== 'MANAGER') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-pulse text-foreground/50 font-medium">Loading Employer Portal...</div>
+        <div className="animate-pulse text-slate-400 font-medium tracking-wide">Loading Workspace...</div>
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-background relative">
+  const activeJobs = jobs.filter(j => j.status === 'PUBLISHED').length;
+  const draftJobs = jobs.filter(j => j.status === 'DRAFT').length;
+  const activeApplicants = jobs.reduce((acc, job) => acc + (job.applications?.filter((a: any) => !['Rejected', 'Offer', 'Hired'].includes(a.stage)).length || 0), 0);
+  const offersExtended = jobs.reduce((acc, job) => acc + (job.applications?.filter((a: any) => a.stage === 'Offer' || a.stage === 'Hired').length || 0), 0);
 
-      <div className="border-b border-foreground/10 bg-background/50 backdrop-blur-md sticky top-16 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-end">
-            <div>
-              <h1 className="text-[30px] font-bold text-foreground tracking-tight">Employer Dashboard</h1>
-              <p className="text-foreground/60 mt-1 font-medium">Manage your job postings and applicants.</p>
-            </div>
-            <Link 
-              href="/manager/jobs/create"
-              className="px-6 py-2.5 bg-foreground text-background font-bold rounded-lg hover:bg-foreground/90 transition-colors flex items-center gap-2"
-            >
-              <Plus className="w-5 h-5" /> Post New Job
-            </Link>
+  const displayedJobs = statusFilter === 'ALL' ? jobs.filter(j => j.status !== 'DRAFT') : jobs.filter(j => j.status === statusFilter);
+
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans">
+      {/* Header */}
+      <div className="bg-white border-b border-slate-200 sticky top-16 z-10 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-[32px] font-bold text-slate-900 tracking-tight">Workspace Overview</h1>
+            <p className="text-slate-500 mt-1 font-medium text-[15px]">Manage your active listings and talent pipeline.</p>
           </div>
+          <Link 
+            href="/manager/jobs/create"
+            className="px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 shadow-md shadow-primary/20 w-fit"
+          >
+            <Plus className="w-5 h-5" /> Post New Job
+          </Link>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="p-6 border border-foreground/10 rounded-xl bg-background shadow-sm flex items-center gap-4">
-            <div className="p-3 bg-secondary rounded-lg">
-              <Briefcase className="w-6 h-6 text-foreground/70" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <button 
+            onClick={() => setStatusFilter(statusFilter === 'PUBLISHED' ? 'ALL' : 'PUBLISHED')}
+            className={`p-6 bg-white border rounded-2xl shadow-sm flex items-center gap-5 hover:shadow-md hover:-translate-y-1 transition-all text-left ${statusFilter === 'PUBLISHED' ? 'border-blue-500 ring-2 ring-blue-500/20' : 'border-slate-200'}`}
+          >
+            <div className="p-4 bg-blue-50 text-blue-600 rounded-xl">
+              <Briefcase className="w-7 h-7" />
             </div>
             <div>
-              <p className="text-[14px] font-bold text-foreground/60">Active Listings</p>
-              <p className="text-[24px] font-bold text-foreground">{jobs.filter(j => j.status === 'PUBLISHED').length}</p>
+              <p className="text-[13px] font-bold text-slate-500 uppercase tracking-wide">Active Listings</p>
+              <p className="text-[28px] font-bold text-slate-900 leading-none mt-1">{activeJobs}</p>
             </div>
-          </div>
-          <Link 
-            href="/manager/applicants?filter=active"
-            className="p-6 border border-foreground/10 rounded-xl bg-background shadow-sm flex items-center gap-4 hover:border-primary/50 transition-colors cursor-pointer group block"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-secondary group-hover:bg-primary/10 transition-colors rounded-lg">
-                <Users className="w-6 h-6 text-foreground/70 group-hover:text-primary transition-colors" />
-              </div>
-              <div>
-                <p className="text-[14px] font-bold text-foreground/60 group-hover:text-primary transition-colors">Active Applicants</p>
-                <p className="text-[24px] font-bold text-foreground group-hover:text-primary transition-colors">
-                  {jobs.reduce((acc, job) => acc + (job.applications?.filter((a: any) => !['Rejected', 'Offer', 'Hired'].includes(a.stage)).length || 0), 0)}
-                </p>
-              </div>
+          </button>
+          
+          <Link href="/manager/applicants?filter=active" className="p-6 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-5 hover:shadow-md hover:border-emerald-200 hover:-translate-y-1 transition-all group">
+            <div className="p-4 bg-emerald-50 text-emerald-600 group-hover:bg-emerald-100 transition-colors rounded-xl">
+              <Users className="w-7 h-7" />
+            </div>
+            <div>
+              <p className="text-[13px] font-bold text-slate-500 uppercase tracking-wide group-hover:text-emerald-700 transition-colors">Active Applicants</p>
+              <p className="text-[28px] font-bold text-slate-900 leading-none mt-1">{activeApplicants}</p>
             </div>
           </Link>
-          <div className="p-6 border border-foreground/10 rounded-xl bg-background shadow-sm flex items-center gap-4">
-            <div className="p-3 bg-secondary rounded-lg">
-              <FileText className="w-6 h-6 text-foreground/70" />
+
+          <button 
+            onClick={() => setStatusFilter(statusFilter === 'DRAFT' ? 'ALL' : 'DRAFT')}
+            className={`p-6 bg-white border rounded-2xl shadow-sm flex items-center gap-5 hover:shadow-md hover:-translate-y-1 transition-all text-left ${statusFilter === 'DRAFT' ? 'border-amber-500 ring-2 ring-amber-500/20' : 'border-slate-200'}`}
+          >
+            <div className="p-4 bg-amber-50 text-amber-600 rounded-xl">
+              <FileText className="w-7 h-7" />
             </div>
             <div>
-              <p className="text-[14px] font-bold text-foreground/60">Drafts</p>
-              <p className="text-[24px] font-bold text-foreground">{jobs.filter(j => j.status === 'DRAFT').length}</p>
+              <p className="text-[13px] font-bold text-slate-500 uppercase tracking-wide">Drafts</p>
+              <p className="text-[28px] font-bold text-slate-900 leading-none mt-1">{draftJobs}</p>
             </div>
-          </div>
-          <Link 
-            href="/manager/applicants?filter=offers"
-            className="p-6 border border-primary/20 rounded-xl bg-primary/5 shadow-sm flex items-center gap-4 hover:border-primary/50 transition-colors cursor-pointer group block"
-          >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-primary/20 group-hover:bg-primary/30 transition-colors rounded-lg">
-                <Briefcase className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <p className="text-[14px] font-bold text-primary/80 group-hover:text-primary transition-colors">Offers Extended</p>
-                <p className="text-[24px] font-bold text-primary group-hover:text-primary transition-colors">
-                  {jobs.reduce((acc, job) => acc + (job.applications?.filter((a: any) => a.stage === 'Offer' || a.stage === 'Hired').length || 0), 0)}
-                </p>
-              </div>
+          </button>
+
+          <Link href="/manager/applicants?filter=offers" className="p-6 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-5 hover:shadow-md hover:border-violet-200 hover:-translate-y-1 transition-all group">
+            <div className="p-4 bg-violet-50 text-violet-600 group-hover:bg-violet-100 transition-colors rounded-xl">
+              <Users className="w-7 h-7" />
+            </div>
+            <div>
+              <p className="text-[13px] font-bold text-slate-500 uppercase tracking-wide group-hover:text-violet-700 transition-colors">Offers Extended</p>
+              <p className="text-[28px] font-bold text-slate-900 leading-none mt-1">{offersExtended}</p>
             </div>
           </Link>
         </div>
 
-        {/* Job Listings */}
-        <h2 className="text-[20px] font-bold text-foreground mb-6">Your Job Postings</h2>
+        {/* Job Listings Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-[22px] font-bold text-slate-900 tracking-tight">
+            {statusFilter === 'ALL' ? 'All Job Postings' : statusFilter === 'PUBLISHED' ? 'Active Listings' : 'Drafts'}
+          </h2>
+          {statusFilter !== 'ALL' && (
+            <button 
+              onClick={() => setStatusFilter('ALL')}
+              className="text-[14px] text-primary font-medium hover:underline"
+            >
+              Clear Filter
+            </button>
+          )}
+        </div>
         
+        {/* Job Listings List */}
         <div className="space-y-4">
           {loadingJobs ? (
-            <div className="py-12 text-center text-foreground/50">Loading jobs...</div>
-          ) : jobs.length > 0 ? (
-            jobs.map((job) => (
-              <div key={job.id} className="border border-foreground/10 rounded-xl p-6 bg-background hover:border-foreground/30 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 group">
-                <div>
+            <div className="py-20 flex justify-center">
+              <div className="w-8 h-8 border-4 border-slate-200 border-t-primary rounded-full animate-spin"></div>
+            </div>
+          ) : displayedJobs.length > 0 ? (
+            displayedJobs.map((job, idx) => (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: idx * 0.05 }}
+                key={job.id} 
+                onClick={() => router.push(`/job/${job.id}`)}
+                className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 group cursor-pointer"
+              >
+                {/* Left side details */}
+                <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-[20px] font-bold text-foreground">{job.title}</h3>
-                    <span className={`px-2.5 py-1 text-[12px] font-bold rounded-md ${
-                      job.status === 'PUBLISHED' ? 'bg-emerald-500/10 text-emerald-600' :
-                      job.status === 'DRAFT' ? 'bg-amber-500/10 text-amber-600' :
-                      'bg-foreground/10 text-foreground/60'
+                    <h3 className="text-[20px] font-bold text-slate-900 group-hover:text-primary transition-colors">
+                      {job.title}
+                    </h3>
+                    <span className={`px-2.5 py-1 text-[11px] uppercase tracking-wider font-bold rounded-lg ${
+                      job.status === 'PUBLISHED' ? 'bg-emerald-100 text-emerald-700' :
+                      job.status === 'DRAFT' ? 'bg-slate-100 text-slate-600' :
+                      'bg-red-100 text-red-600'
                     }`}>
                       {job.status}
                     </span>
                   </div>
-                  <div className="flex items-center gap-4 text-[14px] font-medium text-foreground/60">
-                    <span>{job.location}</span>
-                    <span>•</span>
-                    <span>{job.type}</span>
-                    <span>•</span>
-                    <span>Created {new Date(job.createdAt).toLocaleDateString()}</span>
+                  <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-[14px] font-medium text-slate-500">
+                    <div className="flex items-center gap-1.5">
+                      <MapPin className="w-4 h-4 text-slate-400" />
+                      {job.location}
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Briefcase className="w-4 h-4 text-slate-400" />
+                      {job.type}
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="w-4 h-4 text-slate-400" />
+                      Created {new Date(job.createdAt).toLocaleDateString()}
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                {/* Right side actions */}
+                <div className="flex items-center gap-3 shrink-0">
+                  {job.status === 'DRAFT' && (
+                    <button 
+                      onClick={(e) => handlePublish(e, job.id)}
+                      className="px-4 py-2 bg-emerald-100 text-emerald-700 font-bold rounded-xl hover:bg-emerald-200 transition-colors shadow-sm"
+                      title="Publish Listing"
+                    >
+                      Publish
+                    </button>
+                  )}
                   <button 
-                    onClick={() => handleDuplicate(job.id)}
-                    className="p-2 text-foreground/50 hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
-                    title="Duplicate Job"
+                    onClick={(e) => handleDuplicate(e, job.id)}
+                    className="p-2.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors tooltip-trigger"
+                    title="Duplicate Listing"
                   >
                     <Copy className="w-5 h-5" />
                   </button>
-                  <Link 
-                    href={`/manager/jobs/create?id=${job.id}`}
-                    className="p-2 text-foreground/50 hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
-                    title="Edit Job"
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/manager/jobs/create?id=${job.id}`);
+                    }}
+                    className="p-2.5 text-slate-400 hover:text-primary hover:bg-blue-50 rounded-xl transition-colors"
+                    title="Edit Listing"
                   >
                     <Edit className="w-5 h-5" />
-                  </Link>
-                  <Link 
-                    href={`/manager/applicants?jobId=${job.id}`}
-                    className="px-4 py-2 bg-primary/10 text-primary font-bold rounded-lg hover:bg-primary/20 transition-colors flex items-center gap-2"
+                  </button>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/manager/applicants?jobId=${job.id}`);
+                    }}
+                    className="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-black transition-colors flex items-center gap-2 ml-2 shadow-sm"
                   >
-                    <Users className="w-4 h-4" /> View Active Applicants ({job.applications?.filter((a: any) => !['Rejected', 'Offer', 'Hired'].includes(a.stage)).length || 0})
-                  </Link>
+                    <Users className="w-4 h-4" /> 
+                    <span>Applicants ({job.applications?.filter((a: any) => !['Rejected', 'Offer', 'Hired'].includes(a.stage)).length || 0})</span>
+                  </button>
                 </div>
-              </div>
+              </motion.div>
             ))
           ) : (
-            <div className="text-center py-20 border border-foreground/10 border-dashed rounded-xl">
-              <LayoutDashboard className="w-12 h-12 text-foreground/20 mx-auto mb-4" />
-              <h3 className="text-[20px] font-bold text-foreground">No jobs posted yet</h3>
-              <p className="text-foreground/60 mt-2">Create your first job listing to start receiving applications.</p>
-              <Link 
-                href="/manager/jobs/create"
-                className="inline-block mt-6 px-6 py-2 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary-hover transition-colors"
-              >
-                Post a Job
-              </Link>
+            <div className="bg-white border border-slate-200 border-dashed rounded-3xl py-24 text-center flex flex-col items-center shadow-sm">
+              <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+                <LayoutDashboard className="w-10 h-10 text-slate-300" />
+              </div>
+              <h3 className="text-[24px] font-bold text-slate-900 mb-2">
+                {statusFilter === 'ALL' ? 'Your workspace is empty' : 'No jobs found for this filter'}
+              </h3>
+              <p className="text-slate-500 text-[16px] max-w-md mx-auto mb-8">
+                {statusFilter === 'ALL' 
+                  ? 'Get started by creating your first job listing to start receiving applications from top talent.'
+                  : 'Try clearing the active filters or creating a new job posting.'}
+              </p>
+              {statusFilter === 'ALL' ? (
+                <Link 
+                  href="/manager/jobs/create"
+                  className="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover transition-all flex items-center gap-2 shadow-md shadow-primary/20"
+                >
+                  <Plus className="w-5 h-5" /> Post Your First Job
+                </Link>
+              ) : (
+                <button 
+                  onClick={() => setStatusFilter('ALL')}
+                  className="px-8 py-3 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all flex items-center gap-2"
+                >
+                  Clear Filters
+                </button>
+              )}
             </div>
           )}
         </div>

@@ -88,7 +88,7 @@ export default function ManagerDashboard() {
           </div>
           <Link 
             href="/manager/jobs/create"
-            className="px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 shadow-md shadow-primary/20 w-fit"
+            className="px-6 py-3 bg-foreground text-background font-bold rounded-xl hover:bg-foreground/90 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 shadow-md shadow-foreground/20 w-fit"
           >
             <Plus className="w-5 h-5" /> Post New Job
           </Link>
@@ -101,9 +101,9 @@ export default function ManagerDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <button 
             onClick={() => setStatusFilter(statusFilter === 'PUBLISHED' ? 'ALL' : 'PUBLISHED')}
-            className={`p-6 bg-white border rounded-2xl shadow-sm flex items-center gap-5 hover:shadow-md hover:-translate-y-1 transition-all text-left ${statusFilter === 'PUBLISHED' ? 'border-blue-500 ring-2 ring-blue-500/20' : 'border-slate-200'}`}
+            className={`p-6 bg-white border rounded-2xl shadow-sm flex items-center gap-5 hover:shadow-md hover:-translate-y-1 transition-all text-left ${statusFilter === 'PUBLISHED' ? 'border-foreground ring-2 ring-foreground/20' : 'border-slate-200'}`}
           >
-            <div className="p-4 bg-blue-50 text-blue-600 rounded-xl">
+            <div className="p-4 bg-secondary text-foreground rounded-xl">
               <Briefcase className="w-7 h-7" />
             </div>
             <div>
@@ -154,7 +154,7 @@ export default function ManagerDashboard() {
           {statusFilter !== 'ALL' && (
             <button 
               onClick={() => setStatusFilter('ALL')}
-              className="text-[14px] text-primary font-medium hover:underline"
+              className="text-[14px] text-foreground font-medium hover:underline"
             >
               Clear Filter
             </button>
@@ -180,7 +180,7 @@ export default function ManagerDashboard() {
                 {/* Left side details */}
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-[20px] font-bold text-slate-900 group-hover:text-primary transition-colors">
+                    <h3 className="text-[20px] font-bold text-slate-900 group-hover:text-foreground transition-colors">
                       {job.title}
                     </h3>
                     <span className={`px-2.5 py-1 text-[11px] uppercase tracking-wider font-bold rounded-lg ${
@@ -230,7 +230,7 @@ export default function ManagerDashboard() {
                       e.stopPropagation();
                       router.push(`/manager/jobs/create?id=${job.id}`);
                     }}
-                    className="p-2.5 text-slate-400 hover:text-primary hover:bg-blue-50 rounded-xl transition-colors"
+                    className="p-2.5 text-slate-400 hover:text-foreground hover:bg-secondary rounded-xl transition-colors"
                     title="Edit Listing"
                   >
                     <Edit className="w-5 h-5" />
@@ -264,7 +264,7 @@ export default function ManagerDashboard() {
               {statusFilter === 'ALL' ? (
                 <Link 
                   href="/manager/jobs/create"
-                  className="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover transition-all flex items-center gap-2 shadow-md shadow-primary/20"
+                  className="px-8 py-3 bg-foreground text-background font-bold rounded-xl hover:bg-foreground/90 transition-all flex items-center gap-2 shadow-md shadow-foreground/20"
                 >
                   <Plus className="w-5 h-5" /> Post Your First Job
                 </Link>

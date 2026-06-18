@@ -31,7 +31,13 @@ router.get('/me', async (req: any, res: any) => {
       return res.status(404).json({ message: 'User not found' });
     }
     
-    res.json(user);
+    const userResponse = {
+      ...user,
+      portfolioProjects: (user.portfolio as any)?.projects || (Array.isArray(user.portfolio) ? user.portfolio : []),
+      socialLinks: (user.portfolio as any)?.socialLinks || { linkedin: '', github: '', website: '' }
+    };
+    
+    res.json(userResponse);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -41,7 +47,25 @@ router.get('/me', async (req: any, res: any) => {
 // PUT /profile/me
 router.put('/me', async (req: any, res: any) => {
   try {
-    const { name, education, experience, skills, certificates, portfolio, locationPreference } = req.body;
+    const { name, education, experience, skills, certificates, portfolioProjects, locationPreference, socialLinks } = req.body;
+    
+    const existingUser = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: { portfolio: true }
+    });
+    
+    let currentPortfolio: any = existingUser?.portfolio;
+    if (typeof currentPortfolio !== 'object' || currentPortfolio === null) {
+      currentPortfolio = {};
+    } else if (Array.isArray(currentPortfolio)) {
+      currentPortfolio = { projects: currentPortfolio };
+    }
+    
+    const newPortfolio = {
+      ...currentPortfolio,
+      projects: portfolioProjects !== undefined ? portfolioProjects : (currentPortfolio.projects || []),
+      socialLinks: socialLinks !== undefined ? socialLinks : (currentPortfolio.socialLinks || { linkedin: '', github: '', website: '' })
+    };
     
     const updatedUser = await prisma.user.update({
       where: { id: req.user.id },
@@ -51,7 +75,7 @@ router.put('/me', async (req: any, res: any) => {
         experience: experience || null,
         skills: skills || null,
         certificates: certificates || null,
-        portfolio: portfolio || null,
+        portfolio: newPortfolio,
         locationPreference: locationPreference || null,
       },
       select: {
@@ -68,7 +92,13 @@ router.put('/me', async (req: any, res: any) => {
       }
     });
     
-    res.json({ message: 'Profile updated', user: updatedUser });
+    const userResponse = {
+      ...updatedUser,
+      portfolioProjects: (updatedUser.portfolio as any)?.projects || [],
+      socialLinks: (updatedUser.portfolio as any)?.socialLinks || { linkedin: '', github: '', website: '' }
+    };
+    
+    res.json({ message: 'Profile updated', user: userResponse });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });

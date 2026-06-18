@@ -139,4 +139,33 @@ router.post('/manager/login', async (req, res) => {
   }
 });
 
+// ==========================================
+// SUPER ADMIN ROUTES
+// ==========================================
+
+router.post('/admin/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user || user.role !== 'SUPERADMIN') {
+      return res.status(400).json({ message: 'Invalid credentials or you are not an admin' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    res.json({
+      message: 'Admin logged in successfully',
+      token: generateToken(user.id, user.role),
+      user: { id: user.id, email: user.email, name: user.name, role: user.role }
+    });
+  } catch (error) {
+    console.error('Admin Login Error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 export default router;

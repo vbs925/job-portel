@@ -2,11 +2,12 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Professional Corporate Blue Theme */
-  --color-primary: #2563eb; /* Blue 600 */
-  --color-primary-hover: #1d4ed8; /* Blue 700 */
-  --color-secondary: #dbeafe; /* Blue 100 */
-  --color-accent: #0ea5e9; /* Sky 500 */
+  /* Minimalist Black & White Theme */
+  --color-primary: #000000;
+  --color-primary-hover: #222222;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f3f4f6; /* Gray 100 */
+  --color-accent: #4b5563; /* Gray 600 */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   

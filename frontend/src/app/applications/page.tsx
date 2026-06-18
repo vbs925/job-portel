@@ -122,7 +122,7 @@ export default function Applications() {
               <Briefcase className="w-12 h-12 text-foreground/20 mx-auto mb-4" />
               <h3 className="text-[20px] font-bold text-foreground">No applications yet</h3>
               <p className="text-foreground/60 mt-2">When you apply for a job, you can track its status here.</p>
-              <Link href="/dashboard" className="inline-block mt-6 px-6 py-2 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary-hover transition-colors">
+              <Link href="/dashboard" className="inline-block mt-6 px-6 py-2 bg-foreground text-background font-bold rounded-lg hover:bg-foreground/90 transition-colors">
                 Find Jobs
               </Link>
             </div>

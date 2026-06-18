@@ -61,7 +61,7 @@ export default function ManagerLogin() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
                 placeholder="admin@company.com"
                 required
               />
@@ -73,7 +73,7 @@ export default function ManagerLogin() {
               <label className="block text-[14px] font-bold text-foreground" htmlFor="password">
                 Password
               </label>
-              <Link href="/employer-forgot-password" className="text-[14px] font-semibold text-primary hover:text-primary-hover transition-colors">
+              <Link href="/employer-forgot-password" className="text-[14px] font-semibold text-foreground hover:text-foreground-hover transition-colors">
                 Forgot password?
               </Link>
             </div>
@@ -86,7 +86,7 @@ export default function ManagerLogin() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
                 placeholder="••••••••"
                 required
               />
@@ -110,7 +110,7 @@ export default function ManagerLogin() {
 
         <p className="mt-8 text-center text-[14px] text-foreground/60 font-medium">
           Want to hire with us?{" "}
-          <Link href="/contact-sales" className="font-bold text-primary hover:text-primary-hover transition-colors underline decoration-primary/30 underline-offset-2">
+          <Link href="/contact-sales" className="font-bold text-foreground hover:text-foreground-hover transition-colors underline decoration-primary/30 underline-offset-2">
             Contact Sales
           </Link>
         </p>

@@ -86,7 +86,7 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
             <div className="flex flex-wrap gap-2 mb-6">
               <span className="px-3 py-1 bg-secondary text-foreground text-[14px] font-medium rounded-md">{location}</span>
               <span className="px-3 py-1 bg-secondary text-foreground text-[14px] font-medium rounded-md">{type}</span>
-              <span className="px-3 py-1 bg-primary/10 text-primary font-bold text-[14px] rounded-md">{salary}</span>
+              <span className="px-3 py-1 bg-foreground/10 text-foreground font-bold text-[14px] rounded-md">{salary}</span>
             </div>
 
             <div className="prose prose-sm md:prose-base prose-p:text-foreground/80 prose-headings:text-foreground prose-li:text-foreground/80 max-w-none">
@@ -109,7 +109,7 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                  className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground transition-all"
                   placeholder="+91 98765 43210"
                   required
                 />
@@ -121,7 +121,7 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
                   rows={4}
                   value={coverLetter}
                   onChange={(e) => setCoverLetter(e.target.value)}
-                  className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-y"
+                  className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground transition-all resize-y"
                   placeholder="Why are you a great fit for this role?"
                 />
               </div>
@@ -140,11 +140,11 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     required
                   />
-                  <div className={`w-full px-4 py-8 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all ${resume ? 'border-primary bg-primary/5' : 'border-foreground/20 bg-secondary/30 group-hover:bg-secondary group-hover:border-foreground/40'}`}>
+                  <div className={`w-full px-4 py-8 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all ${resume ? 'border-foreground bg-foreground/5' : 'border-foreground/20 bg-secondary/30 group-hover:bg-secondary group-hover:border-foreground/40'}`}>
                     {resume ? (
                       <>
-                        <FileText className="w-8 h-8 text-primary mb-2" />
-                        <span className="text-[14px] font-bold text-primary text-center px-4 truncate w-full">{resume.name}</span>
+                        <FileText className="w-8 h-8 text-foreground mb-2" />
+                        <span className="text-[14px] font-bold text-foreground text-center px-4 truncate w-full">{resume.name}</span>
                         <span className="text-[12px] font-medium text-foreground/50 mt-1">{(resume.size / 1024 / 1024).toFixed(2)} MB</span>
                       </>
                     ) : (

@@ -45,7 +45,7 @@ router.get('/', async (req: any, res: any) => {
       where: whereClause,
       include: {
         user: {
-          select: { id: true, name: true, email: true, skills: true, certificates: true, education: true, experience: true, locationPreference: true }
+          select: { id: true, name: true, email: true, skills: true, certificates: true, education: true, experience: true, locationPreference: true, portfolio: true }
         },
         job: {
           select: { id: true, title: true, hiringSteps: true }
@@ -69,7 +69,7 @@ router.get('/:id', async (req: any, res: any) => {
     const application = await prisma.application.findUnique({
       where: { id },
       include: {
-        user: { select: { id: true, name: true, email: true, education: true, experience: true, skills: true, certificates: true, locationPreference: true } },
+        user: { select: { id: true, name: true, email: true, education: true, experience: true, skills: true, certificates: true, locationPreference: true, portfolio: true } },
         job: true,
         interviews: true,
         messages: { orderBy: { createdAt: 'asc' } },

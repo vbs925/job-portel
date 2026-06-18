@@ -8,8 +8,8 @@ export default function Footer() {
           <div className="md:col-span-2">
             <Link href="/" className="inline-block flex-shrink-0 flex items-center mb-4 gap-2">
               <img src="/logo.png" alt="Cortex Craft Logo" className="h-8 w-auto" />
-              <span className="text-[20px] font-bold text-foreground tracking-tight hover:text-primary transition-colors">
-                TechCorp Careers
+              <span className="text-[20px] font-bold text-foreground tracking-tight hover:text-foreground transition-colors">
+                Helping Hands
               </span>
             </Link>
             <p className="text-foreground/60 text-[14px] max-w-sm leading-relaxed mb-6">
@@ -37,7 +37,7 @@ export default function Footer() {
         
         <div className="border-t border-foreground/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-foreground/50 text-[14px]">
-            &copy; {new Date().getFullYear()} TechCorp Careers. All rights reserved.
+            &copy; {new Date().getFullYear()} Helping Hands. All rights reserved.
           </p>
           <div className="flex gap-6">
             <Link href="#" className="text-foreground/50 hover:text-foreground transition-colors text-[14px]">Privacy Policy</Link>

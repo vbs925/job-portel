@@ -158,19 +158,19 @@ export default function Dashboard() {
           <div className="db-tabs flex gap-6 border-b border-foreground/10 pt-8">
             <button 
               onClick={() => setActiveTab("discover")}
-              className={`pb-3 font-bold text-[14px] transition-colors border-b-2 ${activeTab === "discover" ? "border-primary text-primary" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
+              className={`pb-3 font-bold text-[14px] transition-colors border-b-2 ${activeTab === "discover" ? "border-foreground text-foreground" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
             >
               Discover Roles
             </button>
             <button 
               onClick={() => setActiveTab("suggested")}
-              className={`pb-3 font-bold text-[14px] transition-colors border-b-2 ${activeTab === "suggested" ? "border-primary text-primary" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
+              className={`pb-3 font-bold text-[14px] transition-colors border-b-2 ${activeTab === "suggested" ? "border-foreground text-foreground" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
             >
               AI Suggestions ✨
             </button>
             <button 
               onClick={() => setActiveTab("saved")}
-              className={`pb-3 font-bold text-[14px] transition-colors border-b-2 ${activeTab === "saved" ? "border-primary text-primary" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
+              className={`pb-3 font-bold text-[14px] transition-colors border-b-2 ${activeTab === "saved" ? "border-foreground text-foreground" : "border-transparent text-foreground/50 hover:text-foreground/80"}`}
             >
               Saved Jobs ({savedJobs.length})
             </button>
@@ -192,7 +192,7 @@ export default function Dashboard() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-11 pr-4 py-4 border border-foreground/20 rounded-xl bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-[18px]"
+                  className="block w-full pl-11 pr-4 py-4 border border-foreground/20 rounded-xl bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all font-medium text-[18px]"
                   placeholder="Search for job titles, companies, or keywords..."
                 />
               </div>
@@ -310,7 +310,7 @@ export default function Dashboard() {
                           type="checkbox" 
                           checked={selectedTypes.includes(type)}
                           onChange={() => toggleArrayItem(selectedTypes, setSelectedTypes, type)}
-                          className="rounded border-foreground/30 text-primary focus:ring-primary w-4 h-4 transition-colors" 
+                          className="rounded border-foreground/30 text-foreground focus:ring-foreground w-4 h-4 transition-colors" 
                         />
                         <span className="text-[14px] font-medium text-foreground/80 group-hover:text-foreground transition-colors">{type}</span>
                       </label>
@@ -330,7 +330,7 @@ export default function Dashboard() {
                           type="checkbox" 
                           checked={selectedLocationModes.includes(type)}
                           onChange={() => toggleArrayItem(selectedLocationModes, setSelectedLocationModes, type)}
-                          className="rounded border-foreground/30 text-primary focus:ring-primary w-4 h-4 transition-colors" 
+                          className="rounded border-foreground/30 text-foreground focus:ring-foreground w-4 h-4 transition-colors" 
                         />
                         <span className="text-[14px] font-medium text-foreground/80 group-hover:text-foreground transition-colors">{type}</span>
                       </label>
@@ -350,7 +350,7 @@ export default function Dashboard() {
                           type="checkbox" 
                           checked={selectedCities.includes(city)}
                           onChange={() => toggleArrayItem(selectedCities, setSelectedCities, city)}
-                          className="rounded border-foreground/30 text-primary focus:ring-primary w-4 h-4 transition-colors" 
+                          className="rounded border-foreground/30 text-foreground focus:ring-foreground w-4 h-4 transition-colors" 
                         />
                         <span className="text-[14px] font-medium text-foreground/80 group-hover:text-foreground transition-colors">{city}</span>
                       </label>

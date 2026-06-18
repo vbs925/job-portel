@@ -197,7 +197,7 @@ export default function JobDetailsPage() {
                       const cleanLine = line.replace(/^- /, '').replace(/^\* /, '');
                       return (
                         <li key={i} className="flex items-start gap-2.5 text-[14px] text-slate-600 leading-relaxed">
-                          <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-2" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0 mt-2" />
                           <span>{cleanLine}</span>
                         </li>
                       );

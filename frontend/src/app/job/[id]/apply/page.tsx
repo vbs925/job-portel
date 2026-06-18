@@ -174,7 +174,7 @@ export default function ApplyPage() {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground transition-all"
                 placeholder="+91 98765 43210"
                 required
               />
@@ -186,7 +186,7 @@ export default function ApplyPage() {
                 type="text"
                 value={skills}
                 onChange={(e) => setSkills(e.target.value)}
-                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground transition-all"
                 placeholder="e.g. React, Node.js, TypeScript, SQL"
                 required
               />
@@ -199,7 +199,7 @@ export default function ApplyPage() {
                 type="text"
                 value={experience}
                 onChange={(e) => setExperience(e.target.value)}
-                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground transition-all"
                 placeholder="e.g. 4 years"
               />
             </div>
@@ -223,16 +223,16 @@ export default function ApplyPage() {
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   required
                 />
-                <div className={`w-full px-4 py-10 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all ${resume ? 'border-primary bg-primary/5' : 'border-foreground/20 bg-secondary/30 group-hover:bg-secondary group-hover:border-foreground/40'}`}>
+                <div className={`w-full px-4 py-10 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all ${resume ? 'border-foreground bg-foreground/5' : 'border-foreground/20 bg-secondary/30 group-hover:bg-secondary group-hover:border-foreground/40'}`}>
                   {resume ? (
                     <>
-                      <FileText className="w-10 h-10 text-primary mb-3" />
-                      <span className="text-[14px] font-bold text-primary text-center px-4 truncate w-full max-w-xs">{resume.name}</span>
+                      <FileText className="w-10 h-10 text-foreground mb-3" />
+                      <span className="text-[14px] font-bold text-foreground text-center px-4 truncate w-full max-w-xs">{resume.name}</span>
                       <span className="text-[12px] font-medium text-foreground/50 mt-1">{(resume.size / 1024 / 1024).toFixed(2)} MB</span>
                     </>
                   ) : (
                     <>
-                      <Upload className="w-10 h-10 text-foreground/40 mb-3 group-hover:text-primary/50 transition-colors" />
+                      <Upload className="w-10 h-10 text-foreground/40 mb-3 group-hover:text-foreground/50 transition-colors" />
                       <span className="text-[16px] font-bold text-foreground/70">Click to upload or drag & drop</span>
                       <span className="text-[14px] font-medium text-foreground/40 mt-1">PDF, DOC, DOCX up to 5MB</span>
                     </>
@@ -247,7 +247,7 @@ export default function ApplyPage() {
                 rows={5}
                 value={coverLetter}
                 onChange={(e) => setCoverLetter(e.target.value)}
-                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-y"
+                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground transition-all resize-y"
                 placeholder="Why are you a great fit for this role?"
               />
             </div>

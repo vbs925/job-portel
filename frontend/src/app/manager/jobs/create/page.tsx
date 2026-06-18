@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { API } from "@/lib/api";
-import { ArrowLeft, Plus, X, Save, Send, Sparkles } from "lucide-react";
+import { ArrowLeft, Plus, X, Save, Send, Sparkles, ChevronDown } from "lucide-react";
 import Link from "next/link";
 
 function CreateJobForm() {
@@ -188,7 +188,7 @@ function CreateJobForm() {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
                 placeholder="e.g. Senior Product Designer"
               />
             </div>
@@ -198,19 +198,32 @@ function CreateJobForm() {
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
                 placeholder="e.g. TechCorp Inc."
               />
             </div>
             <div>
               <label className="block text-[14px] font-bold text-foreground mb-2">Location</label>
-              <input 
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="e.g. Remote, San Francisco, CA"
-              />
+              <div className="relative">
+                <select 
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground appearance-none cursor-pointer"
+                >
+                  <option value="" disabled>Select Location</option>
+                  <option value="Remote">Remote</option>
+                  <option value="Bangalore">Bangalore</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Hyderabad">Hyderabad</option>
+                  <option value="Pune">Pune</option>
+                  <option value="Chennai">Chennai</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Ahmedabad">Ahmedabad</option>
+                </select>
+                <ChevronDown className="w-5 h-5 text-foreground/40 absolute right-4 top-3.5 pointer-events-none" />
+              </div>
             </div>
             <div>
               <label className="block text-[14px] font-bold text-foreground mb-2">Job Type</label>
@@ -218,7 +231,7 @@ function CreateJobForm() {
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary appearance-none"
+                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground appearance-none"
               >
                 <option value="Full-time">Full-time</option>
                 <option value="Part-time">Part-time</option>
@@ -232,7 +245,7 @@ function CreateJobForm() {
                 name="salary"
                 value={formData.salary}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
                 placeholder="e.g. $120k - $150k"
               />
             </div>
@@ -260,7 +273,7 @@ function CreateJobForm() {
               value={formData.aboutCompany}
               onChange={handleChange}
               rows={4}
-              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground resize-y"
               placeholder="Describe your company, culture, and mission..."
             />
           </div>
@@ -272,7 +285,7 @@ function CreateJobForm() {
               value={formData.description}
               onChange={handleChange}
               rows={4}
-              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground resize-y"
               placeholder="Provide a high-level overview of the role..."
             />
           </div>
@@ -284,7 +297,7 @@ function CreateJobForm() {
               value={formData.keyResponsibilities}
               onChange={handleChange}
               rows={6}
-              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground resize-y"
               placeholder="What will the day-to-day look like? Use bullet points if you like."
             />
           </div>
@@ -296,7 +309,7 @@ function CreateJobForm() {
               value={formData.skillsNeeded}
               onChange={handleChange}
               rows={5}
-              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground resize-y"
               placeholder="What skills, experience, or qualifications are required?"
             />
           </div>
@@ -308,7 +321,7 @@ function CreateJobForm() {
               value={formData.benefits}
               onChange={handleChange}
               rows={4}
-              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+              className="w-full px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground resize-y"
               placeholder="What perks, benefits, and growth opportunities do you offer?"
             />
           </div>
@@ -341,7 +354,7 @@ function CreateJobForm() {
               value={newStep}
               onChange={(e) => setNewStep(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleAddStep()}
-              className="flex-1 px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              className="flex-1 px-4 py-3 border border-foreground/20 rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-foreground"
               placeholder="e.g. Technical Assessment"
             />
             <button 

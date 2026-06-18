@@ -80,7 +80,7 @@ function ApplicantsContent() {
             {jobId && (
               <Link 
                 href={`/manager/ats/${jobId}`}
-                className="px-6 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary-hover transition-colors flex items-center gap-2 shadow-sm"
+                className="px-6 py-2.5 bg-foreground text-background font-bold rounded-lg hover:bg-foreground/90 transition-colors flex items-center gap-2 shadow-sm"
               >
                 Go to Pipeline View
               </Link>
@@ -101,11 +101,11 @@ function ApplicantsContent() {
             apps.map(app => (
               <div 
                 key={app.id} 
-                className={`relative p-6 border rounded-xl bg-background shadow-sm transition-colors flex flex-col gap-4 ${selectedCandidates.includes(app.id) ? 'border-primary ring-2 ring-primary/20' : 'border-foreground/10 hover:border-primary/30'}`}
+                className={`relative p-6 border rounded-xl bg-background shadow-sm transition-colors flex flex-col gap-4 ${selectedCandidates.includes(app.id) ? 'border-foreground ring-2 ring-foreground/20' : 'border-foreground/10 hover:border-foreground/30'}`}
               >
                 <button 
                   onClick={() => toggleSelection(app.id)}
-                  className={`absolute top-4 right-4 z-10 transition-colors ${selectedCandidates.includes(app.id) ? 'text-primary' : 'text-foreground/20 hover:text-primary/60'}`}
+                  className={`absolute top-4 right-4 z-10 transition-colors ${selectedCandidates.includes(app.id) ? 'text-foreground' : 'text-foreground/20 hover:text-foreground/60'}`}
                 >
                   <CheckSquare className="w-6 h-6" fill={selectedCandidates.includes(app.id) ? "currentColor" : "none"} />
                 </button>
@@ -126,7 +126,7 @@ function ApplicantsContent() {
                   </div>
                   <div className="text-[14px]">
                     <span className="font-bold text-foreground/50 text-[12px] uppercase tracking-wider">Current Stage</span>
-                    <div className="font-bold text-primary mt-1">{app.stage}</div>
+                    <div className="font-bold text-foreground mt-1">{app.stage}</div>
                   </div>
                 </div>
 
@@ -148,7 +148,7 @@ function ApplicantsContent() {
                 <div className="pt-2 border-t border-foreground/5">
                   <Link 
                     href={`/manager/applicant/${app.id}`}
-                    className="w-full text-center block px-4 py-2.5 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary-hover transition-colors text-[14px] shadow-sm"
+                    className="w-full text-center block px-4 py-2.5 bg-foreground text-background font-bold rounded-lg hover:bg-foreground/90 transition-colors text-[14px] shadow-sm"
                   >
                     View Full Profile
                   </Link>
@@ -162,11 +162,11 @@ function ApplicantsContent() {
       {selectedCandidates.length > 1 && (
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-foreground text-background px-6 py-4 rounded-full shadow-xl border border-foreground/10 flex items-center gap-6 z-50 animate-in slide-in-from-bottom-10 fade-in duration-300">
           <div className="font-bold">
-            <span className="text-primary">{selectedCandidates.length}</span> Candidates Selected
+            <span className="text-foreground">{selectedCandidates.length}</span> Candidates Selected
           </div>
           <Link 
             href={`/manager/compare?ids=${selectedCandidates.join(',')}&jobTitle=${encodeURIComponent(apps[0]?.job?.title || 'Job Role')}`}
-            className="px-6 py-2 bg-primary text-primary-foreground font-bold rounded-full hover:bg-primary-hover transition-colors shadow-sm"
+            className="px-6 py-2 bg-foreground text-background font-bold rounded-full hover:bg-foreground/90 transition-colors shadow-sm"
           >
             Compare Candidates
           </Link>

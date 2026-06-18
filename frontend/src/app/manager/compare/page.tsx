@@ -68,7 +68,7 @@ function CompareContent() {
           </button>
           <div>
             <h1 className="text-[30px] font-bold text-foreground tracking-tight flex items-center gap-3">
-              <Sparkles className="w-8 h-8 text-primary" /> AI Candidate Comparison
+              <Sparkles className="w-8 h-8 text-foreground" /> AI Candidate Comparison
             </h1>
             <p className="text-foreground/60 mt-1 font-medium">Comparing selected applicants for: <span className="font-bold text-foreground">{jobTitle}</span></p>
           </div>
@@ -80,7 +80,7 @@ function CompareContent() {
           <div className="flex flex-col items-center justify-center py-20 space-y-6">
             <div className="relative w-16 h-16">
               <div className="absolute inset-0 rounded-full border-4 border-foreground/10"></div>
-              <div className="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+              <div className="absolute inset-0 rounded-full border-4 border-foreground border-t-transparent animate-spin"></div>
             </div>
             <div className="text-foreground/60 font-bold text-[18px] animate-pulse">Analyzing profiles & extracting insights...</div>
           </div>
@@ -94,7 +94,7 @@ function CompareContent() {
             prose-headings:font-bold prose-headings:text-foreground 
             prose-p:text-foreground/80 prose-li:text-foreground/80
             prose-strong:text-foreground prose-strong:font-bold
-            prose-a:text-primary hover:prose-a:text-primary-hover
+            prose-a:text-foreground hover:prose-a:text-foreground-hover
             prose-ul:list-disc prose-ol:list-decimal"
           >
             <ReactMarkdown>{report}</ReactMarkdown>

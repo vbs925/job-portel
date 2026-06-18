@@ -61,7 +61,7 @@ export default function ApplicantLogin() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
                 placeholder="you@example.com"
                 required
               />
@@ -73,7 +73,7 @@ export default function ApplicantLogin() {
               <label className="block text-[14px] font-bold text-foreground" htmlFor="password">
                 Password
               </label>
-              <Link href="/forgot-password" className="text-[14px] font-semibold text-primary hover:text-primary-hover transition-colors">
+              <Link href="/forgot-password" className="text-[14px] font-semibold text-foreground hover:text-foreground-hover transition-colors">
                 Forgot password?
               </Link>
             </div>
@@ -86,7 +86,7 @@ export default function ApplicantLogin() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
                 placeholder="••••••••"
                 required
               />
@@ -112,7 +112,7 @@ export default function ApplicantLogin() {
 
         <p className="mt-8 text-center text-[14px] text-foreground/60 font-medium">
           Don't have an account?{" "}
-          <Link href="/register" className="font-bold text-primary hover:text-primary-hover transition-colors">
+          <Link href="/register" className="font-bold text-foreground hover:text-foreground-hover transition-colors">
             Sign up
           </Link>
         </p>

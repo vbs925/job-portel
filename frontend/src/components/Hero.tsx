@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Briefcase, Zap } from 'lucide-react';
+import { Search, Briefcase, Zap, MapPin, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Hero() {
@@ -57,13 +57,24 @@ export default function Hero() {
               />
             </div>
             <div className="hidden sm:block h-6 w-px bg-foreground/10 mx-2"></div>
-            <div className="flex-grow flex items-center pl-4 sm:pl-0 w-full sm:w-auto border-t sm:border-t-0 border-foreground/10 mt-2 sm:mt-0 pt-2 sm:pt-0">
-              <Briefcase className="h-5 w-5 text-foreground/40" />
-              <input
-                type="text"
-                className="w-full bg-transparent border-0 focus:ring-0 p-3 text-[16px] outline-none text-foreground placeholder-foreground/40"
-                placeholder="Location or remote"
-              />
+            <div className="flex-grow flex items-center pl-4 sm:pl-0 w-full sm:w-auto border-t sm:border-t-0 border-foreground/10 mt-2 sm:mt-0 pt-2 sm:pt-0 relative">
+              <MapPin className="h-5 w-5 text-foreground/40" />
+              <select
+                className="w-full bg-transparent border-0 focus:ring-0 p-3 text-[16px] outline-none text-foreground cursor-pointer appearance-none"
+                defaultValue=""
+              >
+                <option value="" disabled>Location or remote</option>
+                <option value="Remote">Remote</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Pune">Pune</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Ahmedabad">Ahmedabad</option>
+              </select>
+              <ChevronDown className="h-4 w-4 text-foreground/40 absolute right-4 pointer-events-none" />
             </div>
             <button className="w-full sm:w-auto mt-2 sm:mt-0 bg-foreground text-background px-6 py-3 rounded-xl font-semibold hover:bg-foreground/90 transition-colors text-[14px]">
               Search

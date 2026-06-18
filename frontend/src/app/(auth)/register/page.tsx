@@ -64,7 +64,7 @@ export default function ApplicantRegister() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
                 placeholder="John Doe"
                 required
               />
@@ -84,7 +84,7 @@ export default function ApplicantRegister() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
                 placeholder="you@example.com"
                 required
               />
@@ -104,7 +104,7 @@ export default function ApplicantRegister() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                className="block w-full pl-10 pr-3 py-3 border border-foreground/20 rounded-lg bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
                 placeholder="••••••••"
                 required
                 minLength={6}
@@ -132,7 +132,7 @@ export default function ApplicantRegister() {
 
         <p className="mt-8 text-center text-[14px] text-foreground/60 font-medium">
           Already have an account?{" "}
-          <Link href="/login" className="font-bold text-primary hover:text-primary-hover transition-colors">
+          <Link href="/login" className="font-bold text-foreground hover:text-foreground-hover transition-colors">
             Sign in
           </Link>
         </p>

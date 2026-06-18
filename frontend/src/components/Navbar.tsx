@@ -3,11 +3,14 @@
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { LogOut, LayoutDashboard, Briefcase, User } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentTab = searchParams?.get('tab') || 'professional';
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/50 backdrop-blur-md border-b border-foreground/10">
@@ -15,13 +18,30 @@ export default function Navbar() {
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center gap-8">
             <Link href={user ? (user.role === 'MANAGER' ? '/manager/dashboard' : '/dashboard') : '/'} className="flex-shrink-0 flex items-center">
-              <img src="/logo.png" alt="TechCorp Careers Logo" className="h-8 w-auto mr-2" />
-              <span className="text-[20px] font-bold text-foreground tracking-tight hover:text-primary transition-colors">
-                TechCorp Careers
+              <img src="/logo.png" alt="Helping Hands Logo" className="h-8 w-auto mr-2" />
+              <span className="text-[20px] font-bold text-foreground tracking-tight hover:text-foreground transition-colors">
+                Helping Hands
               </span>
             </Link>
           </div>
-          <div className="flex items-center space-x-6">
+          
+          <div className="flex items-center space-x-6 h-full">
+            {pathname === '/profile' && (
+              <div className="hidden md:flex gap-6 h-full mr-2">
+                <Link 
+                  href="/profile?tab=professional"
+                  className={`flex items-center h-full font-bold text-[14px] transition-colors border-b-[3px] ${currentTab === "professional" ? "border-foreground text-foreground" : "border-transparent text-foreground/60 hover:text-foreground"}`}
+                >
+                  Profile Details
+                </Link>
+                <Link 
+                  href="/profile?tab=settings"
+                  className={`flex items-center h-full font-bold text-[14px] transition-colors border-b-[3px] ${currentTab === "settings" ? "border-foreground text-foreground" : "border-transparent text-foreground/60 hover:text-foreground"}`}
+                >
+                  Account Settings
+                </Link>
+              </div>
+            )}
             {!user ? (
               <>
                 <Link
@@ -65,7 +85,7 @@ export default function Navbar() {
 
                 {/* Avatar Dropdown */}
                 <div className="relative group ml-4">
-                  <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-[18px] cursor-pointer shadow-sm hover:ring-2 hover:ring-primary/50 transition-all">
+                  <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center font-bold text-[18px] cursor-pointer shadow-sm hover:ring-2 hover:ring-foreground/50 transition-all">
                     {(user.name || user.email || "U")[0].toUpperCase()}
                   </div>
                   <div className="absolute right-0 top-full mt-2 w-48 bg-background border border-foreground/10 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all flex flex-col overflow-hidden transform origin-top-right scale-95 group-hover:scale-100 z-50">

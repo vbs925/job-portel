@@ -137,7 +137,7 @@ export default function ATSKanbanBoard() {
                     if(e.target.value) handleBulkMove(e.target.value);
                     e.target.value = ""; // reset
                   }}
-                  className="px-3 py-1.5 rounded-md border border-foreground/20 text-[14px] font-bold bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="px-3 py-1.5 rounded-md border border-foreground/20 text-[14px] font-bold bg-background focus:outline-none focus:ring-2 focus:ring-foreground"
                 >
                   <option value="">Select Stage...</option>
                   {pipelineSteps.map((step: string) => (
@@ -177,11 +177,11 @@ export default function ATSKanbanBoard() {
                       key={app.id} 
                       draggable
                       onDragStart={(e) => handleDragStart(e, app.id)}
-                      className={`p-4 bg-background border rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:border-foreground/30 transition-colors group relative ${selectedApps.includes(app.id) ? 'border-primary ring-1 ring-primary' : 'border-foreground/10'}`}
+                      className={`p-4 bg-background border rounded-lg shadow-sm cursor-grab active:cursor-grabbing hover:border-foreground/30 transition-colors group relative ${selectedApps.includes(app.id) ? 'border-foreground ring-1 ring-foreground' : 'border-foreground/10'}`}
                     >
                       <button 
                         onClick={() => handleSelectApp(app.id)}
-                        className={`absolute top-4 right-4 ${selectedApps.includes(app.id) ? 'text-primary' : 'text-foreground/20 opacity-0 group-hover:opacity-100 hover:text-foreground'}`}
+                        className={`absolute top-4 right-4 ${selectedApps.includes(app.id) ? 'text-foreground' : 'text-foreground/20 opacity-0 group-hover:opacity-100 hover:text-foreground'}`}
                       >
                         <CheckSquare className="w-5 h-5" fill={selectedApps.includes(app.id) ? "currentColor" : "none"} />
                       </button>
@@ -213,7 +213,7 @@ export default function ATSKanbanBoard() {
                           <span className="text-[12px] font-bold text-foreground/40">{new Date(app.createdAt).toLocaleDateString()}</span>
                           <Link 
                             href={`/manager/applicant/${app.id}`}
-                            className="text-[12px] font-bold text-primary hover:text-primary-hover bg-primary/10 px-3 py-1 rounded-md"
+                            className="text-[12px] font-bold text-foreground hover:text-foreground-hover bg-foreground/10 px-3 py-1 rounded-md"
                           >
                             View Profile
                           </Link>

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { API } from "@/lib/api";
-import { Plus, Briefcase, Users, FileText, Copy, Edit, LayoutDashboard, Search, MapPin, Clock } from "lucide-react";
+import { Plus, Briefcase, Users, FileText, Copy, Edit, LayoutDashboard, Search, MapPin, Clock, XCircle } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -74,6 +74,7 @@ export default function ManagerDashboard() {
   const draftJobs = jobs.filter(j => j.status === 'DRAFT').length;
   const activeApplicants = jobs.reduce((acc, job) => acc + (job.applications?.filter((a: any) => !['Rejected', 'Offer', 'Hired'].includes(a.stage)).length || 0), 0);
   const offersExtended = jobs.reduce((acc, job) => acc + (job.applications?.filter((a: any) => a.stage === 'Offer' || a.stage === 'Hired').length || 0), 0);
+  const rejectedApplicants = jobs.reduce((acc, job) => acc + (job.applications?.filter((a: any) => a.stage === 'Rejected').length || 0), 0);
 
   const displayedJobs = statusFilter === 'ALL' ? jobs.filter(j => j.status !== 'DRAFT') : jobs.filter(j => j.status === statusFilter);
 
@@ -98,7 +99,7 @@ export default function ManagerDashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
           <button 
             onClick={() => setStatusFilter(statusFilter === 'PUBLISHED' ? 'ALL' : 'PUBLISHED')}
             className={`p-6 bg-white border rounded-2xl shadow-sm flex items-center gap-5 hover:shadow-md hover:-translate-y-1 transition-all text-left ${statusFilter === 'PUBLISHED' ? 'border-foreground ring-2 ring-foreground/20' : 'border-slate-200'}`}
@@ -142,6 +143,16 @@ export default function ManagerDashboard() {
             <div>
               <p className="text-[13px] font-bold text-slate-500 uppercase tracking-wide group-hover:text-violet-700 transition-colors">Offers Extended</p>
               <p className="text-[28px] font-bold text-slate-900 leading-none mt-1">{offersExtended}</p>
+            </div>
+          </Link>
+
+          <Link href="/manager/applicants?filter=rejected" className="p-6 bg-white border border-slate-200 rounded-2xl shadow-sm flex items-center gap-5 hover:shadow-md hover:border-red-200 hover:-translate-y-1 transition-all group col-span-1 sm:col-span-2 lg:col-span-1">
+            <div className="p-4 bg-red-50 text-red-600 group-hover:bg-red-100 transition-colors rounded-xl">
+              <XCircle className="w-7 h-7" />
+            </div>
+            <div>
+              <p className="text-[13px] font-bold text-slate-500 uppercase tracking-wide group-hover:text-red-700 transition-colors">Rejected</p>
+              <p className="text-[28px] font-bold text-slate-900 leading-none mt-1">{rejectedApplicants}</p>
             </div>
           </Link>
         </div>

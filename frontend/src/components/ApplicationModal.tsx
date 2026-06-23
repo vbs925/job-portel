@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Upload, FileText, Send } from 'lucide-react';
+import { API } from '@/lib/api';
 
 interface ApplicationModalProps {
   jobId: string;
@@ -21,6 +22,27 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
   const [resume, setResume] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  
+  const [profileResumeUrl, setProfileResumeUrl] = useState('');
+  const [skills, setSkills] = useState<any[]>([]);
+  const [experience, setExperience] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const token = localStorage.getItem('jobPortalToken');
+      if (!token) return;
+      try {
+        const data = await API.get('/profile/me', token);
+        if (data.phone) setPhone(data.phone);
+        if (data.resumeUrl) setProfileResumeUrl(data.resumeUrl);
+        if (data.skills) setSkills(data.skills);
+        if (data.experience) setExperience(data.experience);
+      } catch (err) {
+        console.error("Failed to load profile data for pre-filling", err);
+      }
+    };
+    fetchProfileData();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +56,15 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
       formData.append('jobId', jobId);
       if (phone) formData.append('phone', phone);
       if (coverLetter) formData.append('coverLetter', coverLetter);
-      if (resume) formData.append('resume', resume);
+      if (resume) {
+        formData.append('resume', resume);
+      } else if (profileResumeUrl) {
+        formData.append('profileResumeUrl', profileResumeUrl);
+      } else {
+        throw new Error('Please upload a resume');
+      }
+      if (skills.length > 0) formData.append('skills', JSON.stringify(skills));
+      if (experience.length > 0) formData.append('experience', JSON.stringify(experience));
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/applications`, {
         method: 'POST',
@@ -138,14 +168,22 @@ export default function ApplicationModal({ jobId, jobTitle, company, location, t
                       }
                     }}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                    required
+                    required={!profileResumeUrl && !resume}
                   />
-                  <div className={`w-full px-4 py-8 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all ${resume ? 'border-foreground bg-foreground/5' : 'border-foreground/20 bg-secondary/30 group-hover:bg-secondary group-hover:border-foreground/40'}`}>
+                  <div className={`w-full px-4 py-8 border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all ${resume || profileResumeUrl ? 'border-foreground bg-foreground/5' : 'border-foreground/20 bg-secondary/30 group-hover:bg-secondary group-hover:border-foreground/40'}`}>
                     {resume ? (
                       <>
                         <FileText className="w-8 h-8 text-foreground mb-2" />
                         <span className="text-[14px] font-bold text-foreground text-center px-4 truncate w-full">{resume.name}</span>
                         <span className="text-[12px] font-medium text-foreground/50 mt-1">{(resume.size / 1024 / 1024).toFixed(2)} MB</span>
+                        <span className="text-[12px] font-medium text-foreground/70 mt-2 bg-background px-2 py-1 rounded">Click to change file</span>
+                      </>
+                    ) : profileResumeUrl ? (
+                      <>
+                        <FileText className="w-8 h-8 text-foreground mb-2" />
+                        <span className="text-[14px] font-bold text-foreground text-center px-4 truncate w-full">Using Profile Resume</span>
+                        <span className="text-[12px] font-medium text-foreground/50 mt-1">This will be attached automatically</span>
+                        <span className="text-[12px] font-medium text-foreground/70 mt-2 bg-background px-2 py-1 rounded">Click or drag here to override with a different file</span>
                       </>
                     ) : (
                       <>

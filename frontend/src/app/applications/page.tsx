@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { API } from "@/lib/api";
-import { Briefcase, Calendar, MessageSquare, CheckCircle, Clock, XCircle, ArrowLeft } from "lucide-react";
+import { Briefcase, Calendar, MessageSquare, CheckCircle, Clock, XCircle, ArrowLeft, Pencil } from "lucide-react";
 import Link from "next/link";
 
 export default function Applications() {
@@ -111,9 +111,19 @@ export default function Applications() {
                   <div className="text-[14px] font-medium text-foreground/50">
                     Applied on {new Date(app.createdAt).toLocaleDateString()}
                   </div>
-                  <button className="flex items-center gap-2 text-[14px] font-bold text-foreground/60 hover:text-foreground transition-colors">
-                    <MessageSquare className="w-4 h-4" /> Message Manager
-                  </button>
+                  <div className="flex gap-4">
+                    {(app.stage === "Applied" || app.stage === "In Progress") && (
+                      <Link 
+                        href={`/job/${app.jobId}/apply?edit=true&appId=${app.id}`}
+                        className="flex items-center gap-2 text-[14px] font-bold text-foreground/60 hover:text-foreground transition-colors"
+                      >
+                        <Pencil className="w-4 h-4" /> Edit Application
+                      </Link>
+                    )}
+                    <button className="flex items-center gap-2 text-[14px] font-bold text-foreground/60 hover:text-foreground transition-colors">
+                      <MessageSquare className="w-4 h-4" /> Message Manager
+                    </button>
+                  </div>
                 </div>
               </div>
             ))

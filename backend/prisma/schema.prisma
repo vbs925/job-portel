@@ -28,6 +28,8 @@ model User {
   certificates       Json?
   portfolio          Json?
   locationPreference String?
+  phone              String?
+  resumeUrl          String?
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
 
@@ -74,6 +76,11 @@ model Application {
   skills      String?
   experience  String?
   createdAt   DateTime @default(now())
+
+  atsScore        Int?
+  matchedKeywords Json?
+  missingKeywords Json?
+  atsSuggestions  Json?
 
   // Relations
   userId    String

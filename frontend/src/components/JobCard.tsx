@@ -14,10 +14,11 @@ interface JobCardProps {
   postedAt: string;
   description?: string;
   isSaved?: boolean;
+  hasApplied?: boolean;
   onSaveToggle?: (id: string, isSaved: boolean) => void;
 }
 
-export default function JobCard({ id, title, company, location, type, salary, postedAt, description, isSaved: initialIsSaved = false, onSaveToggle }: JobCardProps) {
+export default function JobCard({ id, title, company, location, type, salary, postedAt, description, isSaved: initialIsSaved = false, hasApplied = false, onSaveToggle }: JobCardProps) {
   const [saved, setSaved] = useState(initialIsSaved);
   const router = useRouter();
 
@@ -100,15 +101,25 @@ export default function JobCard({ id, title, company, location, type, salary, po
           <span className="text-[12px] font-medium text-slate-400">Posted {postedAt}</span>
           <div className="flex items-center gap-4">
             <span className="text-[12px] font-bold text-slate-900 group-hover:underline hidden sm:block">View details →</span>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (id) router.push(`/job/${id}/apply`);
-              }}
-              className="bg-foreground text-background px-4 py-1.5 rounded-lg text-[13px] font-bold hover:bg-foreground/90 transition-colors shadow-sm"
-            >
-              Apply
-            </button>
+            {hasApplied ? (
+              <button
+                disabled
+                onClick={(e) => e.stopPropagation()}
+                className="bg-foreground/20 text-foreground/50 px-4 py-1.5 rounded-lg text-[13px] font-bold cursor-not-allowed shadow-sm"
+              >
+                Already Applied
+              </button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (id) router.push(`/job/${id}/apply`);
+                }}
+                className="bg-foreground text-background px-4 py-1.5 rounded-lg text-[13px] font-bold hover:bg-foreground/90 transition-colors shadow-sm"
+              >
+                Apply
+              </button>
+            )}
           </div>
         </div>
       </div>

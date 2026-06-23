@@ -6,6 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 import { API } from "@/lib/api";
 import { ArrowLeft, User as UserIcon, Calendar, MessageSquare, Star, Clock, FileText, Award, Code, Briefcase, Globe } from "lucide-react";
 import Link from "next/link";
+import AtsScoreCard from "@/components/AtsScoreCard";
 
 export default function SingleApplicant() {
   const { user, isLoading, token } = useAuth();
@@ -254,6 +255,28 @@ export default function SingleApplicant() {
 
               {/* Action Buttons */}
               <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+                {app.stage === 'Rejected' && (
+                  <button 
+                    onClick={async () => {
+                      if (!confirm("Are you sure you want to restore this candidate to the Screening stage?")) return;
+                      setActionLoading(true);
+                      try {
+                        await API.post(`/manager/actions/${id}/stage`, { stage: "Screening" }, token || '');
+                        alert("Candidate restored to Screening stage.");
+                        fetchApp();
+                      } catch (err: any) {
+                        alert("Failed to restore candidate: " + err.message);
+                      } finally {
+                        setActionLoading(false);
+                      }
+                    }}
+                    disabled={actionLoading}
+                    className="whitespace-nowrap flex-1 sm:flex-none px-3 py-1.5 bg-foreground text-background text-[12px] font-bold rounded-md hover:bg-foreground/90 transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 shadow-sm"
+                  >
+                    Restore to Screening
+                  </button>
+                )}
+
                 {app.stage !== 'Rejected' && pipelineSteps.indexOf(app.stage) !== -1 && pipelineSteps.indexOf(app.stage) < pipelineSteps.length - 1 && (
                   <button 
                     onClick={handleAdvanceStage}
@@ -300,6 +323,16 @@ export default function SingleApplicant() {
         
         <div className="lg:col-span-2 space-y-8">
           
+          {app.atsScore !== null && app.atsScore !== undefined && (
+            <AtsScoreCard 
+              score={app.atsScore} 
+              matchedKeywords={app.matchedKeywords || []} 
+              missingKeywords={app.missingKeywords || []} 
+              suggestions={app.atsSuggestions || []} 
+              isAutoRejected={app.atsScore < 40 && app.stage === 'Rejected'}
+            />
+          )}
+
           <div className="p-6 border border-foreground/10 rounded-xl bg-background shadow-sm">
             <h2 className="text-[20px] font-black text-foreground mb-8 flex items-center gap-3">
               <FileText className="w-5 h-5 text-foreground/60" /> Application Details

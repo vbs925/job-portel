@@ -63,13 +63,13 @@ export default function Navbar() {
                   <>
                     <Link
                       href="/dashboard"
-                      className="text-[14px] font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
+                      className={`text-[14px] transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg ${pathname === '/dashboard' ? 'font-bold text-foreground bg-secondary' : 'font-medium text-foreground/60 hover:text-foreground hover:bg-foreground/5'}`}
                     >
                       <LayoutDashboard className="w-4 h-4" /> Dashboard
                     </Link>
                     <Link
                       href="/applications"
-                      className="text-[14px] font-bold text-foreground bg-secondary hover:bg-foreground/5 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-2"
+                      className={`text-[14px] transition-colors flex items-center gap-2 px-3 py-1.5 rounded-lg ${pathname === '/applications' ? 'font-bold text-foreground bg-secondary' : 'font-medium text-foreground/60 hover:text-foreground hover:bg-foreground/5'}`}
                     >
                       <Briefcase className="w-4 h-4" /> My Applications
                     </Link>

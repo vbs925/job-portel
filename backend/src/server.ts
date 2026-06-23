@@ -23,7 +23,8 @@ import filesRoutes from './routes/files.routes';
 import onboardingRoutes from './routes/onboarding.routes';
 import aiRoutes from './routes/ai.routes';
 import adminRoutes from './routes/admin.routes';
-
+import atsRoutes from './routes/ats.routes';
+import { startAtsCronService } from './services/atsCronService';
 // Routes
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ status: 'success', message: 'Job Portal API is running' });
@@ -48,6 +49,9 @@ app.use('/api/ai', aiRoutes);
 // Admin Routes
 app.use('/api/admin', adminRoutes);
 
+// ATS routes
+app.use('/api/ats-score', atsRoutes);
+
 // Global error handler (catches Multer file errors and other crashes)
 app.use((err: any, req: Request, res: Response, next: any) => {
   console.error('Global Error Caught:', err.message || err);
@@ -56,6 +60,8 @@ app.use((err: any, req: Request, res: Response, next: any) => {
 
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  // Start the background ATS evaluator
+  startAtsCronService();
 });
 
 

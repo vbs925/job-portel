@@ -43,6 +43,8 @@ function ApplicantsContent() {
           filtered = data.filter((a: any) => !['Rejected', 'Offer', 'Hired'].includes(a.stage));
         } else if (filter === 'offers') {
           filtered = data.filter((a: any) => ['Offer', 'Hired'].includes(a.stage));
+        } else if (filter === 'rejected') {
+          filtered = data.filter((a: any) => a.stage === 'Rejected');
         }
         setApps(filtered);
       } catch (err) {
@@ -63,7 +65,7 @@ function ApplicantsContent() {
     );
   }
 
-  const title = jobId ? 'Candidates for Job' : filter === 'active' ? 'Active Applicants' : filter === 'offers' ? 'Offers Extended' : 'All Applicants';
+  const title = jobId ? 'Candidates for Job' : filter === 'active' ? 'Active Applicants' : filter === 'offers' ? 'Offers Extended' : filter === 'rejected' ? 'Rejected Applicants' : 'All Applicants';
 
   return (
     <div className="min-h-screen bg-background pb-20">

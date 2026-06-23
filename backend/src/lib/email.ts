@@ -47,19 +47,19 @@ export const sendApplicationConfirmationEmail = async (candidateEmail: string, c
 
   try {
     const info = await t.sendMail({
-      from: process.env.SMTP_USER ? `"TechCorp India ATS" <${process.env.SMTP_USER}>` : '"TechCorp India ATS" <careers@techcorp.in>',
+      from: process.env.SMTP_USER ? `"Helping Hands ATS" <${process.env.SMTP_USER}>` : '"Helping Hands ATS" <careers@helpinghands.in>',
       to: candidateEmail,
       subject: `Application Received: ${jobTitle}`,
-      text: `Dear ${candidateName},\n\nThank you for applying for the ${jobTitle} position at TechCorp India.\n\nWe have received your application, resume, and details successfully. Our hiring team will review your profile and get back to you shortly.\n\nBest regards,\nTechCorp India Hiring Team`,
+      text: `Dear ${candidateName},\n\nThank you for applying for the ${jobTitle} position at Helping Hands.\n\nWe have received your application, resume, and details successfully. Our hiring team will review your profile and get back to you shortly.\n\nBest regards,\nHelping Hands Hiring Team`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
           <h2>Application Received!</h2>
           <p>Dear <strong>${candidateName}</strong>,</p>
-          <p>Thank you for applying for the <strong>${jobTitle}</strong> position at TechCorp India.</p>
+          <p>Thank you for applying for the <strong>${jobTitle}</strong> position at Helping Hands.</p>
           <p>We have successfully received your application, resume, and details. Our hiring team is currently reviewing your profile and will get back to you shortly regarding the next steps.</p>
           <br/>
           <p>Best regards,</p>
-          <p><strong>TechCorp India Hiring Team</strong></p>
+          <p><strong>Helping Hands Hiring Team</strong></p>
         </div>
       `
     });
@@ -78,10 +78,10 @@ export const sendInterviewEmail = async (candidateEmail: string, candidateName: 
   if (!t) return;
   try {
     const info = await t.sendMail({
-      from: process.env.SMTP_USER ? `"TechCorp India ATS" <${process.env.SMTP_USER}>` : '"TechCorp India ATS" <careers@techcorp.in>',
+      from: process.env.SMTP_USER ? `"Helping Hands ATS" <${process.env.SMTP_USER}>` : '"Helping Hands ATS" <careers@helpinghands.in>',
       to: candidateEmail,
       subject: `Interview Scheduled: ${jobTitle}`,
-      text: `Dear ${candidateName},\n\nWe are pleased to invite you to an interview for the ${jobTitle} position.\n\nDate: ${dateStr}\nTime: ${timeStr}\nMeeting Link: ${link}\n\nBest regards,\nTechCorp India Hiring Team`,
+      text: `Dear ${candidateName},\n\nWe are pleased to invite you to an interview for the ${jobTitle} position.\n\nDate: ${dateStr}\nTime: ${timeStr}\nMeeting Link: ${link}\n\nBest regards,\nHelping Hands Hiring Team`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
           <h2>Interview Scheduled!</h2>
@@ -93,7 +93,7 @@ export const sendInterviewEmail = async (candidateEmail: string, candidateName: 
             <p><strong>Meeting Link:</strong> <a href="${link}">${link}</a></p>
           </div>
           <p>Best regards,</p>
-          <p><strong>TechCorp India Hiring Team</strong></p>
+          <p><strong>Helping Hands Hiring Team</strong></p>
         </div>
       `
     });
@@ -109,10 +109,10 @@ export const sendStageUpdateEmail = async (candidateEmail: string, candidateName
   if (!t) return;
   try {
     const info = await t.sendMail({
-      from: process.env.SMTP_USER ? `"TechCorp India ATS" <${process.env.SMTP_USER}>` : '"TechCorp India ATS" <careers@techcorp.in>',
+      from: process.env.SMTP_USER ? `"Helping Hands ATS" <${process.env.SMTP_USER}>` : '"Helping Hands ATS" <careers@helpinghands.in>',
       to: candidateEmail,
       subject: `Application Update: ${jobTitle}`,
-      text: `Dear ${candidateName},\n\nGreat news! Your application for ${jobTitle} has been moved to the ${newStage} stage.\n\nOur team will be in touch with you shortly with next steps.\n\nBest regards,\nTechCorp India Hiring Team`,
+      text: `Dear ${candidateName},\n\nGreat news! Your application for ${jobTitle} has been moved to the ${newStage} stage.\n\nOur team will be in touch with you shortly with next steps.\n\nBest regards,\nHelping Hands Hiring Team`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
           <h2>Application Update</h2>
@@ -121,7 +121,7 @@ export const sendStageUpdateEmail = async (candidateEmail: string, candidateName
           <p>Our team will be in touch with you shortly with next steps.</p>
           <br/>
           <p>Best regards,</p>
-          <p><strong>TechCorp India Hiring Team</strong></p>
+          <p><strong>Helping Hands Hiring Team</strong></p>
         </div>
       `
     });
@@ -132,12 +132,12 @@ export const sendStageUpdateEmail = async (candidateEmail: string, candidateName
   }
 };
 
-export const sendOfferEmail = async (candidateEmail: string, candidateName: string, jobTitle: string, companyName: string = "TechCorp India") => {
+export const sendOfferEmail = async (candidateEmail: string, candidateName: string, jobTitle: string, companyName: string = "Helping Hands") => {
   const t = await initTransporter();
   if (!t) return;
   try {
     const info = await t.sendMail({
-      from: process.env.SMTP_USER ? `"TechCorp India ATS" <${process.env.SMTP_USER}>` : '"TechCorp India ATS" <careers@techcorp.in>',
+      from: process.env.SMTP_USER ? `"Helping Hands ATS" <${process.env.SMTP_USER}>` : '"Helping Hands ATS" <careers@helpinghands.in>',
       to: candidateEmail,
       subject: `Formal Job Offer: ${jobTitle} at ${companyName}`,
       text: `Dear ${candidateName},\n\nWe are incredibly excited to extend a formal offer of employment for the position of ${jobTitle} at ${companyName}.\n\nPlease find the details in the HTML version of this email.`,
@@ -187,19 +187,19 @@ export const sendRejectionEmail = async (candidateEmail: string, candidateName: 
   if (!t) return;
   try {
     const info = await t.sendMail({
-      from: process.env.SMTP_USER ? `"TechCorp India ATS" <${process.env.SMTP_USER}>` : '"TechCorp India ATS" <careers@techcorp.in>',
+      from: process.env.SMTP_USER ? `"Helping Hands ATS" <${process.env.SMTP_USER}>` : '"Helping Hands ATS" <careers@helpinghands.in>',
       to: candidateEmail,
       subject: `Update on your application for ${jobTitle}`,
-      text: `Dear ${candidateName},\n\nThank you for applying to the ${jobTitle} position at TechCorp India.\n\nWhile your background is impressive, we have decided to move forward with other candidates who more closely match our current requirements.\n\nWe appreciate your time and wish you the best in your job search.\n\nBest regards,\nTechCorp India Hiring Team`,
+      text: `Dear ${candidateName},\n\nThank you for applying to the ${jobTitle} position at Helping Hands.\n\nWhile your background is impressive, we have decided to move forward with other candidates who more closely match our current requirements.\n\nWe appreciate your time and wish you the best in your job search.\n\nBest regards,\nHelping Hands Hiring Team`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
           <p>Dear <strong>${candidateName}</strong>,</p>
-          <p>Thank you for applying to the <strong>${jobTitle}</strong> position at TechCorp India.</p>
+          <p>Thank you for applying to the <strong>${jobTitle}</strong> position at Helping Hands.</p>
           <p>While your background is impressive, we have decided to move forward with other candidates who more closely match our current requirements for this particular role.</p>
           <p>We appreciate the time you took to apply and interview with us, and we wish you the very best in your job search.</p>
           <br/>
           <p>Best regards,</p>
-          <p><strong>TechCorp India Hiring Team</strong></p>
+          <p><strong>Helping Hands Hiring Team</strong></p>
         </div>
       `
     });

@@ -23,6 +23,8 @@ router.get('/me', async (req: any, res: any) => {
         certificates: true,
         portfolio: true,
         locationPreference: true,
+        phone: true,
+        resumeUrl: true,
         createdAt: true,
       }
     });
@@ -47,7 +49,7 @@ router.get('/me', async (req: any, res: any) => {
 // PUT /profile/me
 router.put('/me', async (req: any, res: any) => {
   try {
-    const { name, education, experience, skills, certificates, portfolioProjects, locationPreference, socialLinks } = req.body;
+    const { name, education, experience, skills, certificates, portfolioProjects, locationPreference, socialLinks, phone, resumeUrl } = req.body;
     
     const existingUser = await prisma.user.findUnique({
       where: { id: req.user.id },
@@ -77,6 +79,8 @@ router.put('/me', async (req: any, res: any) => {
         certificates: certificates || null,
         portfolio: newPortfolio,
         locationPreference: locationPreference || null,
+        phone: phone || null,
+        resumeUrl: resumeUrl || null,
       },
       select: {
         id: true,
@@ -89,6 +93,8 @@ router.put('/me', async (req: any, res: any) => {
         certificates: true,
         portfolio: true,
         locationPreference: true,
+        phone: true,
+        resumeUrl: true,
       }
     });
     
@@ -180,6 +186,38 @@ router.post('/me/certificates/upload', upload.single('certificate'), async (req:
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error during upload' });
+  }
+});
+
+// POST /profile/me/resume/upload
+router.post('/me/resume/upload', upload.single('resume'), async (req: any, res: any) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+    
+    // Save to database
+    const document = await prisma.document.create({
+      data: {
+        filename: file.originalname,
+        mimetype: file.mimetype,
+        data: file.buffer
+      }
+    });
+    
+    const fileUrl = `/api/files/${document.id}`;
+    
+    // Update user's profile with the new resume URL
+    await prisma.user.update({
+      where: { id: req.user.id },
+      data: { resumeUrl: fileUrl }
+    });
+    
+    res.json({ message: 'Resume uploaded successfully', fileUrl });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error during resume upload' });
   }
 });
 

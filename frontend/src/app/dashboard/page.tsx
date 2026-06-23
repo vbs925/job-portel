@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [savedJobs, setSavedJobs] = useState<any[]>([]);
   const [suggestedJobs, setSuggestedJobs] = useState<any[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const [appliedJobIds, setAppliedJobIds] = useState<string[]>([]);
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
 
   // Filter States
@@ -64,6 +65,12 @@ export default function Dashboard() {
         // Fetch saved jobs
         const saved = await API.get('/jobs/saved', token);
         setSavedJobs(saved);
+        
+        // Fetch applied jobs
+        const applications = await API.get('/applications/me', token);
+        if (Array.isArray(applications)) {
+          setAppliedJobIds(applications.map(app => app.jobId));
+        }
       } catch (err) {
         console.error("Failed to fetch jobs:", err);
       } finally {
@@ -208,6 +215,7 @@ export default function Dashboard() {
                         id={job.id} 
                         {...job} 
                         isSaved={savedJobs.some(sj => sj.id === job.id)}
+                        hasApplied={appliedJobIds.includes(job.id)}
                         onSaveToggle={handleSaveToggle}
                         onSelect={(id: string) => setSelectedJobId(id)}
                         selected={selectedJobId ? selectedJobId === job.id : index === 0 && !selectedJobId}
@@ -241,6 +249,7 @@ export default function Dashboard() {
                         id={job.id} 
                         {...job} 
                         isSaved={savedJobs.some(sj => sj.id === job.id)}
+                        hasApplied={appliedJobIds.includes(job.id)}
                         onSaveToggle={handleSaveToggle}
                         onSelect={(id: string) => setSelectedJobId(id)}
                         selected={selectedJobId ? selectedJobId === job.id : index === 0 && !selectedJobId}
@@ -268,6 +277,7 @@ export default function Dashboard() {
                       id={job.id} 
                       {...job} 
                       isSaved={true}
+                      hasApplied={appliedJobIds.includes(job.id)}
                       onSaveToggle={handleSaveToggle}
                       onSelect={(id: string) => setSelectedJobId(id)}
                       selected={selectedJobId ? selectedJobId === job.id : index === 0 && !selectedJobId}

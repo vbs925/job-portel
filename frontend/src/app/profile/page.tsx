@@ -25,6 +25,8 @@ function ProfileContent() {
   const [certificates, setCertificates] = useState<any[]>([]);
   const [portfolio, setPortfolio] = useState<any[]>([]);
   const [newSkill, setNewSkill] = useState("");
+  const [phone, setPhone] = useState("");
+  const [resumeUrl, setResumeUrl] = useState("");
   
   // Social Links
   const [linkedin, setLinkedin] = useState("");
@@ -61,6 +63,8 @@ function ProfileContent() {
         setSkills(Array.isArray(data.skills) ? data.skills : []);
         setCertificates(Array.isArray(data.certificates) ? data.certificates : []);
         setPortfolio(Array.isArray(data.portfolioProjects) ? data.portfolioProjects : []);
+        setPhone(data.phone || "");
+        setResumeUrl(data.resumeUrl || "");
         
         setLinkedin(data.socialLinks?.linkedin || "");
         setGithub(data.socialLinks?.github || "");
@@ -91,7 +95,9 @@ function ProfileContent() {
         skills,
         certificates,
         portfolioProjects: portfolio,
-        socialLinks: { linkedin, github, website }
+        socialLinks: { linkedin, github, website },
+        phone,
+        resumeUrl
       }, token);
       
       if (name) {
@@ -197,6 +203,31 @@ function ProfileContent() {
     e.target.value = '';
   };
 
+  const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('resume', file);
+    
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/me/resume/upload`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Upload failed');
+      
+      setResumeUrl(data.fileUrl);
+      showMessage("Resume uploaded successfully!", "success");
+    } catch (err: any) {
+      showMessage(err.message || "Failed to upload resume", "error");
+    }
+    e.target.value = '';
+  };
+
   const addSkill = (e: React.FormEvent) => {
     e.preventDefault();
     if (newSkill.trim() && !skills.includes(newSkill.trim())) {
@@ -261,6 +292,16 @@ function ProfileContent() {
                       />
                     </div>
                     <div>
+                      <label className="block text-[14px] font-bold text-foreground/70 mb-2">Phone Number</label>
+                      <input 
+                        type="tel" 
+                        value={phone} 
+                        onChange={(e) => setPhone(e.target.value)} 
+                        className="w-full p-3 border border-foreground/20 rounded-lg bg-background focus:ring-2 focus:ring-foreground focus:outline-none" 
+                        placeholder="+91 98765 43210"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
                       <label className="block text-[14px] font-bold text-foreground/70 mb-2">Location {isManager ? "" : "Preference"}</label>
                       <div className="relative">
                         <MapPin className="w-5 h-5 text-foreground/40 absolute left-3 top-3.5 pointer-events-none" />
@@ -366,6 +407,35 @@ function ProfileContent() {
                               </div>
                             </div>
                           ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Primary Resume */}
+                    <div className="bg-background border border-foreground/10 rounded-xl p-6 shadow-sm">
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-[18px] font-bold flex items-center gap-2"><FileText className="w-5 h-5 text-foreground/60" /> Primary Resume</h3>
+                        <div>
+                          <input type="file" id="resume-upload" className="hidden" onChange={handleResumeUpload} accept=".pdf,.doc,.docx" />
+                          <label htmlFor="resume-upload" className="cursor-pointer text-[13px] font-medium text-foreground hover:bg-secondary flex items-center gap-1.5 bg-background px-3 py-1.5 rounded-md border border-foreground/20 shadow-sm transition-colors">
+                            <Plus className="w-3.5 h-3.5" /> Upload Resume
+                          </label>
+                        </div>
+                      </div>
+                      
+                      {!resumeUrl ? (
+                        <p className="text-foreground/50 text-[14px] italic">No primary resume uploaded yet. This will be used to prepopulate your job applications.</p>
+                      ) : (
+                        <div className="flex items-center justify-between p-3 border border-foreground/10 rounded-lg bg-secondary/30 group">
+                          <div className="flex items-center gap-3 overflow-hidden">
+                            <FileText className="w-5 h-5 text-foreground/60 flex-shrink-0" />
+                            <a href={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5001'}${resumeUrl}`} target="_blank" rel="noopener noreferrer" className="text-[14px] font-bold text-foreground hover:text-foreground transition-colors truncate">
+                              My Primary Resume
+                            </a>
+                          </div>
+                          <button type="button" onClick={() => setResumeUrl('')} className="p-1.5 text-foreground/40 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0">
+                            <X className="w-4 h-4" />
+                          </button>
                         </div>
                       )}
                     </div>

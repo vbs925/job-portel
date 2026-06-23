@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { API } from "@/lib/api";
-import { MapPin, Briefcase, Clock, ChevronLeft, ArrowDown, ExternalLink } from "lucide-react";
+import { MapPin, Briefcase, Clock, ChevronLeft, ArrowDown, ExternalLink, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
@@ -18,6 +18,7 @@ export default function JobDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
+  const [hasApplied, setHasApplied] = useState(false);
 
   useEffect(() => {
     // Ensure the page always starts at the very top when navigating from another page
@@ -60,6 +61,12 @@ export default function JobDetailsPage() {
         const found = await API.get(`/jobs/${id}`);
         if (found) {
           setJob(found);
+          if (token) {
+            const applications = await API.get('/applications/me', token);
+            if (Array.isArray(applications)) {
+              setHasApplied(applications.some((app: any) => app.jobId === id));
+            }
+          }
         } else {
           router.push("/dashboard");
         }
@@ -148,12 +155,21 @@ export default function JobDetailsPage() {
               <h1 className="text-[40px] sm:text-[48px] md:text-[3.5rem] font-bold tracking-tight leading-tight text-slate-900 m-0">
                 {job.title}
               </h1>
-              <button 
-                onClick={() => router.push(`/job/${job.id}/apply`)}
-                className="bg-slate-900 text-white font-medium px-6 py-3 rounded-full hover:bg-black transition-all hover:scale-105 active:scale-95 shadow-md text-[16px] flex items-center justify-center gap-2"
-              >
-                Apply <ExternalLink className="w-4 h-4" />
-              </button>
+              {hasApplied ? (
+                <button 
+                  disabled
+                  className="bg-slate-300 text-slate-500 font-medium px-6 py-3 rounded-full cursor-not-allowed shadow-sm text-[16px] flex items-center justify-center gap-2"
+                >
+                  Already Applied <CheckCircle2 className="w-4 h-4" />
+                </button>
+              ) : (
+                <button 
+                  onClick={() => router.push(`/job/${job.id}/apply`)}
+                  className="bg-slate-900 text-white font-medium px-6 py-3 rounded-full hover:bg-black transition-all hover:scale-105 active:scale-95 shadow-md text-[16px] flex items-center justify-center gap-2"
+                >
+                  Apply <ExternalLink className="w-4 h-4" />
+                </button>
+              )}
             </div>
             
             {/* Quick Stats Pills */}
@@ -390,12 +406,21 @@ export default function JobDetailsPage() {
               <p className="text-[18px] text-slate-700 mb-10 text-center max-w-xl">
                 Take the next step in your career with {job.company}. We are reviewing applications on a rolling basis.
               </p>
-              <button 
-                onClick={() => router.push(`/job/${job.id}/apply`)}
-                className="bg-slate-900 text-white font-medium px-12 py-5 rounded-full hover:bg-black transition-all hover:scale-105 active:scale-95 shadow-xl shadow-slate-900/30 text-[20px] flex items-center justify-center gap-3"
-              >
-                Apply for this role <ExternalLink className="w-6 h-6" />
-              </button>
+              {hasApplied ? (
+                <button 
+                  disabled
+                  className="bg-slate-300 text-slate-500 font-medium px-12 py-5 rounded-full cursor-not-allowed shadow-md text-[20px] flex items-center justify-center gap-3"
+                >
+                  Already Applied <CheckCircle2 className="w-6 h-6" />
+                </button>
+              ) : (
+                <button 
+                  onClick={() => router.push(`/job/${job.id}/apply`)}
+                  className="bg-slate-900 text-white font-medium px-12 py-5 rounded-full hover:bg-black transition-all hover:scale-105 active:scale-95 shadow-xl shadow-slate-900/30 text-[20px] flex items-center justify-center gap-3"
+                >
+                  Apply for this role <ExternalLink className="w-6 h-6" />
+                </button>
+              )}
             </motion.div>
           </div>
 

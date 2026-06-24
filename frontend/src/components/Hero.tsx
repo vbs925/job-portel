@@ -1,93 +1,125 @@
 "use client";
 
-import { Search, Briefcase, Zap, MapPin, ChevronDown } from 'lucide-react';
+import { Search, MapPin, Briefcase } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import heroBg from '@/assets/herobg.png';
 
 export default function Hero() {
+  const [role, setRole] = useState('');
+  const [location, setLocation] = useState('');
+  const router = useRouter();
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (role) params.set('q', role);
+    if (location) params.set('location', location);
+    router.push(`/jobs${params.toString() ? '?' + params.toString() : ''}`);
+  };
+
   return (
-    <div className="relative bg-background overflow-hidden border-b border-foreground/10 pt-24 pb-32">
-      {/* Very subtle dot pattern instead of blobs */}
-      <div 
-        className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
-        style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)', backgroundSize: '24px 24px' }}
-      />
+    <div className="hero-section">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-15"
+        aria-hidden="true"
+      >
+        <div className="relative w-[750px] max-w-[90vw] h-[750px] max-h-[90vh]">
+          <Image
+            src={heroBg}
+            alt="Hero Background"
+            fill
+            priority
+            className="object-contain"
+          />
+        </div>
+      </div>
 
-      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center z-10 flex flex-col items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/5 text-foreground/80 font-semibold text-[12px] tracking-wide uppercase mb-8 border border-foreground/10"
-        >
-          <Zap className="w-3.5 h-3.5" /> A New Standard
-        </motion.div>
-
-        <motion.h1 
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-[48px] font-semibold tracking-tight text-foreground sm:text-[72px] leading-[1.1]"
-        >
-          Find work that <br className="hidden sm:block" />
-          <span className="text-foreground/40 font-normal">matters.</span>
-        </motion.h1>
-
-        <motion.p 
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-6 max-w-2xl text-[18px] text-foreground/60 font-normal leading-relaxed"
-        >
-          A minimalist board for premium roles. No noise, no spam. Just direct connections between top-tier talent and innovative companies.
-        </motion.p>
-
-        <motion.div 
+      <div className="hero-content">
+        {/* Main heading */}
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-12 w-full max-w-3xl"
+          transition={{ duration: 0.55 }}
+          className="hero-title"
         >
-          <div className="flex flex-col sm:flex-row items-center border border-foreground/15 p-1.5 rounded-2xl bg-white shadow-sm focus-within:border-foreground/30 focus-within:ring-4 focus-within:ring-foreground/5 transition-all">
-            <div className="flex-grow flex items-center pl-4 w-full sm:w-auto">
-              <Search className="h-5 w-5 text-foreground/40" />
+          Your next job is right here.
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.1 }}
+          className="hero-subtitle"
+        >
+          Whether you're starting out or starting over,<br />
+          we've got jobs for you.
+        </motion.p>
+
+        {/* Search bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.2 }}
+          className="mt-10 w-full max-w-4xl"
+        >
+          <div className="hero-search-bar">
+            {/* Role input */}
+            <div className="hero-search-input-wrapper">
+              <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
               <input
                 type="text"
-                className="w-full bg-transparent border-0 focus:ring-0 p-3 text-[16px] outline-none text-foreground placeholder-foreground/40"
-                placeholder="Job title or keyword"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                placeholder="Search for a role"
+                className="hero-search-input"
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
             </div>
-            <div className="hidden sm:block h-6 w-px bg-foreground/10 mx-2"></div>
-            <div className="flex-grow flex items-center pl-4 sm:pl-0 w-full sm:w-auto border-t sm:border-t-0 border-foreground/10 mt-2 sm:mt-0 pt-2 sm:pt-0 relative">
-              <MapPin className="h-5 w-5 text-foreground/40" />
-              <select
-                className="w-full bg-transparent border-0 focus:ring-0 p-3 text-[16px] outline-none text-foreground cursor-pointer appearance-none"
-                defaultValue=""
-              >
-                <option value="" disabled>Location or remote</option>
-                <option value="Remote">Remote</option>
-                <option value="Bangalore">Bangalore</option>
-                <option value="Mumbai">Mumbai</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Pune">Pune</option>
-                <option value="Chennai">Chennai</option>
-                <option value="Kolkata">Kolkata</option>
-                <option value="Ahmedabad">Ahmedabad</option>
-              </select>
-              <ChevronDown className="h-4 w-4 text-foreground/40 absolute right-4 pointer-events-none" />
+
+            {/* Divider */}
+            <div className="hidden sm:block w-px bg-gray-200 my-3" />
+
+            {/* Location input */}
+            <div className="hero-search-input-wrapper border-t sm:border-t-0 border-gray-100">
+              <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Location"
+                className="hero-search-input"
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
             </div>
-            <button className="w-full sm:w-auto mt-2 sm:mt-0 bg-foreground text-background px-6 py-3 rounded-xl font-semibold hover:bg-foreground/90 transition-colors text-[14px]">
+
+            {/* Search button */}
+            <button
+              onClick={handleSearch}
+              className="hero-search-btn"
+            >
               Search
             </button>
           </div>
-          <div className="mt-6 flex flex-wrap justify-center gap-3 text-[14px] text-foreground/50">
-            <span>Popular:</span>
-            <button className="hover:text-foreground transition-colors">Frontend Developer</button>
-            <span>&middot;</span>
-            <button className="hover:text-foreground transition-colors">Product Designer</button>
-            <span>&middot;</span>
-            <button className="hover:text-foreground transition-colors">Remote</button>
-          </div>
+        </motion.div>
+
+        {/* See open roles CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.3 }}
+          className="mt-6"
+        >
+          <a
+            href="/jobs"
+            className="hero-cta-btn"
+          >
+            <Briefcase className="w-4 h-4 text-gray-600" />
+            See open roles
+          </a>
         </motion.div>
       </div>
     </div>

@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Petrona, Manrope } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { AuthProvider } from "@/context/AuthContext";
 import { TealBackground } from "@/components/TealBackground";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const petrona = Petrona({
+  variable: "--font-petrona",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 import Footer from "@/components/Footer";
@@ -30,13 +32,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${petrona.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col text-foreground relative z-0">
         <TealBackground />
         <AuthProvider>
           <Navbar />
-          <main className="flex-grow pt-16">
+          <main className="flex-grow pt-24">
             {children}
           </main>
           <Footer />

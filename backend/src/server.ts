@@ -24,6 +24,7 @@ import onboardingRoutes from './routes/onboarding.routes';
 import aiRoutes from './routes/ai.routes';
 import adminRoutes from './routes/admin.routes';
 import atsRoutes from './routes/ats.routes';
+import newsletterRoutes from './routes/newsletter.routes';
 import { startAtsCronService } from './services/atsCronService';
 // Routes
 app.get('/api/health', (req: Request, res: Response) => {
@@ -51,6 +52,9 @@ app.use('/api/admin', adminRoutes);
 
 // ATS routes
 app.use('/api/ats-score', atsRoutes);
+
+// Newsletter routes
+app.use('/api/newsletter', newsletterRoutes);
 
 // Global error handler (catches Multer file errors and other crashes)
 app.use((err: any, req: Request, res: Response, next: any) => {

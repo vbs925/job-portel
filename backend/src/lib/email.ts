@@ -209,3 +209,29 @@ export const sendRejectionEmail = async (candidateEmail: string, candidateName: 
     console.error("Failed to send rejection email:", error);
   }
 };
+
+export const sendSubscriptionEmail = async (subscriberEmail: string) => {
+  const t = await initTransporter();
+  if (!t) return;
+  try {
+    const info = await t.sendMail({
+      from: process.env.SMTP_USER ? `"Helping Hands" <${process.env.SMTP_USER}>` : '"Helping Hands" <hello@helpinghands.in>',
+      to: subscriberEmail,
+      subject: `Welcome to Helping Hands Newsletter!`,
+      text: `Hello,\n\nThanks for subscribing to our portal. Stay tuned on the job opening updates!\n\nBest regards,\nHelping Hands Team`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+          <p>Hello,</p>
+          <p>Thanks for subscribing to our portal. Stay tuned on the job opening updates!</p>
+          <br/>
+          <p>Best regards,</p>
+          <p><strong>Helping Hands Team</strong></p>
+        </div>
+      `
+    });
+    console.log("Subscription email sent: %s", info.messageId);
+    if (!process.env.SMTP_USER) console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  } catch (error) {
+    console.error("Failed to send subscription email:", error);
+  }
+};

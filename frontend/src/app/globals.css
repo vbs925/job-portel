@@ -2,22 +2,28 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Minimalist Black & White Theme */
-  --color-primary: #000000;
-  --color-primary-hover: #222222;
+  /* Helping Hands Design System — Figma spec */
+  --color-brand: #0F766E;
+  --color-brand-hover: #0d6b64;
+  --color-brand-light: #ccfbf1;
+  --color-primary: #0F766E;
+  --color-primary-hover: #0d6b64;
   --color-primary-foreground: #ffffff;
-  --color-secondary: #f3f4f6; /* Gray 100 */
-  --color-accent: #4b5563; /* Gray 600 */
+  --color-secondary: #f0faf9;
+  --color-accent: #0F766E;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* Figma fonts */
+  --font-heading: var(--font-petrona), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f7f5;
+  --foreground: #1a1a1a;
+  --brand: #0F766E;
 }
 
 body {
@@ -28,10 +34,333 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-::selection {
-  background: var(--foreground);
-  color: var(--background);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
 }
 
+::selection {
+  background: #0F766E;
+  color: #ffffff;
+}
 
+@layer components {
 
+  /* ── Navbar ── */
+  .navbar-wrapper {
+    @apply fixed top-0 w-full z-50 px-5 transition-all duration-300 ease-in-out;
+  }
+
+  .navbar-pill {
+    @apply max-w-7xl mx-auto flex items-center justify-between bg-white rounded-2xl border transition-all duration-300 ease-in-out;
+  }
+
+  .navbar-logo {
+    @apply flex-shrink-0 text-[22px] font-semibold tracking-tight text-[#0F766E];
+    font-family: var(--font-heading);
+  }
+
+  .navbar-link {
+    @apply text-[15px] font-bold text-black hover:text-gray-700 transition-colors;
+  }
+
+  .navbar-btn-login {
+    @apply text-[15px] font-medium text-gray-600 hover:text-gray-900 transition-colors hidden sm:block;
+  }
+
+  .navbar-btn-signup {
+    @apply text-[15px] font-semibold bg-gray-900 text-white hover:bg-gray-700 px-6 py-2.5 rounded-full transition-colors;
+  }
+
+  /* ── Hero ── */
+  .hero-section {
+    @apply relative overflow-hidden flex flex-col;
+    background: #f7f7f5;
+    min-height: 88vh;
+  }
+
+  .hero-content {
+    @apply relative z-10 flex flex-col items-center justify-center flex-1 text-center px-4 pt-10 pb-24 max-w-4xl mx-auto w-full;
+  }
+
+  .hero-title {
+    @apply text-[48px] sm:text-[64px] lg:text-[80px] font-normal tracking-tight leading-[1.08] text-gray-900 whitespace-nowrap;
+    font-family: var(--font-heading);
+  }
+
+  .hero-subtitle {
+    @apply mt-5 text-[20px] text-black leading-relaxed max-w-md;
+    font-family: var(--font-sans);
+  }
+
+  .hero-search-bar {
+    @apply flex flex-col sm:flex-row items-stretch bg-white rounded-full border border-gray-200 shadow-xl overflow-hidden focus-within:shadow-2xl transition-shadow;
+  }
+
+  .hero-search-input-wrapper {
+    @apply flex items-center gap-3 flex-1 px-8 py-5;
+  }
+
+  .hero-search-input {
+    @apply w-full bg-transparent outline-none text-[17px] text-gray-700 placeholder-gray-400;
+    font-family: var(--font-sans);
+  }
+
+  .hero-search-btn {
+    @apply m-2 px-10 py-4 rounded-full font-semibold text-[17px] text-white transition-colors flex-shrink-0;
+    background-color: #0F766E;
+    font-family: var(--font-sans);
+  }
+
+  .hero-search-btn:hover {
+    background-color: #0d6b64;
+  }
+
+  .hero-cta-btn {
+    @apply inline-flex items-center gap-2.5 px-6 py-3 rounded-full border border-gray-300 bg-white text-gray-800 text-[15px] font-medium hover:border-gray-400 hover:shadow-sm transition-all;
+    font-family: var(--font-sans);
+  }
+
+  /* ── Why Us / Our Promise ── */
+  .why-us-section {
+    @apply w-full py-10 px-4 sm:px-5 lg:px-6 mt-16;
+  }
+
+  .why-us-card {
+    background: linear-gradient(90deg, #FFF 0%, #F0F0F0 100%);
+    @apply rounded-3xl border border-gray-200 shadow-sm px-10 py-10;
+  }
+
+  .better-hiring-section {
+    @apply w-full py-10 px-4 sm:px-5 lg:px-6 mt-10;
+  }
+
+  .better-hiring-card {
+    background: linear-gradient(90deg, #FFF 0%, #F0F0F0 100%);
+    @apply max-w-7xl mx-auto rounded-3xl border border-gray-200 shadow-sm px-10 py-10;
+  }
+
+  .better-hiring-title {
+    @apply text-[36px] sm:text-[42px] font-semibold text-gray-900 leading-tight mb-12 max-w-2xl;
+    font-family: var(--font-heading);
+  }
+
+  .better-hiring-img-box {
+    @apply rounded-2xl border border-gray-200 bg-[#f9f9f8] flex items-center justify-center;
+    height: 230px;
+  }
+
+  .better-hiring-img-placeholder {
+    @apply rounded-xl border border-dashed border-gray-300 opacity-30;
+    width: 100px;
+    height: 100px;
+  }
+
+  .section-label-wrapper {
+    @apply flex items-center gap-2 mb-5;
+  }
+
+  .section-label-dash {
+    @apply w-4 h-[2px] rounded-full bg-gray-400;
+  }
+
+  .section-label-text {
+    @apply text-[14px] font-semibold tracking-[0.12em] uppercase text-black;
+    font-family: var(--font-sans);
+  }
+
+  .section-title {
+    @apply text-[36px] sm:text-[42px] font-semibold text-black leading-tight mb-12 max-w-2xl;
+    font-family: var(--font-heading);
+  }
+
+  .feature-img-box {
+    @apply rounded-2xl border-2 border-dashed border-gray-300 bg-white flex items-center justify-center overflow-hidden;
+    height: 230px;
+  }
+
+  .feature-img-placeholder {
+    @apply rounded-xl border border-dashed border-gray-300 opacity-30;
+    width: 100px;
+    height: 100px;
+  }
+
+  .feature-title {
+    @apply text-[13px] font-bold tracking-[0.14em] uppercase text-gray-900 mb-2.5;
+    font-family: var(--font-sans);
+  }
+
+  .feature-desc {
+    @apply text-[14px] text-gray-500 leading-relaxed;
+    font-family: var(--font-sans);
+  }
+
+  /* ── Trusted By ── */
+  .trusted-by-section {
+    @apply relative w-full py-8 border-y-2 border-gray-300 mt-16;
+    background-color: #f4f4f3;
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.10), 0 -4px 24px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  .trusted-by-board {
+    @apply w-full flex flex-col items-center;
+  }
+
+  .trusted-by-label-wrapper {
+    @apply flex items-center gap-2 mb-3;
+  }
+
+  .trusted-by-label-dash {
+    @apply w-2 h-[3px] rounded-full bg-gray-400;
+  }
+
+  .trusted-by-label-text {
+    @apply text-[12px] font-bold tracking-[0.15em] uppercase text-gray-600;
+    font-family: var(--font-sans);
+  }
+
+  .trusted-by-title {
+    @apply text-[40px] sm:text-[46px] font-normal text-gray-900 leading-tight mb-16 text-center;
+    font-family: var(--font-heading);
+  }
+
+  .trusted-by-scroll-wrapper {
+    @apply w-full overflow-x-auto;
+    scrollbar-width: none;
+  }
+
+  .trusted-by-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .trusted-by-scroll-content {
+    @apply flex items-center gap-6 min-w-max px-10 py-4;
+  }
+
+  .trusted-by-card {
+    background: linear-gradient(90deg, #FFF 0%, #F0F0F0 100%);
+    @apply flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-300 w-[150px] h-[150px] flex-shrink-0 hover:shadow-md transition-all cursor-pointer;
+  }
+
+  .trusted-by-card-name {
+    @apply text-[14px] font-bold text-gray-500;
+    font-family: var(--font-sans);
+  }
+
+  /* ── Current Openings ── */
+  .current-openings-section {
+    @apply w-full py-14 mt-10 mb-0 border-y-2 border-gray-300;
+    background: linear-gradient(160deg, #ffffff 0%, #f4f4f2 55%, #ebebea 100%);
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.10), 0 -4px 24px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  .current-openings-card {
+    @apply max-w-7xl mx-auto px-10;
+  }
+
+  .current-openings-title {
+    @apply text-[40px] sm:text-[48px] font-semibold text-gray-900 leading-tight mb-8;
+    font-family: var(--font-heading);
+  }
+
+  .current-openings-filters {
+    @apply flex items-center gap-6 mb-8 flex-wrap;
+    font-family: var(--font-sans);
+  }
+
+  .current-openings-filter-btn {
+    @apply text-[15px] font-medium text-gray-400 hover:text-gray-900 transition-colors pb-0.5;
+    font-family: var(--font-sans);
+  }
+
+  .current-openings-filter-btn.active {
+    @apply text-gray-900 font-bold border-b-2 border-gray-900;
+  }
+
+  .current-openings-filter-more {
+    @apply text-[15px] font-bold text-gray-900 hover:text-gray-600 transition-colors;
+    font-family: var(--font-sans);
+  }
+
+  /* ── Get Started ── */
+  .get-started-section {
+    @apply w-full py-10 px-4 sm:px-5 lg:px-6;
+  }
+
+  .get-started-card {
+    background: linear-gradient(90deg, #FFF 0%, #F0F0F0 100%);
+    @apply max-w-7xl mx-auto rounded-[2rem] border border-gray-200 shadow-sm p-10 lg:p-16;
+  }
+
+  .get-started-title {
+    @apply text-[36px] sm:text-[44px] lg:text-[50px] font-normal text-gray-900 leading-[1.1] mb-6;
+    font-family: var(--font-heading);
+  }
+
+  .get-started-desc {
+    @apply text-[17px] text-gray-500 leading-relaxed mb-10 max-w-md;
+    font-family: var(--font-sans);
+  }
+
+  .get-started-btn-primary {
+    @apply px-8 py-3.5 bg-[#111111] hover:bg-black text-white text-[15px] font-semibold rounded-full transition-colors;
+    font-family: var(--font-sans);
+  }
+
+  .get-started-btn-secondary {
+    @apply px-8 py-3.5 bg-white hover:bg-gray-50 text-gray-900 text-[15px] font-semibold rounded-full border border-gray-300 transition-colors;
+    font-family: var(--font-sans);
+  }
+
+  .get-started-subtext {
+    @apply text-[13px] text-gray-400 font-medium;
+    font-family: var(--font-sans);
+  }
+
+  .get-started-img-box {
+    @apply w-full max-w-[500px] h-[350px] rounded-3xl border-2 border-dashed border-gray-200 bg-white flex items-center justify-center overflow-hidden p-2;
+  }
+
+  /* ── Job Card ── */
+  .job-card-item {
+    background: linear-gradient(90deg, #FFF 0%, #F0F0F0 100%);
+    @apply flex flex-col rounded-2xl border border-gray-200 p-6 gap-3 hover:shadow-lg transition-shadow;
+  }
+
+  .job-card-title {
+    @apply text-[17px] font-bold text-gray-900 leading-snug;
+    font-family: var(--font-sans);
+  }
+
+  .job-card-company {
+    @apply text-[15px] font-semibold;
+    color: #0F766E;
+    font-family: var(--font-sans);
+  }
+
+  .job-card-tags {
+    @apply flex items-center gap-2 flex-wrap;
+  }
+
+  .job-card-tag {
+    @apply inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full;
+    font-family: var(--font-sans);
+  }
+
+  .job-card-desc {
+    @apply text-[13px] text-gray-500 leading-relaxed overflow-hidden;
+    font-family: var(--font-sans);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  .job-card-apply-btn {
+    @apply w-full mt-auto py-3 rounded-full text-[15px] font-semibold text-white text-center bg-gray-900 hover:bg-gray-700 transition-colors cursor-pointer;
+    font-family: var(--font-sans);
+  }
+}

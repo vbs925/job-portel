@@ -22,10 +22,10 @@ export function TealBackground() {
         }
         .bg-aurora-gray { animation: gray-aurora 20s ease-in-out infinite; }
       `}</style>
-      <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden bg-[#fafafa]">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-slate-200/40 rounded-full blur-[100px] bg-aurora-gray"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-gray-200/40 rounded-full blur-[100px] bg-aurora-gray" style={{ animationDelay: '-7s' }}></div>
-        <div className="absolute top-[30%] left-[60%] w-[40%] h-[40%] bg-zinc-200/30 rounded-full blur-[100px] bg-aurora-gray" style={{ animationDelay: '-14s' }}></div>
+      <div className="fixed inset-0 pointer-events-none z-[-1] overflow-hidden" style={{ background: '#f7f7f5' }}>
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[120px] bg-aurora-gray" style={{ background: 'rgba(15,118,110,0.04)' }}></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full blur-[120px] bg-aurora-gray" style={{ background: 'rgba(15,118,110,0.03)', animationDelay: '-7s' }}></div>
+        <div className="absolute top-[30%] left-[60%] w-[40%] h-[40%] rounded-full blur-[100px] bg-aurora-gray" style={{ background: 'rgba(15,118,110,0.03)', animationDelay: '-14s' }}></div>
       </div>
     </>
   );

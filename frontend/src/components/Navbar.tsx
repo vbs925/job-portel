@@ -46,7 +46,7 @@ export default function Navbar() {
             {['Employers', 'Job Seekers', 'Community', 'About Us'].map((label) => (
               <Link
                 key={label}
-                href="#"
+                href={label === 'About Us' ? '/about' : '#'}
                 className="navbar-link"
               >
                 {label}

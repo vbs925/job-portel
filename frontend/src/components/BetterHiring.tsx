@@ -46,18 +46,16 @@ export default function BetterHiring() {
     }
   });
 
-  // Since the container is 300vh, we have 3 screens worth of scrolling.
-  // Card 1 appears during the first third.
-  const opacity1 = useTransform(maxProgress, [0.1, 0.3], [0, 1]);
-  const y1 = useTransform(maxProgress, [0.1, 0.3], [50, 0]);
+  // Calculate transforms for each card sequentially.
+  // We span exactly from 0 to 1 so there are no "dead zones" where the scroll feels stuck.
+  const opacity1 = useTransform(maxProgress, [0, 0.33], [0, 1]);
+  const y1 = useTransform(maxProgress, [0, 0.33], [50, 0]);
 
-  // Card 2 appears during the second third.
-  const opacity2 = useTransform(maxProgress, [0.4, 0.6], [0, 1]);
-  const y2 = useTransform(maxProgress, [0.4, 0.6], [50, 0]);
+  const opacity2 = useTransform(maxProgress, [0.33, 0.66], [0, 1]);
+  const y2 = useTransform(maxProgress, [0.33, 0.66], [50, 0]);
 
-  // Card 3 appears during the final third.
-  const opacity3 = useTransform(maxProgress, [0.7, 0.9], [0, 1]);
-  const y3 = useTransform(maxProgress, [0.7, 0.9], [50, 0]);
+  const opacity3 = useTransform(maxProgress, [0.66, 1], [0, 1]);
+  const y3 = useTransform(maxProgress, [0.66, 1], [50, 0]);
 
   const transforms = [
     { opacity: opacity1, y: y1 },
@@ -66,8 +64,8 @@ export default function BetterHiring() {
   ];
 
   return (
-    <section ref={containerRef} className="better-hiring-section relative h-[300vh] w-full mt-10 p-0! bg-[var(--background)]">
-      {/* The sticky container pins the content to the screen while you scroll through the 300vh */}
+    <section ref={containerRef} className="better-hiring-section relative h-[200vh] w-full mt-10 p-0! bg-[var(--background)]">
+      {/* The sticky container pins the content to the screen while you scroll through the 200vh */}
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden">
         <div className="max-w-7xl w-full mx-auto px-4 sm:px-5 lg:px-6">
           <div className="better-hiring-card w-full">

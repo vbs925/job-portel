@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
+import lastImg from "@/assets/lastimg.png";
 
 export default function GetStarted() {
   return (
@@ -61,8 +63,12 @@ export default function GetStarted() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="w-full flex justify-end"
           >
-            <div className="get-started-img-box">
-              {/* Image goes here once provided */}
+            <div className="get-started-img-box bg-white">
+              <Image 
+                src={lastImg} 
+                alt="Get Started Illustration"
+                className="object-contain w-full h-full"
+              />
             </div>
           </motion.div>
 

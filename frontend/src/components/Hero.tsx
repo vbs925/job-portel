@@ -23,7 +23,7 @@ export default function Hero() {
     <div className="hero-section">
       {/* Background Image */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-15"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-5"
         aria-hidden="true"
       >
         <div className="relative w-[750px] max-w-[90vw] h-[750px] max-h-[90vh]">
@@ -64,7 +64,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.2 }}
-          className="mt-10 w-full max-w-4xl"
+          className="mt-10 w-full max-w-6xl"
         >
           <div className="hero-search-bar">
             {/* Role input */}

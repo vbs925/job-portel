@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { API } from "@/lib/api";
+import Image from "next/image";
+import pointsAll from "@/assets/pointsall.svg";
 
 const DOMAIN_FILTERS = ["All domains", "Technology", "Banking", "Healthcare", "Hospitality"];
 
@@ -48,10 +50,7 @@ export default function CurrentOpenings() {
 
         {/* Section label */}
         <div className="section-label-wrapper">
-          <div className="flex items-center gap-1">
-            <div className="section-label-dash" />
-            <div className="section-label-dash" />
-          </div>
+          <Image src={pointsAll} alt="Points" className="w-auto h-2" />
           <span className="section-label-text">EXPLORE</span>
         </div>
 

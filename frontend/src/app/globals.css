@@ -56,7 +56,8 @@ h6 {
   }
 
   .navbar-pill {
-    @apply max-w-7xl mx-auto flex items-center justify-between bg-white rounded-2xl border transition-all duration-300 ease-in-out;
+    @apply max-w-7xl mx-auto flex items-center justify-between rounded-2xl border transition-all duration-300 ease-in-out;
+    background: linear-gradient(90deg, #FFF 0%, #F0F0F0 100%);
   }
 
   .navbar-logo {
@@ -69,7 +70,7 @@ h6 {
   }
 
   .navbar-btn-login {
-    @apply text-[15px] font-medium text-gray-600 hover:text-gray-900 transition-colors hidden sm:block;
+    @apply text-[15px] font-semibold border-2 border-gray-900 text-gray-900 bg-transparent hover:bg-gray-900 hover:text-white px-7 py-2 rounded-full transition-all shadow-sm hover:shadow-md hidden sm:block;
   }
 
   .navbar-btn-signup {
@@ -84,7 +85,7 @@ h6 {
   }
 
   .hero-content {
-    @apply relative z-10 flex flex-col items-center justify-center flex-1 text-center px-4 pt-10 pb-24 max-w-4xl mx-auto w-full;
+    @apply relative z-10 flex flex-col items-center justify-center flex-1 text-center px-4 py-10 max-w-4xl mx-auto w-full;
   }
 
   .hero-title {
@@ -98,7 +99,7 @@ h6 {
   }
 
   .hero-search-bar {
-    @apply flex flex-col sm:flex-row items-stretch bg-white rounded-full border border-gray-200 shadow-xl overflow-hidden focus-within:shadow-2xl transition-shadow;
+    @apply flex flex-col sm:flex-row items-stretch bg-white rounded-full border border-gray-200 shadow-sm overflow-hidden focus-within:shadow-md transition-shadow;
   }
 
   .hero-search-input-wrapper {
@@ -111,7 +112,7 @@ h6 {
   }
 
   .hero-search-btn {
-    @apply m-2 px-10 py-4 rounded-full font-semibold text-[17px] text-white transition-colors flex-shrink-0;
+    @apply m-2 px-10 py-4 rounded-full font-semibold text-[17px] text-white transition-colors flex-shrink-0 border-4 border-gray-400 shadow-lg;
     background-color: #0F766E;
     font-family: var(--font-sans);
   }
@@ -174,7 +175,7 @@ h6 {
   }
 
   .section-title {
-    @apply text-[36px] sm:text-[42px] font-semibold text-black leading-tight mb-12 max-w-2xl;
+    @apply text-[36px] sm:text-[42px] font-semibold text-gray-900 leading-tight mb-12 max-w-2xl;
     font-family: var(--font-heading);
   }
 
@@ -190,7 +191,7 @@ h6 {
   }
 
   .feature-title {
-    @apply text-[13px] font-bold tracking-[0.14em] uppercase text-gray-900 mb-2.5;
+    @apply text-[16px] font-bold tracking-[0.14em] uppercase text-gray-900 mb-2.5;
     font-family: var(--font-sans);
   }
 
@@ -224,7 +225,7 @@ h6 {
   }
 
   .trusted-by-title {
-    @apply text-[40px] sm:text-[46px] font-normal text-gray-900 leading-tight mb-16 text-center;
+    @apply text-[36px] sm:text-[42px] font-semibold text-gray-900 leading-tight mb-16 text-center;
     font-family: var(--font-heading);
   }
 
@@ -263,7 +264,7 @@ h6 {
   }
 
   .current-openings-title {
-    @apply text-[40px] sm:text-[48px] font-semibold text-gray-900 leading-tight mb-8;
+    @apply text-[36px] sm:text-[42px] font-semibold text-gray-900 leading-tight mb-8;
     font-family: var(--font-heading);
   }
 
@@ -297,7 +298,7 @@ h6 {
   }
 
   .get-started-title {
-    @apply text-[36px] sm:text-[44px] lg:text-[50px] font-normal text-gray-900 leading-[1.1] mb-6;
+    @apply text-[36px] sm:text-[42px] font-semibold text-gray-900 leading-tight mb-6;
     font-family: var(--font-heading);
   }
 

@@ -46,7 +46,12 @@ export default function Navbar() {
             {['Employers', 'Job Seekers', 'Community', 'About Us'].map((label) => (
               <Link
                 key={label}
-                href={label === 'About Us' ? '/about' : '#'}
+                href={
+                  label === 'About Us' ? '/about' : 
+                  label === 'Employers' ? '/manager-login' : 
+                  label === 'Job Seekers' ? '/login' : 
+                  '#'
+                }
                 className="navbar-link"
               >
                 {label}
@@ -61,12 +66,6 @@ export default function Navbar() {
               className="navbar-btn-login"
             >
               Log in
-            </Link>
-            <Link
-              href="/login"
-              className="navbar-btn-signup"
-            >
-              Sign up
             </Link>
           </div>
         </div>

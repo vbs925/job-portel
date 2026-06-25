@@ -6,6 +6,7 @@ import Image from "next/image";
 import transImg from "@/assets/trans.webp";
 import workImg from "@/assets/work.webp";
 import ghostingImg from "@/assets/ghosting.webp";
+import pointsAll from "@/assets/pointsall.svg";
 
 const features = [
   {
@@ -72,10 +73,7 @@ export default function WhyUs() {
           <div className="why-us-card w-full">
 
             <div className="section-label-wrapper">
-              <div className="flex items-center gap-1">
-                <div className="section-label-dash" />
-                <div className="section-label-dash" />
-              </div>
+              <Image src={pointsAll} alt="Points" className="w-auto h-2" />
               <span className="section-label-text">
                 Our Promise
               </span>

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import lastImg from "@/assets/lastimg.png";
+import pointsAll from "@/assets/pointsall.svg";
 
 export default function GetStarted() {
   return (
@@ -21,11 +22,7 @@ export default function GetStarted() {
           >
             {/* Section label */}
             <div className="section-label-wrapper">
-              <div className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full bg-gray-400" />
-                <div className="w-2 h-2 rounded-full bg-gray-400" />
-                <div className="w-2 h-2 rounded-full bg-gray-400" />
-              </div>
+              <Image src={pointsAll} alt="Points" className="w-auto h-2" />
               <span className="section-label-text ml-2">GET STARTED</span>
             </div>
 
@@ -41,7 +38,7 @@ export default function GetStarted() {
 
             {/* Buttons */}
             <div className="flex flex-wrap items-center gap-4 mb-6">
-              <Link href="/onboarding" className="get-started-btn-primary">
+              <Link href="/login" className="get-started-btn-primary">
                 Create My Profile
               </Link>
               <button className="get-started-btn-secondary">

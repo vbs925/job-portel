@@ -6,6 +6,7 @@ import Image from "next/image";
 import verifyImg from "@/assets/verifycan.svg";
 import intelligentImg from "@/assets/intelligent.svg";
 import responsibleImg from "@/assets/responisble .svg";
+import pointsAll from "@/assets/pointsall.svg";
 
 const features = [
   {
@@ -72,10 +73,7 @@ export default function BetterHiring() {
 
             {/* Section label */}
             <div className="section-label-wrapper">
-              <div className="flex items-center gap-1">
-                <div className="section-label-dash" />
-                <div className="section-label-dash" />
-              </div>
+              <Image src={pointsAll} alt="Points" className="w-auto h-2" />
               <span className="section-label-text">BETTER HIRING</span>
             </div>
 

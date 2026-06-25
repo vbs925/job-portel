@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { API } from "@/lib/api";
-import { Search, MapPin, Briefcase, Bookmark, Building2 } from "lucide-react";
+import { Search, MapPin, Briefcase, Bookmark, Building2, LayoutGrid, List } from "lucide-react";
 import JobCard from "@/components/JobCard";
 
 export default function Dashboard() {
@@ -20,6 +20,7 @@ export default function Dashboard() {
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [appliedJobIds, setAppliedJobIds] = useState<string[]>([]);
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
 
   // Filter States
   const [searchQuery, setSearchQuery] = useState("");
@@ -190,22 +191,40 @@ export default function Dashboard() {
         <div className="flex-1">
           {activeTab === "discover" && (
             <>
-              {/* Search Bar */}
-              <div className="relative mb-8 shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-foreground/40" />
+              {/* Search Bar & View Toggle */}
+              <div className="flex flex-col md:flex-row gap-4 mb-8">
+                <div className="relative flex-1 shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Search className="h-5 w-5 text-foreground/40" />
+                  </div>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="block w-full pl-11 pr-4 py-4 border border-foreground/20 rounded-xl bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all font-medium text-[18px]"
+                    placeholder="Search for job titles, companies, or keywords..."
+                  />
                 </div>
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-11 pr-4 py-4 border border-foreground/20 rounded-xl bg-background text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all font-medium text-[18px]"
-                  placeholder="Search for job titles, companies, or keywords..."
-                />
+                <div className="flex items-center gap-2 bg-slate-50 p-1.5 rounded-xl border border-slate-200 shadow-sm self-start md:self-stretch">
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`p-2.5 rounded-lg transition-colors ${viewMode === "list" ? "bg-white text-slate-900 shadow-sm border border-slate-200/60" : "text-slate-400 hover:text-slate-600"}`}
+                    aria-label="List View"
+                  >
+                    <List className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`p-2.5 rounded-lg transition-colors ${viewMode === "grid" ? "bg-white text-slate-900 shadow-sm border border-slate-200/60" : "text-slate-400 hover:text-slate-600"}`}
+                    aria-label="Grid View"
+                  >
+                    <LayoutGrid className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
               {/* Job Feed */}
-              <div className="flex flex-col gap-4">
+              <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 gap-5" : "flex flex-col gap-4"}>
                 {loadingJobs ? (
                   <div className="col-span-full py-12 text-center text-foreground/50">Loading jobs...</div>
                 ) : jobs.length > 0 ? (
@@ -239,7 +258,7 @@ export default function Dashboard() {
                 </div>
               </div>
               
-              <div className="flex flex-col gap-4">
+              <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 gap-5" : "flex flex-col gap-4"}>
                 {loadingSuggestions ? (
                   <div className="col-span-full py-12 text-center text-foreground/50 font-medium animate-pulse">Analyzing your profile & finding the best matches...</div>
                 ) : suggestedJobs.length > 0 ? (
